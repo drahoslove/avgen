@@ -1,22 +1,8 @@
-import { 
-  ArrowDownTrayIcon,
-  ShareIcon,
-} from '@heroicons/react/24/outline'
+import { ArrowDownTrayIcon, ShareIcon } from '@heroicons/react/24/outline'
 import { Tab } from '@headlessui/react'
 import { ContentForm } from './ContentForm'
 import { BackgroundForm } from './BackgroundForm'
 import type { GrayscaleMethod } from '../types'
-const generateTimeOptions = () => {
-  const options = []
-  for (let hours = 0; hours < 24; hours++) {
-    for (let minutes = 0; minutes < 60; minutes += 15) {
-      const hour = hours.toString().padStart(2, '0')
-      const minute = minutes.toString().padStart(2, '0')
-      options.push(`${hour}:${minute}`)
-    }
-  }
-  return options
-}
 
 interface PosterFormProps {
   chapter: string
@@ -75,8 +61,6 @@ export function PosterForm({
   customGrayscaleValues,
   setCustomGrayscaleValues,
 }: PosterFormProps) {
-  const timeOptions = generateTimeOptions()
-
   return (
     <div className="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-6">
       <Tab.Group>
@@ -84,9 +68,10 @@ export function PosterForm({
           <Tab
             className={({ selected }) =>
               `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-              ${selected
-                ? 'bg-white text-blue-700 shadow'
-                : 'text-blue-500 hover:bg-white/[0.12] hover:text-blue-600'
+              ${
+                selected
+                  ? 'bg-white text-blue-700 shadow'
+                  : 'text-blue-500 hover:bg-white/[0.12] hover:text-blue-600'
               }`
             }
           >
@@ -95,9 +80,10 @@ export function PosterForm({
           <Tab
             className={({ selected }) =>
               `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-              ${selected
-                ? 'bg-white text-blue-700 shadow'
-                : 'text-blue-500 hover:bg-white/[0.12] hover:text-blue-600'
+              ${
+                selected
+                  ? 'bg-white text-blue-700 shadow'
+                  : 'text-blue-500 hover:bg-white/[0.12] hover:text-blue-600'
               }`
             }
           >

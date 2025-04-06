@@ -1,7 +1,7 @@
 import { ArrowDownTrayIcon, ShareIcon } from '@heroicons/react/24/outline'
 import { Tab } from '@headlessui/react'
-import { ContentForm } from './ContentForm'
-import { BackgroundForm } from './BackgroundForm'
+import { ContentTab } from './ContentTab'
+import { BackgroundTab } from './BackgroundTab'
 import type { GrayscaleMethod } from '../types'
 
 interface PosterFormProps {
@@ -110,7 +110,7 @@ export function PosterForm({
         </Tab.List>
         <Tab.Panels className="flex-1">
           <Tab.Panel>
-            <ContentForm
+            <ContentTab
               chapter={chapter}
               setChapter={setChapter}
               date={date}
@@ -126,7 +126,7 @@ export function PosterForm({
             />
           </Tab.Panel>
           <Tab.Panel>
-            <BackgroundForm
+            <BackgroundTab
               backgroundImage={backgroundImage}
               setBackgroundImage={setBackgroundImage}
               opacity={opacity}

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import html2canvas from 'html2canvas-pro'
 import { PosterForm } from './components/PosterForm'
 import { PosterPreview } from './components/PosterPreview'
@@ -8,12 +8,15 @@ import { useScrollDirection } from './hooks/useScrollDirection'
 
 function App() {
   // State management
-  const [chapter, setChapter] = useState('PRAGUE')
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
-  const [startTime, setStartTime] = useState('17:00')
-  const [endTime, setEndTime] = useState('19:00')
-  const [location, setLocation] = useState('Wenceslas Square')
-  const [language, setLanguage] = useState('English')
+  // load from local storage if available
+  const [chapter, setChapter] = useState(localStorage.getItem('chapter') || 'PRAGUE')
+  const [date, setDate] = useState(
+    localStorage.getItem('date') || new Date().toISOString().split('T')[0]
+  )
+  const [startTime, setStartTime] = useState(localStorage.getItem('startTime') || '17:00')
+  const [endTime, setEndTime] = useState(localStorage.getItem('endTime') || '19:00')
+  const [location, setLocation] = useState(localStorage.getItem('location') || 'Wenceslas Square')
+  const [language, setLanguage] = useState(localStorage.getItem('language') || 'English')
   const [grayscaleMethod, setGrayscaleMethod] = useState<GrayscaleMethod>('luma')
   const [customGrayscaleValues, setCustomGrayscaleValues] = useState({
     r: 0.299,
@@ -33,6 +36,25 @@ function App() {
   const [zoom, setZoom] = useState(100)
 
   const scrollDirection = useScrollDirection()
+
+  // save to locale storage
+  useEffect(() => {
+    localStorage.setItem('chapter', chapter)
+    localStorage.setItem('date', date)
+    localStorage.setItem('startTime', startTime)
+    localStorage.setItem('endTime', endTime)
+    localStorage.setItem('location', location)
+    localStorage.setItem('language', language)
+  }, [
+    chapter,
+    date,
+    startTime,
+    endTime,
+    location,
+    language,
+    grayscaleMethod,
+    customGrayscaleValues,
+  ])
 
   // Format date based on language
   const formatDate = (date: string, lang: string) => {

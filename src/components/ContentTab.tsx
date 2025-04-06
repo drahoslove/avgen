@@ -8,7 +8,7 @@ import {
 import { Input, Listbox } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 
-interface ContentFormProps {
+interface ContentTabProps {
   chapter: string
   setChapter: (value: string) => void
   date: string
@@ -23,7 +23,7 @@ interface ContentFormProps {
   setLanguage: (value: string) => void
 }
 
-export function ContentForm({
+export function ContentTab({
   chapter,
   setChapter,
   date,
@@ -36,7 +36,7 @@ export function ContentForm({
   setLocation,
   language,
   setLanguage,
-}: ContentFormProps) {
+}: ContentTabProps) {
   // Generate time options in 15-minute intervals
   const generateTimeOptions = () => {
     const options = []

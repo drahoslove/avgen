@@ -11,7 +11,7 @@ import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import { Listbox } from '@headlessui/react'
 import type { GrayscaleMethod } from '../types'
 
-interface BackgroundFormProps {
+interface BackgroundTabProps {
   backgroundImage: string | null
   setBackgroundImage: (value: string | null) => void
   opacity: number
@@ -30,7 +30,7 @@ interface BackgroundFormProps {
   setCustomGrayscaleValues?: (values: { r: number; g: number; b: number }) => void
 }
 
-export function BackgroundForm({
+export function BackgroundTab({
   backgroundImage,
   setBackgroundImage,
   opacity,
@@ -43,7 +43,7 @@ export function BackgroundForm({
   setGrayscaleMethod,
   customGrayscaleValues = { r: 0.299, g: 0.587, b: 0.114 },
   setCustomGrayscaleValues,
-}: BackgroundFormProps) {
+}: BackgroundTabProps) {
   const [dragOver, setDragOver] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +101,8 @@ export function BackgroundForm({
           ) : (
             <div className="text-gray-800 p-2">
               <PhotoIcon className="h-12 w-12 mx-auto mb-4" />
-              <p>Drag and drop an image here, or click to select</p>
+              {/* hide on mobile */}
+              <p className="hidden sm:block">Drag and drop an image here, or click to select</p>
               <input
                 type="file"
                 accept="image/*"
@@ -118,6 +119,14 @@ export function BackgroundForm({
             </div>
           )}
         </div>
+        {!backgroundImage && (
+          <div>
+            {/* note */}
+            <p className="text-xs text-gray-500">
+              The image will not leave your device until you share it.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Image Adjustments */}

@@ -27,7 +27,7 @@ function App() {
   const previewRef = useRef<HTMLDivElement>(null)
 
   // Background image state
-  const [backgroundImage, setBackgroundImage] = useState<string | null>(null)
+  const [backgroundImage, setBackgroundImage] = useState<string | null>('/bg/1.jpg')
   const [opacity, setOpacity] = useState(75)
   const [position, setPosition] = useState({ x: 50, y: 50 })
   const [zoom, setZoom] = useState(100)

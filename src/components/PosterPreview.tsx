@@ -44,7 +44,6 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
 
     useEffect(() => {
       if (backgroundImage) {
-        setIsImageLoaded(false)
         processImage(backgroundImage, grayscaleMethod, customGrayscaleValues)
           .then(setProcessedImage)
           .catch(console.error)

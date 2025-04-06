@@ -5,7 +5,7 @@ import {
   ClockIcon,
   BuildingOffice2Icon,
 } from '@heroicons/react/20/solid'
-import { Input, Listbox } from '@headlessui/react'
+import { Listbox, Textarea } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 
 interface ContentTabProps {
@@ -63,12 +63,12 @@ export function ContentTab({
           <BuildingOffice2Icon className="h-5 w-5" />
           Chapter Name
         </label>
-        <Input
-          type="text"
+        <Textarea
           id="chapter"
+          rows={chapter.split('\n').length || 1}
           value={chapter}
-          onChange={e => setChapter(e.target.value.toUpperCase())}
-          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          onChange={e => setChapter(e.target.value.toLocaleUpperCase())}
+          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Enter city name"
         />
       </div>
@@ -194,12 +194,12 @@ export function ContentTab({
           <MapPinIcon className="h-5 w-5" />
           Location
         </label>
-        <Input
-          type="text"
+        <Textarea
           id="location"
+          rows={location.split('\n').length || 1}
           value={location}
           onChange={e => setLocation(e.target.value)}
-          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Enter location"
         />
       </div>

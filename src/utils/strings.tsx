@@ -1,3 +1,3 @@
 export const inLines = (str: string) => {
-  return str.split('//').map((line: string) => <div key={line}>{line}</div>)
+  return str.split(/\/\/|\n/gi).map((line: string, i: number) => <div key={i}>{line}</div>)
 }

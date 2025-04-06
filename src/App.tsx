@@ -51,7 +51,20 @@ function App() {
   const localizedDate = formatDate(date, language)
 
   // Format time range for display
-  const timeRange = `${startTime}–${endTime}`
+  const formatTime = (time: string, lang: string) => {
+    if (lang !== 'English') return time
+
+    const [hours, minutes] = time.split(':')
+    const hour = parseInt(hours)
+    const period = hour >= 12 ? 'PM' : 'AM'
+    const formattedHour = hour % 12 || 12
+    return `${formattedHour}:${minutes} ${period}`
+  }
+
+  const timeRange =
+    language === 'English'
+      ? `${formatTime(startTime, language)} – ${formatTime(endTime, language)}`
+      : `${startTime} – ${endTime}`
 
   // Function to generate image and return the blob
   const generateImageBlob = async (): Promise<Blob | null> => {

@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { Listbox, Textarea } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
-
+import { LOCALIZATIONS } from '../constants/localization'
 interface ContentTabProps {
   chapter: string
   setChapter: (value: string) => void
@@ -19,8 +19,8 @@ interface ContentTabProps {
   setEndTime: (value: string) => void
   location: string
   setLocation: (value: string) => void
-  language: string
-  setLanguage: (value: string) => void
+  locale: string
+  setLocale: (value: string) => void
 }
 
 export function ContentTab({
@@ -34,8 +34,8 @@ export function ContentTab({
   setEndTime,
   location,
   setLocation,
-  language,
-  setLanguage,
+  locale,
+  setLocale,
 }: ContentTabProps) {
   // Generate time options in 15-minute intervals
   const generateTimeOptions = () => {
@@ -213,19 +213,21 @@ export function ContentTab({
           <GlobeAltIcon className="h-5 w-5" />
           Localization
         </label>
-        <Listbox value={language} onChange={setLanguage}>
+        <Listbox value={locale} onChange={setLocale}>
           <div className="relative">
             <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <span className="block truncate">{language}</span>
+              <span className="block truncate">
+                {LOCALIZATIONS.find(loc => loc.code === locale)?.name}
+              </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>
             </Listbox.Button>
-            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {['English', 'Czech'].map(lang => (
+            <Listbox.Options className="absolute z-10 -top-[2rem] mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {LOCALIZATIONS.map(loc => (
                 <Listbox.Option
-                  key={lang}
-                  value={lang}
+                  key={loc.code}
+                  value={loc.code}
                   className={({ active }) =>
                     `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
                       active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
@@ -237,7 +239,7 @@ export function ContentTab({
                       <span
                         className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
                       >
-                        {lang}
+                        {loc.name}
                       </span>
                     </>
                   )}

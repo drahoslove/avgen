@@ -5,6 +5,7 @@ import whiteLogoTop from '../assets/AV-Logo-White-Transparent.svg'
 import { processImage } from '../utils/imageProcessing'
 import { inLines } from '../utils/strings'
 import type { GrayscaleMethod } from '../types'
+import { LOCALIZATIONS } from '../constants/localization'
 
 interface PosterPreviewProps {
   chapter: string
@@ -12,7 +13,7 @@ interface PosterPreviewProps {
   localizedDate: string
   timeRange: string
   location: string
-  language: string
+  locale: (typeof LOCALIZATIONS)[number]['code']
   backgroundImage: string | null
   opacity: number
   position: { x: number; y: number }
@@ -29,7 +30,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       localizedDate,
       timeRange,
       location,
-      language,
+      locale,
       backgroundImage,
       opacity,
       position,
@@ -124,35 +125,39 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
 
             {/* Main Content */}
             <div className="flex flex-col items-center text-center flex-grow w-full">
-              <h1 className="font-bold mb-[0em] text-[4.25em] text-white text-stroke-[0.1em] text-stroke-white font-oswald">
+              <h1 className="font-bold mb-[0em] text-[4.25em] text-white text-stroke-[0.1em] text-stroke-white font-libre-franklin">
                 CUBE OF TRUTH
               </h1>
 
               <div className="mb-[1em]">
                 <h2
-                  className={`text-gray-300 ${language !== 'English' ? 'visible' : 'invisible'} text-[2.5em] font-oswald`}
+                  className={`text-gray-300 ${locale !== 'en-US' ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
                 >
-                  KOSTKA PRAVDY
+                  {LOCALIZATIONS.find(loc => loc.code === locale)?.['Cube of Truth']}
                 </h2>
               </div>
 
-              <div className="font-bold text-red-600 mb-[0em] text-[6em] tracking-[0.5em] -mr-[0.4em] font-oswald">
+              <div className="font-bold text-brand-red mb-[0em] text-[6em] tracking-[0.3em] -mr-[0.35em] font-libre-franklin">
                 {inLines(chapter)}
               </div>
 
               <div className="space-y-[0em] mb-[0em]">
                 <div className="flex flex-col">
-                  <div className="text-[2.5em] font-oswald">{englishDate.toLocaleUpperCase()}</div>
+                  <div className="text-[2.5em] font-libre-franklin">
+                    {englishDate.toLocaleUpperCase()}
+                  </div>
                   <div
-                    className={`text-gray-300 mt-[0m] ${language !== 'English' ? 'visible' : 'invisible'} text-[2.5em] font-oswald`}
+                    className={`text-gray-300 mt-[0m] ${locale !== 'en-US' ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
                   >
                     {localizedDate.toLocaleUpperCase()}
                   </div>
                 </div>
-                <div className="text-[4em] font-oswald">{timeRange}</div>
+                <div className="text-[4em] font-libre-franklin">{timeRange}</div>
               </div>
 
-              <div className="mb-[0em] text-[1.75em] px-[2em] font-oswald">{inLines(location)}</div>
+              <div className="mb-[0em] text-[1.75em] px-[2em] font-libre-franklin">
+                {inLines(location)}
+              </div>
             </div>
 
             {/* Bottom Logo */}

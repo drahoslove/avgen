@@ -16,7 +16,7 @@ function App() {
   const [startTime, setStartTime] = useState(localStorage.getItem('startTime') || '17:00')
   const [endTime, setEndTime] = useState(localStorage.getItem('endTime') || '19:00')
   const [location, setLocation] = useState(localStorage.getItem('location') || 'Wenceslas Square')
-  const [language, setLanguage] = useState(localStorage.getItem('language') || 'English')
+  const [locale, setLocale] = useState(localStorage.getItem('locale') || 'en-US')
   const [grayscaleMethod, setGrayscaleMethod] = useState<GrayscaleMethod>('luma')
   const [customGrayscaleValues, setCustomGrayscaleValues] = useState({
     r: 0.299,
@@ -44,23 +44,14 @@ function App() {
     localStorage.setItem('startTime', startTime)
     localStorage.setItem('endTime', endTime)
     localStorage.setItem('location', location)
-    localStorage.setItem('language', language)
-  }, [
-    chapter,
-    date,
-    startTime,
-    endTime,
-    location,
-    language,
-    grayscaleMethod,
-    customGrayscaleValues,
-  ])
+    localStorage.setItem('locale', locale)
+  }, [chapter, date, startTime, endTime, location, locale, grayscaleMethod, customGrayscaleValues])
 
   // Format date based on language
-  const formatDate = (date: string, lang: string) => {
+  const formatDate = (date: string, localeCode: string) => {
     if (!date) return ''
     const dateObj = new Date(date)
-    const formatter = new Intl.DateTimeFormat(lang === 'Czech' ? 'cs-CZ' : 'en-US', {
+    const formatter = new Intl.DateTimeFormat(localeCode, {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
@@ -69,12 +60,12 @@ function App() {
   }
 
   // Get both English and localized date strings
-  const englishDate = formatDate(date, 'english')
-  const localizedDate = formatDate(date, language)
+  const englishDate = formatDate(date, 'en-US')
+  const localizedDate = formatDate(date, locale)
 
   // Format time range for display
-  const formatTime = (time: string, lang: string) => {
-    if (lang !== 'English') return time
+  const formatTime = (time: string, localeCode: string) => {
+    if (!['en-US', 'en-GB'].includes(localeCode)) return time // only format time for non English
 
     const [hours, minutes] = time.split(':')
     const hour = parseInt(hours)
@@ -83,10 +74,7 @@ function App() {
     return `${formattedHour}:${minutes} ${period}`
   }
 
-  const timeRange =
-    language === 'English'
-      ? `${formatTime(startTime, language)} – ${formatTime(endTime, language)}`
-      : `${startTime} – ${endTime}`
+  const timeRange = `${formatTime(startTime, locale)} – ${formatTime(endTime, locale)}`
 
   // Function to generate image and return the blob
   const generateImageBlob = async (): Promise<Blob | null> => {
@@ -216,8 +204,8 @@ function App() {
           setEndTime={setEndTime}
           location={location}
           setLocation={setLocation}
-          language={language}
-          setLanguage={setLanguage}
+          locale={locale}
+          setLocale={setLocale}
           onGenerateImage={e => {
             e.preventDefault()
             void handleGenerateImage(e)
@@ -249,7 +237,7 @@ function App() {
             localizedDate={localizedDate}
             timeRange={timeRange}
             location={location}
-            language={language}
+            locale={locale}
             backgroundImage={backgroundImage}
             opacity={opacity}
             position={position}

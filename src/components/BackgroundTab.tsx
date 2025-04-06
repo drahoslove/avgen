@@ -93,7 +93,7 @@ export function BackgroundTab({
               />
               <button
                 onClick={() => setBackgroundImage(null)}
-                className="absolute w-7 h-7 -top-7 -right-7 flex items-center justify-center bg-red-600 text-white p-0 rounded-full hover:bg-red-400 cursor-pointer"
+                className="absolute w-7 h-7 -top-7 -right-7 flex items-center justify-center bg-brand-red text-white p-0 rounded-full hover:bg-red-400 cursor-pointer"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>

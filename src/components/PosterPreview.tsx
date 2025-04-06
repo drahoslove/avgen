@@ -65,16 +65,19 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
     }, [ref])
 
     // Calculate base font size based on container height
-    const baseFontSize = containerSize.height / 60 // Adjust this divisor to control overall text size
+    const baseFontSize =
+      ref && 'current' in ref && ref.current?.style.height
+        ? parseInt(ref.current.style.height) / 60 // Use fixed height when set
+        : containerSize.height / 60 // Fallback to container height
 
     return (
-      <div className="w-full bg-white rounded-lg shadow-lg p-6 lg:h-[calc(100vh-3rem)]">
+      <div className="w-full bg-white rounded-lg shadow-lg p-6 lg:h-[calc(100vh-3rem)] overflow-hidden">
         {/* <h2 className="text-2xl font-bold text-gray-800 mb-6">
         Preview
       </h2> */}
         <div
           ref={ref}
-          className="relative h-full mx-auto aspect-[3/4] bg-black rounded-lg shadow-lg overflow-hidden"
+          className="relative h-full mx-auto aspect-[4/5] bg-black rounded-lg shadow-lg overflow-hidden"
           style={{ fontSize: `${baseFontSize}px` }}
         >
           {/* Background Image */}

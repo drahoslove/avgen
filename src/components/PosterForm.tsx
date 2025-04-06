@@ -17,8 +17,8 @@ interface PosterFormProps {
   setLocation: (value: string) => void
   language: string
   setLanguage: (value: string) => void
-  onGenerateImage: () => void
-  onShare: () => void
+  onGenerateImage: () => Promise<void>
+  onShare: () => Promise<void>
   backgroundImage: string | null
   setBackgroundImage: (value: string | null) => void
   opacity: number
@@ -61,6 +61,16 @@ export function PosterForm({
   customGrayscaleValues,
   setCustomGrayscaleValues,
 }: PosterFormProps) {
+  const handleGenerateImage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    void onGenerateImage()
+  }
+
+  const handleShare = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    void onShare()
+  }
+
   return (
     <div className="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-6">
       <Tab.Group>
@@ -129,14 +139,14 @@ export function PosterForm({
       {/* Action buttons */}
       <div className="grid grid-cols-2 gap-4 mt-12">
         <button
-          onClick={onGenerateImage}
+          onClick={handleGenerateImage}
           className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2"
         >
           <ArrowDownTrayIcon className="h-5 w-5" />
           <span>Download</span>
         </button>
         <button
-          onClick={onShare}
+          onClick={handleShare}
           className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2"
         >
           <ShareIcon className="h-5 w-5" />

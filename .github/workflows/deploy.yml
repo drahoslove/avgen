@@ -14,16 +14,27 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npm cache verify
 
       - name: Lint
-        run: npm run lint
+        run: |
+          npm run lint || {
+            echo "Linting failed. Please fix the issues above."
+            exit 1
+          }
 
       - name: Build
-        run: npm run build
+        run: |
+          npm run build || {
+            echo "Build failed. Please check the errors above."
+            exit 1
+          }
 
       - name: Create CNAME file
         run: echo "avgen.draho.cz" > dist/CNAME
@@ -33,3 +44,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          commit_message: 'Deploy: ${{ github.event.head_commit.message }}'

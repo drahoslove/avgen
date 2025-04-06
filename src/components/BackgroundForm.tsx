@@ -41,7 +41,7 @@ export function BackgroundForm({
     const file = e.target.files?.[0]
     if (file) {
       const reader = new FileReader()
-      reader.onload = (e) => {
+      reader.onload = e => {
         setBackgroundImage(e.target?.result as string)
       }
       reader.readAsDataURL(file)
@@ -52,25 +52,23 @@ export function BackgroundForm({
     <div className="space-y-6">
       {/* Image Upload */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
-          Background Image
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Background Image</label>
         <div
           className={`border-2 border-dashed rounded-lg p-8 text-center ${
             dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
           }`}
-          onDragOver={(e) => {
+          onDragOver={e => {
             e.preventDefault()
             setDragOver(true)
           }}
           onDragLeave={() => setDragOver(false)}
-          onDrop={(e) => {
+          onDrop={e => {
             e.preventDefault()
             setDragOver(false)
             const file = e.dataTransfer.files[0]
             if (file) {
               const reader = new FileReader()
-              reader.onload = (e) => {
+              reader.onload = e => {
                 setBackgroundImage(e.target?.result as string)
               }
               reader.readAsDataURL(file)
@@ -118,13 +116,13 @@ export function BackgroundForm({
         <div className="space-y-4">
           {/* Grayscale Method Selection */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
               <AdjustmentsHorizontalIcon className="h-5 w-5" />
               Grayscale Method
             </label>
             <select
               value={grayscaleMethod}
-              onChange={(e) => setGrayscaleMethod(e.target.value as GrayscaleMethod)}
+              onChange={e => setGrayscaleMethod(e.target.value as GrayscaleMethod)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="luma">Luma (Weighted RGB)</option>
@@ -147,10 +145,12 @@ export function BackgroundForm({
                   min="0"
                   max="100"
                   value={customGrayscaleValues.r * 100}
-                  onChange={(e) => setCustomGrayscaleValues({
-                    ...customGrayscaleValues,
-                    r: Number(e.target.value) / 100
-                  })}
+                  onChange={e =>
+                    setCustomGrayscaleValues({
+                      ...customGrayscaleValues,
+                      r: Number(e.target.value) / 100,
+                    })
+                  }
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 text-right">
@@ -165,10 +165,12 @@ export function BackgroundForm({
                   min="0"
                   max="100"
                   value={customGrayscaleValues.g * 100}
-                  onChange={(e) => setCustomGrayscaleValues({
-                    ...customGrayscaleValues,
-                    g: Number(e.target.value) / 100
-                  })}
+                  onChange={e =>
+                    setCustomGrayscaleValues({
+                      ...customGrayscaleValues,
+                      g: Number(e.target.value) / 100,
+                    })
+                  }
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 text-right">
@@ -183,10 +185,12 @@ export function BackgroundForm({
                   min="0"
                   max="100"
                   value={customGrayscaleValues.b * 100}
-                  onChange={(e) => setCustomGrayscaleValues({
-                    ...customGrayscaleValues,
-                    b: Number(e.target.value) / 100
-                  })}
+                  onChange={e =>
+                    setCustomGrayscaleValues({
+                      ...customGrayscaleValues,
+                      b: Number(e.target.value) / 100,
+                    })
+                  }
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 text-right">
@@ -198,46 +202,40 @@ export function BackgroundForm({
 
           {/* Opacity Slider */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Darkness
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Darkness</label>
             <input
               type="range"
               min="50"
               max="100"
               value={opacity}
-              onChange={(e) => setOpacity(Number(e.target.value))}
+              onChange={e => setOpacity(Number(e.target.value))}
               className="w-full"
             />
           </div>
 
           {/* Zoom Slider */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Zoom
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Zoom</label>
             <input
               type="range"
               min="100"
               max="200"
               value={zoom}
-              onChange={(e) => setZoom(Number(e.target.value))}
+              onChange={e => setZoom(Number(e.target.value))}
               className="w-full"
             />
           </div>
 
           {/* Position Controls */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Position
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Position</label>
             <div className="grid grid-cols-2 gap-4">
               <input
                 type="range"
                 min="0"
                 max="100"
                 value={position.x}
-                onChange={(e) => setPosition({ ...position, x: Number(e.target.value) })}
+                onChange={e => setPosition({ ...position, x: Number(e.target.value) })}
                 className="w-full"
               />
               <input
@@ -245,7 +243,7 @@ export function BackgroundForm({
                 min="0"
                 max="100"
                 value={position.y}
-                onChange={(e) => setPosition({ ...position, y: Number(e.target.value) })}
+                onChange={e => setPosition({ ...position, y: Number(e.target.value) })}
                 className="w-full"
               />
             </div>

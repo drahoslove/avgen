@@ -55,7 +55,7 @@ export function ContentForm({
   return (
     <div className="space-y-6">
       {/* Chapter Input */}
-      <div className="space-y-2">
+      <div className="space-y-1">
         <label
           htmlFor="chapter"
           className="text-sm font-medium text-gray-900 flex items-center gap-2"
@@ -74,7 +74,7 @@ export function ContentForm({
       </div>
 
       {/* Date Input */}
-      <div className="space-y-2">
+      <div className="space-y-1">
         <label htmlFor="date" className="text-sm font-medium text-gray-900 flex items-center gap-2">
           <CalendarIcon className="h-5 w-5" />
           Date
@@ -89,9 +89,9 @@ export function ContentForm({
       </div>
 
       {/* Time Range Inputs */}
-      <div className="space-y-2">
+      <div className="space-y-1">
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label className="text-sm font-medium text-gray-900 flex items-center gap-2">
               <ClockIcon className="h-5 w-5" />
               Start Time
@@ -141,7 +141,7 @@ export function ContentForm({
               </div>
             </Listbox>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label className="text-sm font-medium text-gray-900 flex items-center gap-2">
               <ClockIcon className="h-5 w-5" />
               End Time
@@ -186,7 +186,7 @@ export function ContentForm({
       </div>
 
       {/* Location Input */}
-      <div className="space-y-2">
+      <div className="space-y-1">
         <label
           htmlFor="location"
           className="text-sm font-medium text-gray-900 flex items-center gap-2"

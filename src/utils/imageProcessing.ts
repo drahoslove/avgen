@@ -1,10 +1,4 @@
-export type GrayscaleMethod = 'luma' | 'average' | 'luminosity' | 'lightness' | 'custom'
-
-export interface GrayscaleWeights {
-  r: number
-  g: number
-  b: number
-}
+import type { GrayscaleMethod, GrayscaleWeights } from '../types'
 
 export const processImage = async (
   imageUrl: string,
@@ -34,7 +28,7 @@ export const processImage = async (
       const data = imageData.data
 
       // Process each pixel
-      for (let i = 0; i < data.length; i += 4) {
+      loop: for (let i = 0; i < data.length; i += 4) {
         const r = data[i]
         const g = data[i + 1]
         const b = data[i + 2]
@@ -43,6 +37,8 @@ export const processImage = async (
         const weights = customWeights || { r: 0.299, g: 0.587, b: 0.114 }
 
         switch (method) {
+          case 'none':
+            break loop
           case 'luma':
             // Weighted method - human perception
             gray = Math.round(0.299 * r + 0.587 * g + 0.114 * b)

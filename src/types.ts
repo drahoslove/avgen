@@ -1,7 +1,7 @@
-export type GrayscaleMethod = 'luma' | 'average' | 'luminosity' | 'lightness' | 'custom';
+export type GrayscaleMethod = 'none' | 'luma' | 'average' | 'luminosity' | 'lightness' | 'custom'
 
 export interface GrayscaleWeights {
-  r: number;
-  g: number;
-  b: number;
+  r: number
+  g: number
+  b: number
 }

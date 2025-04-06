@@ -5,6 +5,7 @@ import {
   ArrowsUpDownIcon,
   SunIcon,
   ArrowsPointingOutIcon,
+  XMarkIcon,
 } from '@heroicons/react/20/solid'
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import { Listbox } from '@headlessui/react'
@@ -59,12 +60,12 @@ export function BackgroundForm({
   return (
     <div className="space-y-6">
       {/* Image Upload */}
-      <div className="space-y-2">
+      <div className="space-y-2 flex flex-col">
         <label className="block text-sm font-medium text-gray-900">Background Image</label>
         <div
-          className={`border-2 border-dashed rounded-lg p-8 text-center ${
+          className={`border-2 border-dashed rounded-lg p-4 text-center ${
             dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-500'
-          }`}
+          } ${backgroundImage ? 'mx-auto' : ''}`}
           onDragOver={e => {
             e.preventDefault()
             setDragOver(true)
@@ -88,17 +89,17 @@ export function BackgroundForm({
               <img
                 src={backgroundImage}
                 alt="Background preview"
-                className="max-h-40 mx-auto rounded"
+                className="max-h-32 mx-auto rounded"
               />
               <button
                 onClick={() => setBackgroundImage(null)}
-                className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                className="absolute w-7 h-7 -top-7 -right-7 flex items-center justify-center bg-red-600 text-white p-0 rounded-full hover:bg-red-400 cursor-pointer"
               >
-                ×
+                <XMarkIcon className="h-5 w-5" />
               </button>
             </div>
           ) : (
-            <div className="text-gray-800">
+            <div className="text-gray-800 p-2">
               <PhotoIcon className="h-12 w-12 mx-auto mb-4" />
               <p>Drag and drop an image here, or click to select</p>
               <input
@@ -140,7 +141,7 @@ export function BackgroundForm({
                   </span>
                 </Listbox.Button>
                 <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {['none', 'average', 'luminosity', 'custom'].map(method => (
+                  {['none', 'luma', 'lightness', 'average', 'custom'].map(method => (
                     <Listbox.Option
                       key={method}
                       value={method}
@@ -184,7 +185,7 @@ export function BackgroundForm({
                       r: Number(e.target.value) / 100,
                     })
                   }
-                  className="w-full"
+                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
                 />
                 <div className="text-xs text-gray-500 text-right">
                   {(customGrayscaleValues.r * 100).toFixed(1)}%
@@ -204,7 +205,7 @@ export function BackgroundForm({
                       g: Number(e.target.value) / 100,
                     })
                   }
-                  className="w-full"
+                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
                 />
                 <div className="text-xs text-gray-500 text-right">
                   {(customGrayscaleValues.g * 100).toFixed(1)}%
@@ -224,7 +225,7 @@ export function BackgroundForm({
                       b: Number(e.target.value) / 100,
                     })
                   }
-                  className="w-full"
+                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
                 />
                 <div className="text-xs text-gray-500 text-right">
                   {(customGrayscaleValues.b * 100).toFixed(1)}%
@@ -234,7 +235,7 @@ export function BackgroundForm({
           )}
 
           {/* Opacity Slider */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
               <SunIcon className="h-5 w-5" />
               Darkness
@@ -245,12 +246,12 @@ export function BackgroundForm({
               max="100"
               value={opacity}
               onChange={e => setOpacity(Number(e.target.value))}
-              className="w-full"
+              className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
             />
           </div>
 
           {/* Zoom Slider */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
               <ArrowsPointingOutIcon className="h-5 w-5" />
               Zoom
@@ -261,35 +262,39 @@ export function BackgroundForm({
               max="200"
               value={zoom}
               onChange={e => setZoom(Number(e.target.value))}
-              className="w-full"
+              className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
             />
           </div>
 
           {/* Position Controls */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <div className="grid grid-cols-2 gap-4">
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
-                <ArrowsUpDownIcon className="h-5 w-5 rotate-90" />
-              </label>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
-                <ArrowsUpDownIcon className="h-5 w-5 rotate-0" />
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={position.x}
-                onChange={e => setPosition({ ...position, x: Number(e.target.value) })}
-                className="w-full"
-              />
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={position.y}
-                onChange={e => setPosition({ ...position, y: Number(e.target.value) })}
-                className="w-full"
-              />
+              <div className="space-y-1">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+                  <ArrowsUpDownIcon className="h-5 w-5 rotate-90" />
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={position.x}
+                  onChange={e => setPosition({ ...position, x: Number(e.target.value) })}
+                  className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+                  <ArrowsUpDownIcon className="h-5 w-5 rotate-0" />
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={position.y}
+                  onChange={e => setPosition({ ...position, y: Number(e.target.value) })}
+                  className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -2,7 +2,8 @@ import { forwardRef, useEffect, useState } from 'react'
 
 import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
 import whiteLogoTop from '../assets/AV-Logo-White-Transparent.svg'
-import { processImage, GrayscaleMethod } from '../utils/imageProcessing'
+import { processImage } from '../utils/imageProcessing'
+import type { GrayscaleMethod } from '../types'
 
 interface PosterPreviewProps {
   chapter: string

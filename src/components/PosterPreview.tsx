@@ -71,7 +71,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         : containerSize.height / 60 // Fallback to container height
 
     return (
-      <div className="w-full bg-white rounded-lg shadow-lg p-6 lg:h-[calc(100vh-3rem)] overflow-hidden">
+      <div className="w-full bg-gray-300 sm:rounded-lg shadow-lg p-6 lg:h-[calc(100vh-3rem)] overflow-hidden">
         {/* <h2 className="text-2xl font-bold text-gray-800 mb-6">
         Preview
       </h2> */}
@@ -119,7 +119,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
 
               <div className="mb-[1em]">
                 <h2
-                  className={`text-gray-300 ${language !== 'english' ? 'visible' : 'invisible'} text-[2.5em]`}
+                  className={`text-gray-300 ${language !== 'English' ? 'visible' : 'invisible'} text-[2.5em]`}
                 >
                   Kostka Pravdy
                 </h2>
@@ -133,7 +133,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
                 <div className="flex flex-col">
                   <div className="text-[2em]">{englishDate}</div>
                   <div
-                    className={`text-gray-300 mt-[0m] ${language !== 'english' ? 'visible' : 'invisible'} text-[2em]`}
+                    className={`text-gray-300 mt-[0m] ${language !== 'English' ? 'visible' : 'invisible'} text-[2em]`}
                   >
                     {localizedDate}
                   </div>

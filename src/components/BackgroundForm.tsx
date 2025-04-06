@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { PhotoIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
+import {
+  PhotoIcon,
+  AdjustmentsHorizontalIcon,
+  ArrowsUpDownIcon,
+  SunIcon,
+  ArrowsPointingOutIcon,
+} from '@heroicons/react/20/solid'
+import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
+import { Listbox } from '@headlessui/react'
 import type { GrayscaleMethod } from '../types'
 
 interface BackgroundFormProps {
@@ -52,10 +60,10 @@ export function BackgroundForm({
     <div className="space-y-6">
       {/* Image Upload */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">Background Image</label>
+        <label className="block text-sm font-medium text-gray-900">Background Image</label>
         <div
           className={`border-2 border-dashed rounded-lg p-8 text-center ${
-            dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+            dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-500'
           }`}
           onDragOver={e => {
             e.preventDefault()
@@ -90,7 +98,7 @@ export function BackgroundForm({
               </button>
             </div>
           ) : (
-            <div className="text-gray-500">
+            <div className="text-gray-800">
               <PhotoIcon className="h-12 w-12 mx-auto mb-4" />
               <p>Drag and drop an image here, or click to select</p>
               <input
@@ -102,7 +110,7 @@ export function BackgroundForm({
               />
               <button
                 onClick={() => document.getElementById('background-upload')?.click()}
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 cursor-pointer"
               >
                 Select Image
               </button>
@@ -115,22 +123,47 @@ export function BackgroundForm({
       {backgroundImage && (
         <div className="space-y-4">
           {/* Grayscale Method Selection */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+          <div>
+            <label
+              htmlFor="grayscaleMethod"
+              className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
+            >
               <AdjustmentsHorizontalIcon className="h-5 w-5" />
               Grayscale Method
             </label>
-            <select
-              value={grayscaleMethod}
-              onChange={e => setGrayscaleMethod(e.target.value as GrayscaleMethod)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="luma">Luma (Weighted RGB)</option>
-              <option value="average">Average (Simple RGB)</option>
-              <option value="luminosity">Luminosity (Perceived Brightness)</option>
-              <option value="lightness">Lightness (Max/Min RGB)</option>
-              <option value="custom">Custom Weights</option>
-            </select>
+            <Listbox value={grayscaleMethod} onChange={setGrayscaleMethod}>
+              <div className="relative">
+                <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span className="block truncate capitalize">{grayscaleMethod}</span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </span>
+                </Listbox.Button>
+                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {['none', 'average', 'luminosity', 'custom'].map(method => (
+                    <Listbox.Option
+                      key={method}
+                      value={method}
+                      className={({ active }) =>
+                        `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
+                          active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                        }`
+                      }
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate capitalize ${selected ? 'font-medium' : 'font-normal'}`}
+                          >
+                            {method}
+                          </span>
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </div>
+            </Listbox>
           </div>
 
           {/* Custom Grayscale Controls */}
@@ -202,7 +235,10 @@ export function BackgroundForm({
 
           {/* Opacity Slider */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Darkness</label>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+              <SunIcon className="h-5 w-5" />
+              Darkness
+            </label>
             <input
               type="range"
               min="50"
@@ -215,7 +251,10 @@ export function BackgroundForm({
 
           {/* Zoom Slider */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Zoom</label>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+              <ArrowsPointingOutIcon className="h-5 w-5" />
+              Zoom
+            </label>
             <input
               type="range"
               min="100"
@@ -228,8 +267,13 @@ export function BackgroundForm({
 
           {/* Position Controls */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Position</label>
             <div className="grid grid-cols-2 gap-4">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+                <ArrowsUpDownIcon className="h-5 w-5 rotate-90" />
+              </label>
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+                <ArrowsUpDownIcon className="h-5 w-5 rotate-0" />
+              </label>
               <input
                 type="range"
                 min="0"

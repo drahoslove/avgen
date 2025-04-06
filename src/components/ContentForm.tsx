@@ -4,7 +4,9 @@ import {
   CalendarIcon,
   ClockIcon,
   BuildingOffice2Icon,
-} from '@heroicons/react/24/outline'
+} from '@heroicons/react/20/solid'
+import { Input, Listbox } from '@headlessui/react'
+import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 
 interface ContentFormProps {
   chapter: string
@@ -56,24 +58,24 @@ export function ContentForm({
       <div className="space-y-2">
         <label
           htmlFor="chapter"
-          className="text-sm font-medium text-gray-700 flex items-center gap-2"
+          className="text-sm font-medium text-gray-900 flex items-center gap-2"
         >
           <BuildingOffice2Icon className="h-5 w-5" />
           Chapter Name
         </label>
-        <input
+        <Input
           type="text"
           id="chapter"
           value={chapter}
           onChange={e => setChapter(e.target.value.toUpperCase())}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Enter city name"
         />
       </div>
 
       {/* Date Input */}
       <div className="space-y-2">
-        <label htmlFor="date" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+        <label htmlFor="date" className="text-sm font-medium text-gray-900 flex items-center gap-2">
           <CalendarIcon className="h-5 w-5" />
           Date
         </label>
@@ -82,7 +84,7 @@ export function ContentForm({
           id="date"
           value={date}
           onChange={e => setDate(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
 
@@ -90,50 +92,95 @@ export function ContentForm({
       <div className="space-y-2">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-900 flex items-center gap-2">
               <ClockIcon className="h-5 w-5" />
               Start Time
             </label>
-            <select
-              id="startTime"
+            <Listbox
               value={startTime}
-              onChange={e => {
-                setStartTime(e.target.value)
-                if (e.target.value >= endTime) {
-                  const startIndex = timeOptions.indexOf(e.target.value)
+              onChange={value => {
+                setStartTime(value)
+                if (value >= endTime) {
+                  const startIndex = timeOptions.indexOf(value)
                   if (startIndex < timeOptions.length - 1) {
                     setEndTime(timeOptions[startIndex + 1])
                   }
                 }
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
-              {timeOptions.map(time => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
+              <div className="relative">
+                <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span className="block truncate">{startTime}</span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </span>
+                </Listbox.Button>
+                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {timeOptions.map(time => (
+                    <Listbox.Option
+                      key={time}
+                      value={time}
+                      className={({ active }) =>
+                        `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
+                          active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                        }`
+                      }
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
+                          >
+                            {time}
+                          </span>
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </div>
+            </Listbox>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-900 flex items-center gap-2">
               <ClockIcon className="h-5 w-5" />
               End Time
             </label>
-            <select
-              id="endTime"
-              value={endTime}
-              onChange={e => setEndTime(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              {timeOptions
-                .filter(time => time > startTime)
-                .map(time => (
-                  <option key={time} value={time}>
-                    {time}
-                  </option>
-                ))}
-            </select>
+            <Listbox value={endTime} onChange={setEndTime}>
+              <div className="relative">
+                <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span className="block truncate">{endTime}</span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </span>
+                </Listbox.Button>
+                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {timeOptions
+                    .filter(time => time > startTime)
+                    .map(time => (
+                      <Listbox.Option
+                        key={time}
+                        value={time}
+                        className={({ active }) =>
+                          `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
+                            active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                          }`
+                        }
+                      >
+                        {({ selected }) => (
+                          <>
+                            <span
+                              className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
+                            >
+                              {time}
+                            </span>
+                          </>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                </Listbox.Options>
+              </div>
+            </Listbox>
           </div>
         </div>
       </div>
@@ -142,39 +189,63 @@ export function ContentForm({
       <div className="space-y-2">
         <label
           htmlFor="location"
-          className="text-sm font-medium text-gray-700 flex items-center gap-2"
+          className="text-sm font-medium text-gray-900 flex items-center gap-2"
         >
           <MapPinIcon className="h-5 w-5" />
           Location
         </label>
-        <input
+        <Input
           type="text"
           id="location"
           value={location}
           onChange={e => setLocation(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Enter location"
         />
       </div>
 
       {/* Language Selection */}
-      <div className="space-y-2">
+      <div>
         <label
           htmlFor="language"
-          className="text-sm font-medium text-gray-700 flex items-center gap-2"
+          className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
         >
           <GlobeAltIcon className="h-5 w-5" />
           Language
         </label>
-        <select
-          id="language"
-          value={language}
-          onChange={e => setLanguage(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option value="english">English</option>
-          <option value="czech">Czech</option>
-        </select>
+        <Listbox value={language} onChange={setLanguage}>
+          <div className="relative">
+            <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <span className="block truncate">{language}</span>
+              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+              </span>
+            </Listbox.Button>
+            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {['English', 'Czech'].map(lang => (
+                <Listbox.Option
+                  key={lang}
+                  value={lang}
+                  className={({ active }) =>
+                    `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
+                      active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                    }`
+                  }
+                >
+                  {({ selected }) => (
+                    <>
+                      <span
+                        className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
+                      >
+                        {lang}
+                      </span>
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </div>
+        </Listbox>
       </div>
     </div>
   )

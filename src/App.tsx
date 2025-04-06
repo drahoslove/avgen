@@ -3,7 +3,7 @@ import html2canvas from 'html2canvas-pro'
 import { PosterForm } from './components/PosterForm'
 import { PosterPreview } from './components/PosterPreview'
 import type { GrayscaleMethod } from './types'
-import { ArrowDownTrayIcon, ShareIcon } from '@heroicons/react/24/outline'
+import { ArrowDownTrayIcon, ShareIcon } from '@heroicons/react/20/solid'
 
 function App() {
   // State management
@@ -12,7 +12,7 @@ function App() {
   const [startTime, setStartTime] = useState('17:00')
   const [endTime, setEndTime] = useState('19:00')
   const [location, setLocation] = useState('Wenceslas Square')
-  const [language, setLanguage] = useState('czech')
+  const [language, setLanguage] = useState('English')
   const [grayscaleMethod, setGrayscaleMethod] = useState<GrayscaleMethod>('luma')
   const [customGrayscaleValues, setCustomGrayscaleValues] = useState({
     r: 0.299,
@@ -20,6 +20,7 @@ function App() {
     b: 0.114,
   })
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isSharing, setIsSharing] = useState(false)
 
   // Reference to the preview container
   const previewRef = useRef<HTMLDivElement>(null)
@@ -34,7 +35,7 @@ function App() {
   const formatDate = (date: string, lang: string) => {
     if (!date) return ''
     const dateObj = new Date(date)
-    const formatter = new Intl.DateTimeFormat(lang === 'czech' ? 'cs-CZ' : 'en-US', {
+    const formatter = new Intl.DateTimeFormat(lang === 'Czech' ? 'cs-CZ' : 'en-US', {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
@@ -149,13 +150,18 @@ function App() {
     }
   }
 
-  const handleShare = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleShare = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    void shareImage()
+    setIsSharing(true)
+    try {
+      await shareImage()
+    } finally {
+      setIsSharing(false)
+    }
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-0 sm:p-4 md:p-6">
+    <div className="min-h-screen bg-gray-900 p-0 sm:p-4 md:p-6">
       <div className="flex flex-col lg:flex-row gap-0 sm:gap-6 max-w-7xl mx-auto pb-20 lg:pb-0 h-full">
         <PosterForm
           chapter={chapter}
@@ -191,6 +197,7 @@ function App() {
           customGrayscaleValues={customGrayscaleValues}
           setCustomGrayscaleValues={setCustomGrayscaleValues}
           isGenerating={isGenerating}
+          isSharing={isSharing}
         />
 
         <div className="w-full lg:w-2/3 flex items-center justify-center h-full">
@@ -221,7 +228,7 @@ function App() {
               void handleGenerateImage(e)
             }}
             disabled={isGenerating}
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {isGenerating ? (
               <>
@@ -259,7 +266,7 @@ function App() {
               e.preventDefault()
               void handleShare(e)
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2"
+            className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 cursor-pointer"
           >
             <ShareIcon className="h-5 w-5" />
             <span>Share</span>

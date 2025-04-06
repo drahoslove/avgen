@@ -56,13 +56,17 @@ function App() {
         scale: 2,
         backgroundColor: '#000000',
         logging: false,
-        useCORS: true
+        useCORS: true,
       })
 
-      return new Promise<Blob>((resolve) => {
-        canvas.toBlob((blob) => {
-          resolve(blob as Blob)
-        }, 'image/png', 1.0)
+      return new Promise<Blob>(resolve => {
+        canvas.toBlob(
+          blob => {
+            resolve(blob as Blob)
+          },
+          'image/png',
+          1.0
+        )
       })
     } catch (error) {
       console.error('Error generating image:', error)
@@ -89,7 +93,7 @@ function App() {
     if (!blob) return
 
     const file = new File([blob], `cube-of-truth-${chapter.toLowerCase()}-${date}.png`, {
-      type: 'image/png'
+      type: 'image/png',
     })
 
     try {
@@ -98,15 +102,15 @@ function App() {
         await navigator.share({
           files: [file],
           title: 'Cube of Truth Poster',
-          text: `Join us at the Cube of Truth in ${chapter}!`
+          text: `Join us at the Cube of Truth in ${chapter}!`,
         })
       } else {
         // Fallback to clipboard
         try {
           await navigator.clipboard.write([
             new ClipboardItem({
-              'image/png': blob
-            })
+              'image/png': blob,
+            }),
           ])
           alert('Image copied to clipboard!')
         } catch (clipboardError) {
@@ -120,6 +124,16 @@ function App() {
       // If sharing fails, fall back to download
       await generateImage()
     }
+  }
+
+  const handleGenerateImage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    void generateImage()
+  }
+
+  const handleShare = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    void shareImage()
   }
 
   return (
@@ -138,8 +152,8 @@ function App() {
           setLocation={setLocation}
           language={language}
           setLanguage={setLanguage}
-          onGenerateImage={generateImage}
-          onShare={shareImage}
+          onGenerateImage={handleGenerateImage}
+          onShare={handleShare}
           backgroundImage={backgroundImage}
           setBackgroundImage={setBackgroundImage}
           opacity={opacity}

@@ -17,8 +17,8 @@ interface PosterFormProps {
   setLocation: (value: string) => void
   language: string
   setLanguage: (value: string) => void
-  onGenerateImage: () => Promise<void>
-  onShare: () => Promise<void>
+  onGenerateImage: (e: React.MouseEvent<HTMLButtonElement>) => void
+  onShare: (e: React.MouseEvent<HTMLButtonElement>) => void
   backgroundImage: string | null
   setBackgroundImage: (value: string | null) => void
   opacity: number
@@ -63,12 +63,12 @@ export function PosterForm({
 }: PosterFormProps) {
   const handleGenerateImage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    void onGenerateImage()
+    void onGenerateImage(e)
   }
 
   const handleShare = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    void onShare()
+    void onShare(e)
   }
 
   return (

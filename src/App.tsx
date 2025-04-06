@@ -3,6 +3,7 @@ import html2canvas from 'html2canvas-pro'
 import { PosterForm } from './components/PosterForm'
 import { PosterPreview } from './components/PosterPreview'
 import type { GrayscaleMethod } from './types'
+import { ArrowDownTrayIcon, ShareIcon } from '@heroicons/react/24/outline'
 
 function App() {
   // State management
@@ -137,8 +138,8 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-6">
-      <div className="flex flex-col lg:flex-row gap-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-100 p-0 sm:p-4 md:p-6">
+      <div className="flex flex-col lg:flex-row gap-0 sm:gap-6 max-w-7xl mx-auto pb-20 lg:pb-0 h-full">
         <PosterForm
           chapter={chapter}
           setChapter={setChapter}
@@ -168,21 +169,43 @@ function App() {
           setCustomGrayscaleValues={setCustomGrayscaleValues}
         />
 
-        <PosterPreview
-          ref={previewRef}
-          chapter={chapter}
-          englishDate={englishDate}
-          localizedDate={localizedDate}
-          timeRange={timeRange}
-          location={location}
-          language={language}
-          backgroundImage={backgroundImage}
-          opacity={opacity}
-          position={position}
-          zoom={zoom}
-          grayscaleMethod={grayscaleMethod}
-          customGrayscaleValues={customGrayscaleValues}
-        />
+        <div className="w-full lg:w-2/3 flex items-center justify-center h-full">
+          <PosterPreview
+            ref={previewRef}
+            chapter={chapter}
+            englishDate={englishDate}
+            localizedDate={localizedDate}
+            timeRange={timeRange}
+            location={location}
+            language={language}
+            backgroundImage={backgroundImage}
+            opacity={opacity}
+            position={position}
+            zoom={zoom}
+            grayscaleMethod={grayscaleMethod}
+            customGrayscaleValues={customGrayscaleValues}
+          />
+        </div>
+      </div>
+
+      {/* Action buttons at the bottom - visible only on mobile */}
+      <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-white p-4 shadow-lg">
+        <div className="grid grid-cols-2 gap-4 max-w-7xl mx-auto">
+          <button
+            onClick={handleGenerateImage}
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2"
+          >
+            <ArrowDownTrayIcon className="h-5 w-5" />
+            <span>Download</span>
+          </button>
+          <button
+            onClick={handleShare}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2"
+          >
+            <ShareIcon className="h-5 w-5" />
+            <span>Share</span>
+          </button>
+        </div>
       </div>
     </div>
   )

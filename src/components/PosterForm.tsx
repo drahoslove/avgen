@@ -72,7 +72,7 @@ export function PosterForm({
   }
 
   return (
-    <div className="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-6">
+    <div className="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-6 flex flex-col h-full lg:h-[calc(100vh-3rem)]">
       <Tab.Group>
         <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1 mb-6">
           <Tab
@@ -100,7 +100,7 @@ export function PosterForm({
             Background
           </Tab>
         </Tab.List>
-        <Tab.Panels>
+        <Tab.Panels className="flex-1">
           <Tab.Panel>
             <ContentForm
               chapter={chapter}
@@ -136,8 +136,8 @@ export function PosterForm({
         </Tab.Panels>
       </Tab.Group>
 
-      {/* Action buttons */}
-      <div className="grid grid-cols-2 gap-4 mt-12">
+      {/* Action buttons - at the bottom of the form */}
+      <div className="mt-auto pt-6 hidden lg:grid grid-cols-2 gap-4">
         <button
           onClick={handleGenerateImage}
           className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2"

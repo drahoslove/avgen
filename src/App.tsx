@@ -61,6 +61,12 @@ function App() {
     customGrayscaleValues,
   ])
 
+  useEffect(() => {
+    if (locale === secondaryLocale) {
+      setSecondaryLocale('')
+    }
+  }, [locale, secondaryLocale])
+
   // Function to generate image and return the blob
   const generateImageBlob = async (): Promise<Blob | null> => {
     if (!previewRef.current) return null

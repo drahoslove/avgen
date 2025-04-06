@@ -82,7 +82,7 @@ export function PosterForm({
   return (
     <div className="w-full lg:w-1/3 bg-gray-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
       {/* headline */}
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">
+      <h1 className="text-2xl text-gray-800 mb-6 font-bold font-libre-franklin">
         AV Gen<span className="opacity-50">erator</span>
       </h1>
       <Tab.Group>

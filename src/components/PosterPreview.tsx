@@ -114,35 +114,35 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
 
             {/* Main Content */}
             <div className="flex flex-col items-center text-center flex-grow w-full">
-              <h1 className="font-bold mb-[0em] text-[4.25em] text-white text-stroke-[0.1em] text-stroke-white">
+              <h1 className="font-bold mb-[0em] text-[4.25em] text-white text-stroke-[0.1em] text-stroke-white font-oswald">
                 CUBE OF TRUTH
               </h1>
 
               <div className="mb-[1em]">
                 <h2
-                  className={`text-gray-300 ${language !== 'English' ? 'visible' : 'invisible'} text-[2.5em]`}
+                  className={`text-gray-300 ${language !== 'English' ? 'visible' : 'invisible'} text-[2.5em] font-oswald`}
                 >
                   Kostka Pravdy
                 </h2>
               </div>
 
-              <div className="font-bold text-red-600 mb-[0em] text-[6em] tracking-[0.5em] -mr-[0.4em]">
+              <div className="font-bold text-red-600 mb-[0em] text-[6em] tracking-[0.5em] -mr-[0.4em] font-oswald">
                 {chapter}
               </div>
 
               <div className="space-y-[1.5em] mb-[0em]">
                 <div className="flex flex-col">
-                  <div className="text-[2em]">{englishDate}</div>
+                  <div className="text-[2em] font-oswald">{englishDate}</div>
                   <div
-                    className={`text-gray-300 mt-[0m] ${language !== 'English' ? 'visible' : 'invisible'} text-[2em]`}
+                    className={`text-gray-300 mt-[0m] ${language !== 'English' ? 'visible' : 'invisible'} text-[2em] font-oswald`}
                   >
                     {localizedDate}
                   </div>
                 </div>
-                <div className="text-[4em]">{timeRange}</div>
+                <div className="text-[4em] font-oswald">{timeRange}</div>
               </div>
 
-              <div className="mb-[0em] text-[1.75em]">{location}</div>
+              <div className="mb-[0em] text-[1.75em] font-oswald">{location}</div>
             </div>
 
             {/* Bottom Logo */}

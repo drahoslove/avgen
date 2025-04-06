@@ -40,9 +40,11 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
   ) => {
     const [processedImage, setProcessedImage] = useState<string | null>(null)
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
+    const [isImageLoaded, setIsImageLoaded] = useState(false)
 
     useEffect(() => {
       if (backgroundImage) {
+        setIsImageLoaded(false)
         processImage(backgroundImage, grayscaleMethod, customGrayscaleValues)
           .then(setProcessedImage)
           .catch(console.error)
@@ -83,14 +85,22 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         >
           {/* Background Image */}
           {processedImage && (
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `url(${processedImage})`,
-                backgroundSize: `${zoom}%`,
-                backgroundPosition: `${position.x}% ${position.y}%`,
-              }}
-            />
+            <>
+              <img
+                src={processedImage}
+                alt=""
+                className="hidden"
+                onLoad={() => setIsImageLoaded(true)}
+              />
+              <div
+                className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                style={{
+                  backgroundImage: `url(${processedImage})`,
+                  backgroundSize: `${zoom}%`,
+                  backgroundPosition: `${position.x}% ${position.y}%`,
+                }}
+              />
+            </>
           )}
 
           {/* Black overlay with adjustable opacity */}

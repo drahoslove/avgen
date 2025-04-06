@@ -116,7 +116,7 @@ function App() {
         previewRef.current.style.height = ''
 
         const link = document.createElement('a')
-        link.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}.png`
+        link.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}.png`
         link.href = dataUrl
         link.click()
       } catch (error) {
@@ -133,9 +133,13 @@ function App() {
       const blob = await generateImageBlob()
       if (!blob) return
 
-      const file = new File([blob], `cube-of-truth-${chapter.toLowerCase()}-${date}.png`, {
-        type: 'image/png',
-      })
+      const file = new File(
+        [blob],
+        `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}.png`,
+        {
+          type: 'image/png',
+        }
+      )
 
       if (navigator.share && navigator.canShare({ files: [file] })) {
         await navigator.share({

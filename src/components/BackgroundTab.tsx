@@ -150,10 +150,36 @@ export function BackgroundTab({
                   </span>
                 </Listbox.Button>
                 <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {['none', 'luma', 'lightness', 'average', 'custom'].map(method => (
+                  {[
+                    {
+                      label: 'None',
+                      value: 'none',
+                    },
+                    {
+                      label: (
+                        <span>
+                          Luma
+                          <span className="opacity-40"> (default)</span>
+                        </span>
+                      ),
+                      value: 'luma',
+                    },
+                    {
+                      label: 'Lightness',
+                      value: 'lightness',
+                    },
+                    {
+                      label: 'Average',
+                      value: 'average',
+                    },
+                    {
+                      label: 'Custom',
+                      value: 'custom',
+                    },
+                  ].map(({ label, value }) => (
                     <Listbox.Option
-                      key={method}
-                      value={method}
+                      key={value}
+                      value={value}
                       className={({ active }) =>
                         `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
                           active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
@@ -165,7 +191,7 @@ export function BackgroundTab({
                           <span
                             className={`block truncate capitalize ${selected ? 'font-medium' : 'font-normal'}`}
                           >
-                            {method}
+                            {label}
                           </span>
                         </>
                       )}

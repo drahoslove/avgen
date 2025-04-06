@@ -3,6 +3,7 @@ import { forwardRef, useEffect, useState } from 'react'
 import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
 import whiteLogoTop from '../assets/AV-Logo-White-Transparent.svg'
 import { processImage } from '../utils/imageProcessing'
+import { inLines } from '../utils/strings'
 import type { GrayscaleMethod } from '../types'
 
 interface PosterPreviewProps {
@@ -131,27 +132,27 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
                 <h2
                   className={`text-gray-300 ${language !== 'English' ? 'visible' : 'invisible'} text-[2.5em] font-oswald`}
                 >
-                  Kostka Pravdy
+                  KOSTKA PRAVDY
                 </h2>
               </div>
 
               <div className="font-bold text-red-600 mb-[0em] text-[6em] tracking-[0.5em] -mr-[0.4em] font-oswald">
-                {chapter}
+                {inLines(chapter)}
               </div>
 
-              <div className="space-y-[1.5em] mb-[0em]">
+              <div className="space-y-[0em] mb-[0em]">
                 <div className="flex flex-col">
-                  <div className="text-[2em] font-oswald">{englishDate}</div>
+                  <div className="text-[2.5em] font-oswald">{englishDate.toLocaleUpperCase()}</div>
                   <div
-                    className={`text-gray-300 mt-[0m] ${language !== 'English' ? 'visible' : 'invisible'} text-[2em] font-oswald`}
+                    className={`text-gray-300 mt-[0m] ${language !== 'English' ? 'visible' : 'invisible'} text-[2.5em] font-oswald`}
                   >
-                    {localizedDate}
+                    {localizedDate.toLocaleUpperCase()}
                   </div>
                 </div>
                 <div className="text-[4em] font-oswald">{timeRange}</div>
               </div>
 
-              <div className="mb-[0em] text-[1.75em] font-oswald">{location}</div>
+              <div className="mb-[0em] text-[1.75em] px-[2em] font-oswald">{inLines(location)}</div>
             </div>
 
             {/* Bottom Logo */}

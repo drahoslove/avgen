@@ -211,7 +211,7 @@ export function ContentTab({
           className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
         >
           <GlobeAltIcon className="h-5 w-5" />
-          Language
+          Localization
         </label>
         <Listbox value={language} onChange={setLanguage}>
           <div className="relative">

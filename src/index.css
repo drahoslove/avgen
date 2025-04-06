@@ -6,7 +6,6 @@
 
 @layer base {
   :root {
-    overflow: hidden;
     /* --font-oswald: 'Oswald', sans-serif; */
     --font-libre-franklin: 'Libre Franklin', sans-serif;
   }

@@ -17,6 +17,8 @@ interface PosterFormProps {
   setLocation: (value: string) => void
   locale: string
   setLocale: (value: string) => void
+  secondaryLocale: string
+  setSecondaryLocale: (value: string) => void
   onGenerateImage: (e: React.MouseEvent<HTMLButtonElement>) => void
   onShare: (e: React.MouseEvent<HTMLButtonElement>) => void
   backgroundImage: string | null
@@ -48,6 +50,8 @@ export function PosterForm({
   setLocation,
   locale,
   setLocale,
+  secondaryLocale,
+  setSecondaryLocale,
   onGenerateImage,
   onShare,
   backgroundImage,
@@ -123,6 +127,8 @@ export function PosterForm({
               setLocation={setLocation}
               locale={locale}
               setLocale={setLocale}
+              secondaryLocale={secondaryLocale}
+              setSecondaryLocale={setSecondaryLocale}
             />
           </Tab.Panel>
           <Tab.Panel>

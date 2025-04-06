@@ -17,6 +17,9 @@ function App() {
   const [endTime, setEndTime] = useState(localStorage.getItem('endTime') || '19:00')
   const [location, setLocation] = useState(localStorage.getItem('location') || 'Wenceslas Square')
   const [locale, setLocale] = useState(localStorage.getItem('locale') || 'en-US')
+  const [secondaryLocale, setSecondaryLocale] = useState(
+    localStorage.getItem('secondaryLocale') || ''
+  )
   const [grayscaleMethod, setGrayscaleMethod] = useState<GrayscaleMethod>('luma')
   const [customGrayscaleValues, setCustomGrayscaleValues] = useState({
     r: 0.299,
@@ -45,36 +48,18 @@ function App() {
     localStorage.setItem('endTime', endTime)
     localStorage.setItem('location', location)
     localStorage.setItem('locale', locale)
-  }, [chapter, date, startTime, endTime, location, locale, grayscaleMethod, customGrayscaleValues])
-
-  // Format date based on language
-  const formatDate = (date: string, localeCode: string) => {
-    if (!date) return ''
-    const dateObj = new Date(date)
-    const formatter = new Intl.DateTimeFormat(localeCode, {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-    })
-    return formatter.format(dateObj)
-  }
-
-  // Get both English and localized date strings
-  const englishDate = formatDate(date, 'en-US')
-  const localizedDate = formatDate(date, locale)
-
-  // Format time range for display
-  const formatTime = (time: string, localeCode: string) => {
-    if (!['en-US', 'en-GB'].includes(localeCode)) return time // only format time for non English
-
-    const [hours, minutes] = time.split(':')
-    const hour = parseInt(hours)
-    const period = hour >= 12 ? 'PM' : 'AM'
-    const formattedHour = hour % 12 || 12
-    return `${formattedHour}:${minutes} ${period}`
-  }
-
-  const timeRange = `${formatTime(startTime, locale)} – ${formatTime(endTime, locale)}`
+    localStorage.setItem('secondaryLocale', secondaryLocale)
+  }, [
+    chapter,
+    date,
+    startTime,
+    endTime,
+    location,
+    locale,
+    secondaryLocale,
+    grayscaleMethod,
+    customGrayscaleValues,
+  ])
 
   // Function to generate image and return the blob
   const generateImageBlob = async (): Promise<Blob | null> => {
@@ -206,6 +191,8 @@ function App() {
           setLocation={setLocation}
           locale={locale}
           setLocale={setLocale}
+          secondaryLocale={secondaryLocale}
+          setSecondaryLocale={setSecondaryLocale}
           onGenerateImage={e => {
             e.preventDefault()
             void handleGenerateImage(e)
@@ -233,11 +220,12 @@ function App() {
           <PosterPreview
             ref={previewRef}
             chapter={chapter}
-            englishDate={englishDate}
-            localizedDate={localizedDate}
-            timeRange={timeRange}
+            date={date}
+            timeStart={startTime}
+            timeEnd={endTime}
             location={location}
             locale={locale}
+            secondaryLocale={secondaryLocale}
             backgroundImage={backgroundImage}
             opacity={opacity}
             position={position}

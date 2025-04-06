@@ -21,6 +21,8 @@ interface ContentTabProps {
   setLocation: (value: string) => void
   locale: string
   setLocale: (value: string) => void
+  secondaryLocale: string
+  setSecondaryLocale: (value: string) => void
 }
 
 export function ContentTab({
@@ -36,6 +38,8 @@ export function ContentTab({
   setLocation,
   locale,
   setLocale,
+  secondaryLocale,
+  setSecondaryLocale,
 }: ContentTabProps) {
   // Generate time options in 15-minute intervals
   const generateTimeOptions = () => {
@@ -205,49 +209,102 @@ export function ContentTab({
       </div>
 
       {/* Language Selection */}
-      <div>
-        <label
-          htmlFor="language"
-          className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
-        >
-          <GlobeAltIcon className="h-5 w-5" />
-          Localization
-        </label>
-        <Listbox value={locale} onChange={setLocale}>
-          <div className="relative">
-            <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <span className="block truncate">
-                {LOCALIZATIONS.find(loc => loc.code === locale)?.name}
-              </span>
-              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-              </span>
-            </Listbox.Button>
-            <Listbox.Options className="absolute z-10 -top-[2rem] mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {LOCALIZATIONS.map(loc => (
-                <Listbox.Option
-                  key={loc.code}
-                  value={loc.code}
-                  className={({ active }) =>
-                    `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
-                      active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
-                    }`
-                  }
-                >
-                  {({ selected }) => (
-                    <>
-                      <span
-                        className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
-                      >
-                        {loc.name}
-                      </span>
-                    </>
-                  )}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </div>
-        </Listbox>
+      <div className="space-y-1 grid grid-cols-2 gap-4">
+        <div>
+          <label
+            htmlFor="language"
+            className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
+          >
+            <GlobeAltIcon className="h-5 w-5" />
+            Localization
+          </label>
+          <Listbox value={locale} onChange={setLocale}>
+            <div className="relative">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <span className="block truncate">
+                  {LOCALIZATIONS.find(loc => loc.code === locale)?.name}
+                </span>
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </span>
+              </Listbox.Button>
+              <Listbox.Options className="absolute z-10 -top-[2rem] mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                {LOCALIZATIONS.map(loc => (
+                  <Listbox.Option
+                    key={loc.code}
+                    value={loc.code}
+                    className={({ active }) =>
+                      `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
+                        active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                      }`
+                    }
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
+                        >
+                          {loc.name}
+                        </span>
+                      </>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </div>
+          </Listbox>
+        </div>
+        <div>
+          <label
+            htmlFor="secondaryLocale"
+            className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
+          >
+            Secondary
+          </label>
+          <Listbox value={secondaryLocale} onChange={setSecondaryLocale}>
+            <div className="relative">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <span className="block truncate">
+                  {LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.name ?? 'None'}
+                </span>
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </span>
+              </Listbox.Button>
+              <Listbox.Options className="absolute z-10 -top-[2rem] mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                {[
+                  {
+                    code: '',
+                    name: 'None',
+                  },
+                  ...LOCALIZATIONS,
+                ]
+                  .filter(loc => loc.code !== locale)
+                  .map(loc => (
+                    <Listbox.Option
+                      key={loc.code}
+                      value={loc.code}
+                      className={({ active }) =>
+                        `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
+                          active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                        }`
+                      }
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
+                          >
+                            {loc.name}
+                          </span>
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+              </Listbox.Options>
+            </div>
+          </Listbox>
+        </div>
       </div>
     </div>
   )

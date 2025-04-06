@@ -3,17 +3,18 @@ import { forwardRef, useEffect, useState } from 'react'
 import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
 import whiteLogoTop from '../assets/AV-Logo-White-Transparent.svg'
 import { processImage } from '../utils/imageProcessing'
-import { inLines } from '../utils/strings'
+import { inLines, formatTime, formatDate } from '../utils/strings'
 import type { GrayscaleMethod } from '../types'
 import { LOCALIZATIONS } from '../constants/localization'
 
 interface PosterPreviewProps {
   chapter: string
-  englishDate: string
-  localizedDate: string
-  timeRange: string
+  timeStart: string
+  timeEnd: string
+  date: string
   location: string
   locale: (typeof LOCALIZATIONS)[number]['code']
+  secondaryLocale: (typeof LOCALIZATIONS)[number]['code']
   backgroundImage: string | null
   opacity: number
   position: { x: number; y: number }
@@ -26,11 +27,12 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
   (
     {
       chapter,
-      englishDate,
-      localizedDate,
-      timeRange,
+      timeStart,
+      timeEnd,
+      date,
       location,
       locale,
+      secondaryLocale,
       backgroundImage,
       opacity,
       position,
@@ -67,6 +69,8 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       window.addEventListener('resize', updateSize)
       return () => window.removeEventListener('resize', updateSize)
     }, [ref])
+
+    const timeRange = `${formatTime(timeStart, secondaryLocale || locale)} – ${formatTime(timeEnd, secondaryLocale || locale)}`
 
     // Calculate base font size based on container height
     const baseFontSize =
@@ -126,14 +130,19 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
             {/* Main Content */}
             <div className="flex flex-col items-center text-center flex-grow w-full">
               <h1 className="font-bold mb-[0em] text-[4.25em] text-white text-stroke-[0.1em] text-stroke-white font-libre-franklin">
-                CUBE OF TRUTH
+                {(
+                  LOCALIZATIONS.find(loc => loc.code === locale)?.['Cube of Truth'] ?? ''
+                ).toLocaleUpperCase()}
               </h1>
 
               <div className="mb-[1em]">
                 <h2
-                  className={`text-gray-300 ${locale !== 'en-US' ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
+                  className={`text-gray-300 ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
                 >
-                  {LOCALIZATIONS.find(loc => loc.code === locale)?.['Cube of Truth']}
+                  {(
+                    LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ??
+                    'Cube of Truth'
+                  ).toLocaleUpperCase()}
                 </h2>
               </div>
 
@@ -144,12 +153,12 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
               <div className="space-y-[0em] mb-[0em]">
                 <div className="flex flex-col">
                   <div className="text-[2.5em] font-libre-franklin">
-                    {englishDate.toLocaleUpperCase()}
+                    {formatDate(date, locale).toLocaleUpperCase()}
                   </div>
                   <div
-                    className={`text-gray-300 mt-[0m] ${locale !== 'en-US' ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
+                    className={`text-gray-300 mt-[0m] ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
                   >
-                    {localizedDate.toLocaleUpperCase()}
+                    {formatDate(date, secondaryLocale || locale).toLocaleUpperCase()}
                   </div>
                 </div>
                 <div className="text-[4em] font-libre-franklin">{timeRange}</div>

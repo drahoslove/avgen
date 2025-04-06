@@ -4,6 +4,7 @@ import { PosterForm } from './components/PosterForm'
 import { PosterPreview } from './components/PosterPreview'
 import type { GrayscaleMethod } from './types'
 import { ArrowDownTrayIcon, ShareIcon } from '@heroicons/react/20/solid'
+import { useScrollDirection } from './hooks/useScrollDirection'
 
 function App() {
   // State management
@@ -30,6 +31,8 @@ function App() {
   const [opacity, setOpacity] = useState(75)
   const [position, setPosition] = useState({ x: 50, y: 50 })
   const [zoom, setZoom] = useState(100)
+
+  const scrollDirection = useScrollDirection()
 
   // Format date based on language
   const formatDate = (date: string, lang: string) => {
@@ -199,7 +202,6 @@ function App() {
           isGenerating={isGenerating}
           isSharing={isSharing}
         />
-
         <div className="w-full lg:w-2/3 flex items-center justify-center h-full">
           <PosterPreview
             ref={previewRef}
@@ -220,7 +222,11 @@ function App() {
       </div>
 
       {/* Action buttons at the bottom - visible only on mobile */}
-      <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-white p-4 shadow-lg">
+      <div
+        className={`fixed bottom-0 left-0 right-0 lg:hidden bg-white p-4 shadow-lg transition-transform duration-300 ease-in-out ${
+          scrollDirection === 'up' ? 'translate-y-full' : 'translate-y-0'
+        }`}
+      >
         <div className="grid grid-cols-2 gap-4 max-w-7xl mx-auto">
           <button
             onClick={e => {
@@ -266,10 +272,39 @@ function App() {
               e.preventDefault()
               void handleShare(e)
             }}
-            className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            disabled={isSharing}
+            className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
-            <ShareIcon className="h-5 w-5" />
-            <span>Share</span>
+            {isSharing ? (
+              <>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                <span>Sharing...</span>
+              </>
+            ) : (
+              <>
+                <ShareIcon className="h-5 w-5" />
+                <span>Share</span>
+              </>
+            )}
           </button>
         </div>
       </div>

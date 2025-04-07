@@ -11,12 +11,12 @@ export const LOCALIZATIONS: Array<{
   {
     name: 'Chinese',
     code: 'zh-CN',
-    ['Cube of Truth']: '真理立方体',
+    ['Cube of Truth']: '真相立方体',
   },
   {
     name: 'Spanish',
     code: 'es-ES',
-    ['Cube of Truth']: 'Cubo de Verdad',
+    ['Cube of Truth']: 'Cubo de la Verdad',
   },
   {
     name: 'Portuguese',
@@ -31,7 +31,7 @@ export const LOCALIZATIONS: Array<{
   {
     name: 'German',
     code: 'de-DE',
-    ['Cube of Truth']: 'Wahrheitscube',
+    ['Cube of Truth']: 'Würfel der Wahrheit',
   },
   {
     name: 'French',
@@ -46,12 +46,12 @@ export const LOCALIZATIONS: Array<{
   {
     name: 'Dutch',
     code: 'nl-NL',
-    ['Cube of Truth']: 'Waarheidscube',
+    ['Cube of Truth']: 'Waarheidskubus',
   },
   {
     name: 'Polish',
     code: 'pl-PL',
-    ['Cube of Truth']: 'Kostka Prawdy',
+    ['Cube of Truth']: 'Sześcian Prawdy',
   },
   {
     name: 'Czech',

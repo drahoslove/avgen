@@ -4,6 +4,7 @@ import { ContentTab } from './ContentTab'
 import { BackgroundTab } from './BackgroundTab'
 import type { GrayscaleMethod } from '../types'
 import { About } from './About'
+import { useEffect, useState, useRef } from 'react'
 
 interface PosterFormProps {
   chapter: string
@@ -82,16 +83,51 @@ export function PosterForm({
     void onShare(e)
   }
 
+  const [rest, setRest] = useState<string>('erator ')
+  const [letters, setLetters] = useState<string[]>([])
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    const timeout: ReturnType<typeof setTimeout> | null = null
+    const t = rest.split('')
+    timeoutRef.current = setTimeout(
+      () => {
+        if (t.length > 0) {
+          const letter = t.shift() ?? ''
+          setLetters([...letters, letter])
+          setRest(t.join(''))
+        } else {
+          clearTimeout(timeoutRef.current ?? undefined)
+        }
+      },
+      letters.length === 0 ? 500 : 250
+    )
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+    }
+  }, [letters])
+
   return (
     <div className="w-full lg:w-1/3 bg-gray-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
       {/* headline */}
-      <div className="grid grid-cols-4">
-        <h1 className="col-span-3 text-2xl text-gray-800 mb-6 font-bold font-libre-franklin">
-          <a href="/" className="text-gray-800">
-            AV Gen<span className="opacity-50">erator</span>
+      <div className="flex">
+        <h1 className="bg-black text-2xl text-white mb-6 font-bold font-libre-franklin rounded-md p-1 px-3">
+          <a href="/">
+            <span className="text-white underline">AV Gen</span>
+            {letters.map((letter, index, { length }) => (
+              <span
+                key={index}
+                className={`${index !== length - 1 ? 'text-brand-red decoration-brand-red' : 'text-black decoration-black'} underline  transition-colors duration-1000 ease-in-out`}
+              >
+                {letter}
+              </span>
+            ))}
+            <span className="text-black decoration-black underline">{rest}</span>
           </a>
         </h1>
-        <div className="flex justify-end">
+        <div className="flex flex-grow justify-end pt-1">
           <About />
         </div>
       </div>

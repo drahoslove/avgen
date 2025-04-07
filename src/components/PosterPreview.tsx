@@ -45,12 +45,18 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
     const [processedImage, setProcessedImage] = useState<string | null>(null)
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
     const [isImageLoaded, setIsImageLoaded] = useState(false)
+    const [isImageError, setIsImageError] = useState(false)
 
     useEffect(() => {
       if (backgroundImage) {
         processImage(backgroundImage, grayscaleMethod, customGrayscaleValues)
-          .then(setProcessedImage)
-          .catch(console.error)
+          .then(processedImage => {
+            setProcessedImage(processedImage)
+            setIsImageError(false)
+          })
+          .catch(() => {
+            setIsImageError(true)
+          })
       } else {
         setProcessedImage(null)
       }
@@ -80,9 +86,6 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
 
     return (
       <div className="w-full bg-gray-300 sm:rounded-lg shadow-lg p-6 lg:h-[calc(100vh-3rem)] overflow-hidden">
-        {/* <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        Preview
-      </h2> */}
         <div
           ref={ref}
           className="relative h-full mx-auto aspect-[4/5] bg-black rounded-lg shadow-lg overflow-hidden"
@@ -90,23 +93,21 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         >
           {/* Background Image */}
           {processedImage && (
-            <>
-              <img
-                src={processedImage}
-                alt=""
-                className="hidden"
-                onLoad={() => setIsImageLoaded(true)}
-              />
-              <div
-                className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                style={{
-                  backgroundImage: `url(${processedImage})`,
-                  backgroundSize: `${zoom}%`,
-                  backgroundPosition: `${position.x}% ${position.y}%`,
-                }}
-              />
-            </>
+            <img
+              src={processedImage}
+              alt=""
+              className="hidden"
+              onLoad={() => setIsImageLoaded(true)}
+            />
           )}
+          <div
+            className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              backgroundImage: `url(${!isImageError && processedImage ? processedImage : backgroundImage})`,
+              backgroundSize: `${zoom}%`,
+              backgroundPosition: `${position.x}% ${position.y}%`,
+            }}
+          />
 
           {/* Black overlay with adjustable opacity */}
           <div

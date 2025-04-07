@@ -78,7 +78,7 @@ export const processImage = async (
     }
 
     img.onerror = () => {
-      reject(new Error('Failed to load image'))
+      reject(new Error('Failed to process image'))
     }
 
     img.src = imageUrl

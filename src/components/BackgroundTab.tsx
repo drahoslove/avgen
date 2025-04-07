@@ -6,9 +6,10 @@ import {
   SunIcon,
   ArrowsPointingOutIcon,
   XMarkIcon,
+  ArrowRightIcon,
+  ChevronUpDownIcon,
 } from '@heroicons/react/20/solid'
-import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
-import { Listbox } from '@headlessui/react'
+import { Input, Listbox } from '@headlessui/react'
 import type { GrayscaleMethod } from '../types'
 
 interface BackgroundTabProps {
@@ -45,7 +46,8 @@ export function BackgroundTab({
   setCustomGrayscaleValues,
 }: BackgroundTabProps) {
   const [dragOver, setDragOver] = useState(false)
-
+  const defaultUrl = window.location.href + 'bg/1.jpg'
+  const [url, setUrl] = useState(backgroundImage?.startsWith('http') ? backgroundImage : defaultUrl)
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
@@ -61,7 +63,9 @@ export function BackgroundTab({
     <div className="space-y-6">
       {/* Image Upload */}
       <div className="space-y-2 flex flex-col">
-        <label className="block text-sm font-medium text-gray-900">Background Image</label>
+        <label className="block text-sm font-medium text-gray-900">
+          {backgroundImage ? 'Background Image' : 'Load from file'}
+        </label>
         <div
           className={`border-2 border-dashed rounded-lg p-4 text-center ${
             dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-500'
@@ -102,7 +106,7 @@ export function BackgroundTab({
             <div className="text-gray-800 p-2">
               <PhotoIcon className="h-12 w-12 mx-auto mb-4" />
               {/* hide on mobile */}
-              <p className="hidden sm:block">Drag and drop an image here, or click to select</p>
+              <p className="hidden sm:block">Drag'n'drop or click</p>
               <input
                 type="file"
                 accept="image/*"
@@ -116,19 +120,47 @@ export function BackgroundTab({
               >
                 Select Image
               </button>
+              {/* note */}
+              <p className="mt-2 text-xs text-gray-500">
+                The image will not leave your device until you share it.
+              </p>
             </div>
           )}
         </div>
-        {!backgroundImage && (
-          <div>
-            {/* note */}
-            <p className="text-xs text-gray-500">
-              The image will not leave your device until you share it.
-            </p>
-          </div>
-        )}
       </div>
-
+      {!backgroundImage && (
+        <>
+          {/* or separator*/}
+          <div className="flex items-center gap-2">
+            <span className="border-b border-gray-400 flex-1"></span>
+            <span className="font-bold text-gray-400">OR</span>
+            <span className="border-b border-gray-400 flex-1"></span>
+          </div>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-900">Load from URL</label>
+            <div className="flex items-center gap-2">
+              <Input
+                type="text"
+                value={url}
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={e => setUrl(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    setBackgroundImage(url)
+                  }
+                }}
+              />
+              <button
+                onClick={() => setBackgroundImage(url)}
+                className="px-4 h-10 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 cursor-pointer"
+              >
+                {/* <CloudArrowDownIcon className="h-5 w-5" /> */}
+                <ArrowRightIcon className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        </>
+      )}
       {/* Image Adjustments */}
       {backgroundImage && (
         <div className="space-y-4">

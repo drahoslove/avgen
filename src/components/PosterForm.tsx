@@ -83,8 +83,8 @@ export function PosterForm({
   return (
     <div className="w-full lg:w-1/3 bg-gray-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
       {/* headline */}
-      <div className="grid grid-cols-2 gap-4">
-        <h1 className="text-2xl text-gray-800 mb-6 font-bold font-libre-franklin">
+      <div className="grid grid-cols-4">
+        <h1 className="col-span-3 text-2xl text-gray-800 mb-6 font-bold font-libre-franklin">
           <a href="/" className="text-gray-800">
             AV Gen<span className="opacity-50">erator</span>
           </a>

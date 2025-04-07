@@ -33,7 +33,9 @@ function App() {
   const previewRef = useRef<HTMLDivElement>(null)
 
   // Background image state
-  const [backgroundImage, setBackgroundImage] = useState<string | null>('/bg/1.jpg')
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(
+    localStorage.getItem('backgroundUrl') || '/bg/1.jpg'
+  )
   const [opacity, setOpacity] = useState(75)
   const [position, setPosition] = useState({ x: 50, y: 50 })
   const [zoom, setZoom] = useState(100)
@@ -49,6 +51,7 @@ function App() {
     localStorage.setItem('location', location)
     localStorage.setItem('locale', locale)
     localStorage.setItem('secondaryLocale', secondaryLocale)
+    localStorage.setItem('backgroundUrl', backgroundImage || '')
   }, [
     chapter,
     date,
@@ -59,6 +62,7 @@ function App() {
     secondaryLocale,
     grayscaleMethod,
     customGrayscaleValues,
+    backgroundImage,
   ])
 
   useEffect(() => {

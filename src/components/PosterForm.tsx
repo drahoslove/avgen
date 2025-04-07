@@ -3,6 +3,7 @@ import { Tab } from '@headlessui/react'
 import { ContentTab } from './ContentTab'
 import { BackgroundTab } from './BackgroundTab'
 import type { GrayscaleMethod } from '../types'
+import { About } from './About'
 
 interface PosterFormProps {
   chapter: string
@@ -82,9 +83,16 @@ export function PosterForm({
   return (
     <div className="w-full lg:w-1/3 bg-gray-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
       {/* headline */}
-      <h1 className="text-2xl text-gray-800 mb-6 font-bold font-libre-franklin">
-        AV Gen<span className="opacity-50">erator</span>
-      </h1>
+      <div className="grid grid-cols-2 gap-4">
+        <h1 className="text-2xl text-gray-800 mb-6 font-bold font-libre-franklin">
+          <a href="/" className="text-gray-800">
+            AV Gen<span className="opacity-50">erator</span>
+          </a>
+        </h1>
+        <div className="flex justify-end">
+          <About />
+        </div>
+      </div>
       <Tab.Group>
         <Tab.List className="flex space-x-2 rounded-xl bg-gray-100/[0.5] p-1 mb-6">
           <Tab

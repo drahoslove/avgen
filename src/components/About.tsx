@@ -10,7 +10,7 @@ export const About = () => {
         <div className="">
           <h3 className="text-lg font-medium text-white mb-2">About</h3>
           <p className="text-sm text-white mb-4">
-            This tool generates an anouncement poster for your local Cube&nbsp;of&nbsp;Truth event.
+            This tool generates an announcement poster for your local Cube&nbsp;of&nbsp;Truth event.
           </p>
           <p className="text-sm text-white">
             Made by{' '}
@@ -21,7 +21,7 @@ export const About = () => {
             >
               Draho
             </a>{' '}
-            from AV Brno for all the chapters of{' '}
+            from AV Brno for all chapters of{' '}
             <a
               href="https://anonymousforthevoiceless.org"
               className="text-white underline"
@@ -32,7 +32,7 @@ export const About = () => {
           </p>
           <h3 className="text-lg font-medium text-white mb-2 mt-4">Help</h3>
           <p className="text-sm text-white">
-            For bug reports and feature requests, kindly contact me at{' '}
+            For bug reports and feature requests, feel free to contact me at{' '}
             <a href="mailto:av@draho.cz" className="text-white underline" target="_blank">
               av@draho.cz
             </a>

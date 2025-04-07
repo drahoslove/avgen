@@ -72,18 +72,38 @@ function App() {
     }
   }, [locale, secondaryLocale])
 
+  const getCanvas = async () => {
+    if (!previewRef.current) return null
+    // Set fixed dimensions for image generation
+    previewRef.current.style.width = '1080px'
+    previewRef.current.style.height = '1350px'
+    setIsGenerating(true) // must be set after the dimensions are set
+    // wait a frame
+    await new Promise(resolve => requestAnimationFrame(resolve)) // wait for the layout to be updated
+    try {
+      return await html2canvas(previewRef.current, {
+        scale: 2,
+        backgroundColor: '#000000',
+        logging: false,
+      })
+    } catch (error) {
+      console.error('Error generating image:', error)
+      return null
+    } finally {
+      // Reset dimensions after generation
+      previewRef.current.style.width = ''
+      previewRef.current.style.height = ''
+      setIsGenerating(false)
+    }
+  }
+
   // Function to generate image and return the blob
   const generateImageBlob = async (): Promise<Blob | null> => {
     if (!previewRef.current) return null
 
     try {
-      const canvas = await html2canvas(previewRef.current, {
-        scale: 2,
-        backgroundColor: '#000000',
-        logging: false,
-        useCORS: true,
-      })
-
+      const canvas = await getCanvas()
+      if (!canvas) return null
       return new Promise<Blob>(resolve => {
         canvas.toBlob(
           blob => {
@@ -103,23 +123,9 @@ function App() {
   const handleGenerateImage = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (previewRef.current) {
-      // Set fixed dimensions for image generation
-      previewRef.current.style.width = '1080px'
-      previewRef.current.style.height = '1350px'
-      setIsGenerating(true) // must be set after the dimensions are set
-      // wait a frame
-      await new Promise(resolve => requestAnimationFrame(resolve)) // wait for the layout to be updated
-
       try {
-        const dataUrl = await html2canvas(previewRef.current, {
-          scale: 1,
-          useCORS: true,
-          backgroundColor: '#000000',
-        }).then(canvas => canvas.toDataURL('image/png'))
-
-        // Reset dimensions after generation
-        previewRef.current.style.width = ''
-        previewRef.current.style.height = ''
+        const dataUrl = await getCanvas().then(canvas => canvas?.toDataURL('image/png'))
+        if (!dataUrl) return
 
         const link = document.createElement('a')
         link.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}.png`
@@ -150,7 +156,7 @@ function App() {
       if (navigator.share && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
-          title: 'Cube of Truth Poster',
+          title: 'Cube of Truth',
           text: `Join us at the Cube of Truth in ${chapter}!`,
         })
       } else {

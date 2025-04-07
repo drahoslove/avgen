@@ -15,6 +15,7 @@ import type { GrayscaleMethod } from '../types'
 interface BackgroundTabProps {
   backgroundImage: string | null
   setBackgroundImage: (value: string | null) => void
+  isBackgroundImageEditable: boolean
   opacity: number
   setOpacity: (value: number) => void
   position: { x: number; y: number }
@@ -34,6 +35,7 @@ interface BackgroundTabProps {
 export function BackgroundTab({
   backgroundImage,
   setBackgroundImage,
+  isBackgroundImageEditable,
   opacity,
   setOpacity,
   position,
@@ -165,74 +167,76 @@ export function BackgroundTab({
       {backgroundImage && (
         <div className="space-y-4">
           {/* Grayscale Method Selection */}
-          <div>
-            <label
-              htmlFor="grayscaleMethod"
-              className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
-            >
-              <AdjustmentsHorizontalIcon className="h-5 w-5" />
-              Grayscale Method
-            </label>
-            <Listbox value={grayscaleMethod} onChange={setGrayscaleMethod}>
-              <div className="relative">
-                <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <span className="block truncate capitalize">{grayscaleMethod}</span>
-                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                  </span>
-                </Listbox.Button>
-                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {[
-                    {
-                      label: 'None',
-                      value: 'none',
-                    },
-                    {
-                      label: (
-                        <span>
-                          Luma
-                          <span className="opacity-40"> (default)</span>
-                        </span>
-                      ),
-                      value: 'luma',
-                    },
-                    {
-                      label: 'Lightness',
-                      value: 'lightness',
-                    },
-                    {
-                      label: 'Average',
-                      value: 'average',
-                    },
-                    {
-                      label: 'Custom',
-                      value: 'custom',
-                    },
-                  ].map(({ label, value }) => (
-                    <Listbox.Option
-                      key={value}
-                      value={value}
-                      className={({ active }) =>
-                        `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
-                          active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
-                        }`
-                      }
-                    >
-                      {({ selected }) => (
-                        <>
-                          <span
-                            className={`block truncate capitalize ${selected ? 'font-medium' : 'font-normal'}`}
-                          >
-                            {label}
+          {isBackgroundImageEditable && (
+            <div>
+              <label
+                htmlFor="grayscaleMethod"
+                className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
+              >
+                <AdjustmentsHorizontalIcon className="h-5 w-5" />
+                Grayscale Method
+              </label>
+              <Listbox value={grayscaleMethod} onChange={setGrayscaleMethod}>
+                <div className="relative">
+                  <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span className="block truncate capitalize">{grayscaleMethod}</span>
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </span>
+                  </Listbox.Button>
+                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    {[
+                      {
+                        label: 'None',
+                        value: 'none',
+                      },
+                      {
+                        label: (
+                          <span>
+                            Luma
+                            <span className="opacity-40"> (default)</span>
                           </span>
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
-                </Listbox.Options>
-              </div>
-            </Listbox>
-          </div>
+                        ),
+                        value: 'luma',
+                      },
+                      {
+                        label: 'Lightness',
+                        value: 'lightness',
+                      },
+                      {
+                        label: 'Average',
+                        value: 'average',
+                      },
+                      {
+                        label: 'Custom',
+                        value: 'custom',
+                      },
+                    ].map(({ label, value }) => (
+                      <Listbox.Option
+                        key={value}
+                        value={value}
+                        className={({ active }) =>
+                          `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
+                            active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                          }`
+                        }
+                      >
+                        {({ selected }) => (
+                          <>
+                            <span
+                              className={`block truncate capitalize ${selected ? 'font-medium' : 'font-normal'}`}
+                            >
+                              {label}
+                            </span>
+                          </>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </div>
+              </Listbox>
+            </div>
+          )}
 
           {/* Custom Grayscale Controls */}
           {grayscaleMethod === 'custom' && setCustomGrayscaleValues && (

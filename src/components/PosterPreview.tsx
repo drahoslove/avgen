@@ -21,6 +21,8 @@ interface PosterPreviewProps {
   zoom: number
   grayscaleMethod: GrayscaleMethod
   customGrayscaleValues: { r: number; g: number; b: number }
+  isBackgroundImageEditable: boolean
+  setIsBackgroundImageEditable: (isBackgroundImageEditable: boolean) => void
 }
 
 export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
@@ -39,23 +41,24 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       zoom,
       grayscaleMethod,
       customGrayscaleValues,
+      isBackgroundImageEditable,
+      setIsBackgroundImageEditable,
     },
     ref
   ) => {
     const [processedImage, setProcessedImage] = useState<string | null>(null)
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
     const [isImageLoaded, setIsImageLoaded] = useState(false)
-    const [isImageError, setIsImageError] = useState(false)
 
     useEffect(() => {
       if (backgroundImage) {
         processImage(backgroundImage, grayscaleMethod, customGrayscaleValues)
           .then(processedImage => {
             setProcessedImage(processedImage)
-            setIsImageError(false)
+            setIsBackgroundImageEditable(true)
           })
           .catch(() => {
-            setIsImageError(true)
+            setIsBackgroundImageEditable(false)
           })
       } else {
         setProcessedImage(null)
@@ -103,7 +106,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
           <div
             className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{
-              backgroundImage: `url(${!isImageError && processedImage ? processedImage : backgroundImage})`,
+              backgroundImage: `url(${isBackgroundImageEditable && processedImage ? processedImage : backgroundImage})`,
               backgroundSize: `${zoom}%`,
               backgroundPosition: `${position.x}% ${position.y}%`,
             }}

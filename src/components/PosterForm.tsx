@@ -24,6 +24,7 @@ interface PosterFormProps {
   onShare: (e: React.MouseEvent<HTMLButtonElement>) => void
   backgroundImage: string | null
   setBackgroundImage: (value: string | null) => void
+  isBackgroundImageEditable: boolean
   opacity: number
   setOpacity: (value: number) => void
   position: { x: number; y: number }
@@ -57,6 +58,7 @@ export function PosterForm({
   onShare,
   backgroundImage,
   setBackgroundImage,
+  isBackgroundImageEditable,
   opacity,
   setOpacity,
   position,
@@ -143,6 +145,7 @@ export function PosterForm({
             <BackgroundTab
               backgroundImage={backgroundImage}
               setBackgroundImage={setBackgroundImage}
+              isBackgroundImageEditable={isBackgroundImageEditable}
               opacity={opacity}
               setOpacity={setOpacity}
               position={position}

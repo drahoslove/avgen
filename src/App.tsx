@@ -20,6 +20,7 @@ function App() {
   const [secondaryLocale, setSecondaryLocale] = useState(
     localStorage.getItem('secondaryLocale') || ''
   )
+  const [isBackgroundImageEditable, setIsBackgroundImageEditable] = useState(false)
   const [grayscaleMethod, setGrayscaleMethod] = useState<GrayscaleMethod>('luma')
   const [customGrayscaleValues, setCustomGrayscaleValues] = useState({
     r: 0.299,
@@ -213,6 +214,7 @@ function App() {
           }}
           backgroundImage={backgroundImage}
           setBackgroundImage={setBackgroundImage}
+          isBackgroundImageEditable={isBackgroundImageEditable}
           opacity={opacity}
           setOpacity={setOpacity}
           position={position}
@@ -237,6 +239,8 @@ function App() {
             locale={locale}
             secondaryLocale={secondaryLocale}
             backgroundImage={backgroundImage}
+            isBackgroundImageEditable={isBackgroundImageEditable}
+            setIsBackgroundImageEditable={setIsBackgroundImageEditable}
             opacity={opacity}
             position={position}
             zoom={zoom}

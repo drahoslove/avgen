@@ -96,13 +96,13 @@ export function PosterForm({
         </div>
       </div>
       <Tab.Group>
-        <Tab.List className="flex space-x-2 rounded-xl bg-gray-100/[0.5] p-1 mb-6">
+        <Tab.List className="flex space-x-2 rounded-lg bg-gray-100/[0.75] shadow-sm p-1 mb-6">
           <Tab
             className={({ selected }) =>
-              `w-full rounded-lg py-2.5 text-sm font-medium leading-5 transition-all duration-200 ease-in-out cursor-pointer
+              `w-full rounded-md py-2.5 text-sm font-medium leading-5 transition-all duration-200 ease-in-out cursor-pointer
               ${
                 selected
-                  ? 'bg-white text-gray-900 shadow-md ring-1 ring-gray-200'
+                  ? 'bg-white text-gray-900'
                   : 'text-gray-600 hover:bg-white/[0.5] hover:text-gray-900'
               }`
             }
@@ -111,10 +111,10 @@ export function PosterForm({
           </Tab>
           <Tab
             className={({ selected }) =>
-              `w-full rounded-lg py-2.5 text-sm font-medium leading-5 transition-all duration-200 ease-in-out cursor-pointer
+              `w-full rounded-md py-2.5 text-sm font-medium leading-5 transition-all duration-200 ease-in-out cursor-pointer
               ${
                 selected
-                  ? 'bg-white text-gray-900 shadow-md ring-1 ring-gray-200'
+                  ? 'bg-white text-gray-900'
                   : ' text-gray-600 hover:bg-white/[0.5] hover:text-gray-900'
               }`
             }

@@ -110,10 +110,10 @@ export function PosterForm({
   }, [letters])
 
   return (
-    <div className="w-full lg:w-1/3 bg-gray-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
+    <div className="w-full lg:w-1/3 bg-zinc-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
       {/* headline */}
       <div className="flex">
-        <h1 className="bg-black text-2xl text-white mb-6 font-bold font-libre-franklin rounded-md p-1 px-3">
+        <h1 className="bg-zinc-900 text-2xl text-white mb-6 font-bold font-libre-franklin rounded-md p-1 px-3">
           <a href="/">
             <span className="text-white underline">AV Gen</span>
             {letters.map((letter, index, { length }) => (
@@ -132,14 +132,14 @@ export function PosterForm({
         </div>
       </div>
       <Tab.Group>
-        <Tab.List className="flex space-x-2 rounded-lg bg-gray-100/[0.75] shadow-sm p-1 mb-6">
+        <Tab.List className="flex space-x-2 rounded-lg bg-zinc-100/[0.75] shadow-sm p-1 mb-6">
           <Tab
             className={({ selected }) =>
               `w-full rounded-md py-2.5 text-sm font-medium leading-5 transition-all duration-200 ease-in-out cursor-pointer
               ${
                 selected
-                  ? 'bg-white text-gray-900'
-                  : 'text-gray-600 hover:bg-white/[0.5] hover:text-gray-900'
+                  ? 'bg-white text-zinc-900'
+                  : 'text-zinc-600 hover:bg-white/[0.5] hover:text-zinc-900'
               }`
             }
           >
@@ -150,8 +150,8 @@ export function PosterForm({
               `w-full rounded-md py-2.5 text-sm font-medium leading-5 transition-all duration-200 ease-in-out cursor-pointer
               ${
                 selected
-                  ? 'bg-white text-gray-900'
-                  : ' text-gray-600 hover:bg-white/[0.5] hover:text-gray-900'
+                  ? 'bg-white text-zinc-900'
+                  : ' text-zinc-600 hover:bg-white/[0.5] hover:text-zinc-900'
               }`
             }
           >
@@ -202,7 +202,7 @@ export function PosterForm({
         <button
           onClick={handleGenerateImage}
           disabled={isGenerating}
-          className="bg-gray-700 hover:bg-gray-800 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-zinc-700 hover:bg-zinc-800 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isGenerating ? (
             <>
@@ -238,7 +238,7 @@ export function PosterForm({
         <button
           onClick={handleShare}
           disabled={isSharing}
-          className="bg-gray-700 hover:bg-gray-800 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-zinc-700 hover:bg-zinc-800 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSharing ? (
             <>

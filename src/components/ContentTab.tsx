@@ -62,7 +62,7 @@ export function ContentTab({
       <div className="space-y-1">
         <label
           htmlFor="chapter"
-          className="text-sm font-medium text-gray-900 flex items-center gap-2"
+          className="text-sm font-medium text-zinc-900 flex items-center gap-2"
         >
           <BuildingOffice2Icon className="h-5 w-5" />
           Chapter Name
@@ -72,14 +72,14 @@ export function ContentTab({
           rows={chapter.split('\n').length || 1}
           value={chapter}
           onChange={e => setChapter(e.target.value.toLocaleUpperCase())}
-          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 bg-white border border-zinc-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Enter city name"
         />
       </div>
 
       {/* Date Input */}
       <div className="space-y-1">
-        <label htmlFor="date" className="text-sm font-medium text-gray-900 flex items-center gap-2">
+        <label htmlFor="date" className="text-sm font-medium text-zinc-900 flex items-center gap-2">
           <CalendarIcon className="h-5 w-5" />
           Date
         </label>
@@ -88,7 +88,7 @@ export function ContentTab({
           id="date"
           value={date}
           onChange={e => setDate(e.target.value)}
-          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 bg-white border border-zinc-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
 
@@ -96,7 +96,7 @@ export function ContentTab({
       <div className="space-y-1">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-900 flex items-center gap-2">
+            <label className="text-sm font-medium text-zinc-900 flex items-center gap-2">
               <ClockIcon className="h-5 w-5" />
               Start Time
             </label>
@@ -113,10 +113,10 @@ export function ContentTab({
               }}
             >
               <div className="relative">
-                <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <span className="block truncate">{startTime}</span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
                   </span>
                 </Listbox.Button>
                 <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
@@ -126,7 +126,7 @@ export function ContentTab({
                       value={time}
                       className={({ active }) =>
                         `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
-                          active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                          active ? 'bg-blue-50 text-blue-900' : 'text-zinc-900'
                         }`
                       }
                     >
@@ -146,16 +146,16 @@ export function ContentTab({
             </Listbox>
           </div>
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-900 flex items-center gap-2">
+            <label className="text-sm font-medium text-zinc-900 flex items-center gap-2">
               <ClockIcon className="h-5 w-5" />
               End Time
             </label>
             <Listbox value={endTime} onChange={setEndTime}>
               <div className="relative">
-                <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <span className="block truncate">{endTime}</span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
                   </span>
                 </Listbox.Button>
                 <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
@@ -167,7 +167,7 @@ export function ContentTab({
                         value={time}
                         className={({ active }) =>
                           `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
-                            active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                            active ? 'bg-blue-50 text-blue-900' : 'text-zinc-900'
                           }`
                         }
                       >
@@ -193,7 +193,7 @@ export function ContentTab({
       <div className="space-y-1">
         <label
           htmlFor="location"
-          className="text-sm font-medium text-gray-900 flex items-center gap-2"
+          className="text-sm font-medium text-zinc-900 flex items-center gap-2"
         >
           <MapPinIcon className="h-5 w-5" />
           Location
@@ -203,7 +203,7 @@ export function ContentTab({
           rows={location.split('\n').length || 1}
           value={location}
           onChange={e => setLocation(e.target.value)}
-          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 bg-white border border-zinc-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Enter location"
         />
       </div>
@@ -213,19 +213,19 @@ export function ContentTab({
         <div>
           <label
             htmlFor="language"
-            className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
+            className="flex items-center gap-2 text-sm font-medium text-zinc-900 mb-2"
           >
             <GlobeAltIcon className="h-5 w-5" />
             Localization
           </label>
           <Listbox value={locale} onChange={setLocale}>
             <div className="relative">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span className="block truncate">
                   {LOCALIZATIONS.find(loc => loc.code === locale)?.name}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
                 </span>
               </Listbox.Button>
               <Listbox.Options className="absolute z-10 -top-[2rem] mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
@@ -235,7 +235,7 @@ export function ContentTab({
                     value={loc.code}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
-                        active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                        active ? 'bg-blue-50 text-blue-900' : 'text-zinc-900'
                       }`
                     }
                   >
@@ -257,18 +257,18 @@ export function ContentTab({
         <div>
           <label
             htmlFor="secondaryLocale"
-            className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
+            className="flex items-center gap-2 text-sm font-medium text-zinc-900 mb-2"
           >
             Secondary
           </label>
           <Listbox value={secondaryLocale} onChange={setSecondaryLocale}>
             <div className="relative">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span className="block truncate">
                   {LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.name ?? 'None'}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
                 </span>
               </Listbox.Button>
               <Listbox.Options className="absolute z-10 -top-[2rem] mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
@@ -286,7 +286,7 @@ export function ContentTab({
                       value={loc.code}
                       className={({ active }) =>
                         `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
-                          active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                          active ? 'bg-blue-50 text-blue-900' : 'text-zinc-900'
                         }`
                       }
                     >

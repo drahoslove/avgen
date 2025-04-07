@@ -193,7 +193,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 p-0 sm:p-4 md:p-6">
+    <div className="min-h-screen bg-zinc-900 p-0 sm:p-4 md:p-6">
       <div className="flex flex-col lg:flex-row gap-0 sm:gap-6 max-w-7xl mx-auto pb-20 lg:pb-0 h-full">
         <PosterForm
           chapter={chapter}
@@ -269,7 +269,7 @@ function App() {
               void handleGenerateImage(e)
             }}
             disabled={isGenerating}
-            className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="bg-zinc-700 hover:bg-zinc-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {isGenerating ? (
               <>
@@ -308,7 +308,7 @@ function App() {
               void handleShare(e)
             }}
             disabled={isSharing}
-            className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="bg-zinc-700 hover:bg-zinc-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {isSharing ? (
               <>

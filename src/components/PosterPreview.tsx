@@ -88,7 +88,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         : containerSize.height / 60 // Fallback to container height
 
     return (
-      <div className="w-full bg-gray-300 sm:rounded-lg shadow-lg p-6 lg:h-[calc(100vh-3rem)] overflow-hidden">
+      <div className="w-full bg-zinc-300 sm:rounded-lg shadow-lg p-6 lg:h-[calc(100vh-3rem)] overflow-hidden">
         <div
           ref={ref}
           className="relative h-full mx-auto aspect-[4/5] bg-black rounded-lg shadow-lg overflow-hidden"
@@ -141,7 +141,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
 
               <div className="mb-[1em]">
                 <h2
-                  className={`text-gray-300 ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
+                  className={`text-zinc-300 ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
                 >
                   {(
                     LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ??
@@ -160,7 +160,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
                     {formatDate(date, locale).toLocaleUpperCase()}
                   </div>
                   <div
-                    className={`text-gray-300 mt-[0m] ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
+                    className={`text-zinc-300 mt-[0m] ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
                   >
                     {formatDate(date, secondaryLocale || locale).toLocaleUpperCase()}
                   </div>

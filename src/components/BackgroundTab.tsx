@@ -65,12 +65,12 @@ export function BackgroundTab({
     <div className="space-y-6">
       {/* Image Upload */}
       <div className="space-y-2 flex flex-col">
-        <label className="block text-sm font-medium text-gray-900">
+        <label className="block text-sm font-medium text-zinc-900">
           {backgroundImage ? 'Background Image' : 'Load from file'}
         </label>
         <div
           className={`border-2 border-dashed rounded-lg p-4 text-center ${
-            dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-500'
+            dragOver ? 'border-blue-500 bg-blue-50' : 'border-zinc-500'
           } ${backgroundImage ? 'mx-auto' : ''}`}
           onDragOver={e => {
             e.preventDefault()
@@ -105,7 +105,7 @@ export function BackgroundTab({
               </button>
             </div>
           ) : (
-            <div className="text-gray-800 p-2">
+            <div className="text-zinc-800 p-2">
               <PhotoIcon className="h-12 w-12 mx-auto mb-4" />
               {/* hide on mobile */}
               <p className="hidden sm:block">Drag'n'drop or click</p>
@@ -118,12 +118,12 @@ export function BackgroundTab({
               />
               <button
                 onClick={() => document.getElementById('background-upload')?.click()}
-                className="mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 cursor-pointer"
+                className="mt-4 px-4 py-2 bg-zinc-500 text-white rounded hover:bg-zinc-600 cursor-pointer"
               >
                 Select Image
               </button>
               {/* note */}
-              <p className="mt-2 text-xs text-gray-500">
+              <p className="mt-2 text-xs text-zinc-500">
                 The image will not leave your device until you share it.
               </p>
             </div>
@@ -134,17 +134,17 @@ export function BackgroundTab({
         <>
           {/* or separator*/}
           <div className="flex items-center gap-2">
-            <span className="border-b border-gray-400 flex-1"></span>
-            <span className="font-bold text-gray-400">OR</span>
-            <span className="border-b border-gray-400 flex-1"></span>
+            <span className="border-b border-zinc-400 flex-1"></span>
+            <span className="font-bold text-zinc-400">OR</span>
+            <span className="border-b border-zinc-400 flex-1"></span>
           </div>
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-900">Load from URL</label>
+            <label className="block text-sm font-medium text-zinc-900">Load from URL</label>
             <div className="flex items-center gap-2">
               <Input
                 type="text"
                 value={url}
-                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 onChange={e => setUrl(e.target.value)}
                 onKeyDown={e => {
                   if (e.key === 'Enter') {
@@ -154,7 +154,7 @@ export function BackgroundTab({
               />
               <button
                 onClick={() => setBackgroundImage(url)}
-                className="px-4 h-10 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 cursor-pointer"
+                className="px-4 h-10 py-2 bg-zinc-500 text-white rounded hover:bg-zinc-600 cursor-pointer"
               >
                 {/* <CloudArrowDownIcon className="h-5 w-5" /> */}
                 <ArrowRightIcon className="h-5 w-5" />
@@ -171,17 +171,17 @@ export function BackgroundTab({
             <div>
               <label
                 htmlFor="grayscaleMethod"
-                className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
+                className="flex items-center gap-2 text-sm font-medium text-zinc-900 mb-2"
               >
                 <AdjustmentsHorizontalIcon className="h-5 w-5" />
                 Grayscale Method
               </label>
               <Listbox value={grayscaleMethod} onChange={setGrayscaleMethod}>
                 <div className="relative">
-                  <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left text-sm text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <span className="block truncate capitalize">{grayscaleMethod}</span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
                     </span>
                   </Listbox.Button>
                   <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
@@ -217,7 +217,7 @@ export function BackgroundTab({
                         value={value}
                         className={({ active }) =>
                           `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
-                            active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                            active ? 'bg-blue-50 text-blue-900' : 'text-zinc-900'
                           }`
                         }
                       >
@@ -240,11 +240,11 @@ export function BackgroundTab({
 
           {/* Custom Grayscale Controls */}
           {grayscaleMethod === 'custom' && setCustomGrayscaleValues && (
-            <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-              <h3 className="text-sm font-medium text-gray-700">Custom RGB Weights</h3>
+            <div className="space-y-4 p-4 bg-zinc-50 rounded-lg">
+              <h3 className="text-sm font-medium text-zinc-700">Custom RGB Weights</h3>
               {/* Red Weight */}
               <div className="space-y-1">
-                <label className="block text-xs text-gray-600">Red (R)</label>
+                <label className="block text-xs text-zinc-600">Red (R)</label>
                 <input
                   type="range"
                   min="0"
@@ -256,15 +256,15 @@ export function BackgroundTab({
                       r: Number(e.target.value) / 100,
                     })
                   }
-                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
+                  className="w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"
                 />
-                <div className="text-xs text-gray-500 text-right">
+                <div className="text-xs text-zinc-500 text-right">
                   {(customGrayscaleValues.r * 100).toFixed(1)}%
                 </div>
               </div>
               {/* Green Weight */}
               <div className="space-y-1">
-                <label className="block text-xs text-gray-600">Green (G)</label>
+                <label className="block text-xs text-zinc-600">Green (G)</label>
                 <input
                   type="range"
                   min="0"
@@ -276,15 +276,15 @@ export function BackgroundTab({
                       g: Number(e.target.value) / 100,
                     })
                   }
-                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
+                  className="w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"
                 />
-                <div className="text-xs text-gray-500 text-right">
+                <div className="text-xs text-zinc-500 text-right">
                   {(customGrayscaleValues.g * 100).toFixed(1)}%
                 </div>
               </div>
               {/* Blue Weight */}
               <div className="space-y-1">
-                <label className="block text-xs text-gray-600">Blue (B)</label>
+                <label className="block text-xs text-zinc-600">Blue (B)</label>
                 <input
                   type="range"
                   min="0"
@@ -296,9 +296,9 @@ export function BackgroundTab({
                       b: Number(e.target.value) / 100,
                     })
                   }
-                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
+                  className="w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"
                 />
-                <div className="text-xs text-gray-500 text-right">
+                <div className="text-xs text-zinc-500 text-right">
                   {(customGrayscaleValues.b * 100).toFixed(1)}%
                 </div>
               </div>
@@ -307,7 +307,7 @@ export function BackgroundTab({
 
           {/* Opacity Slider */}
           <div className="space-y-1">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+            <label className="flex items-center gap-2 text-sm font-medium text-zinc-900">
               <SunIcon className="h-5 w-5" />
               Darkness
             </label>
@@ -317,13 +317,13 @@ export function BackgroundTab({
               max="100"
               value={opacity}
               onChange={e => setOpacity(Number(e.target.value))}
-              className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
+              className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"
             />
           </div>
 
           {/* Zoom Slider */}
           <div className="space-y-1">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+            <label className="flex items-center gap-2 text-sm font-medium text-zinc-900">
               <ArrowsPointingOutIcon className="h-5 w-5" />
               Zoom
             </label>
@@ -333,7 +333,7 @@ export function BackgroundTab({
               max="200"
               value={zoom}
               onChange={e => setZoom(Number(e.target.value))}
-              className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
+              className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"
             />
           </div>
 
@@ -341,7 +341,7 @@ export function BackgroundTab({
           <div className="space-y-1">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+                <label className="flex items-center gap-2 text-sm font-medium text-zinc-900">
                   <ArrowsUpDownIcon className="h-5 w-5 rotate-90" />
                 </label>
                 <input
@@ -350,11 +350,11 @@ export function BackgroundTab({
                   max="100"
                   value={position.x}
                   onChange={e => setPosition({ ...position, x: Number(e.target.value) })}
-                  className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
+                  className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"
                 />
               </div>
               <div className="space-y-1">
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-900">
+                <label className="flex items-center gap-2 text-sm font-medium text-zinc-900">
                   <ArrowsUpDownIcon className="h-5 w-5 rotate-0" />
                 </label>
                 <input
@@ -363,7 +363,7 @@ export function BackgroundTab({
                   max="100"
                   value={position.y}
                   onChange={e => setPosition({ ...position, y: Number(e.target.value) })}
-                  className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-gray-700 [&::-moz-range-thumb]:cursor-pointer"
+                  className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"
                 />
               </div>
             </div>

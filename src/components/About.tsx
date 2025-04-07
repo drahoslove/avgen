@@ -6,7 +6,7 @@ export const About = () => {
       <Popover.Button className="cursor-pointer">
         <InformationCircleIcon className="h-6 w-6" />
       </Popover.Button>
-      <Popover.Panel className="absolute right-0 mt-2 w-72 bg-gray-600 rounded-lg shadow-black/[0.5] shadow-xl p-4 z-20">
+      <Popover.Panel className="absolute right-0 mt-2 w-72 bg-zinc-600 rounded-lg shadow-black/[0.5] shadow-xl p-4 z-20">
         <div className="">
           <h3 className="text-lg font-medium text-white mb-2">About</h3>
           <p className="text-sm text-white mb-4">

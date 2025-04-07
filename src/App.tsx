@@ -234,7 +234,7 @@ function App() {
           isGenerating={isGenerating}
           isSharing={isSharing}
         />
-        <div className="w-full lg:w-2/3 flex items-center justify-center h-full">
+        <div className="w-full lg:w-2/3 flex items-center justify-center h-full sticky top-[1.5rem]">
           <PosterPreview
             ref={previewRef}
             chapter={chapter}

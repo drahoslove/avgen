@@ -3,12 +3,12 @@ import {
   PhotoIcon,
   AdjustmentsHorizontalIcon,
   ArrowsUpDownIcon,
-  SunIcon,
   ArrowsPointingOutIcon,
   XMarkIcon,
   ArrowRightIcon,
   ChevronUpDownIcon,
 } from '@heroicons/react/20/solid'
+import { SunIcon, CloudIcon } from '@heroicons/react/24/outline'
 import { Input, Listbox } from '@headlessui/react'
 import type { GrayscaleMethod } from '../types'
 
@@ -18,6 +18,8 @@ interface BackgroundTabProps {
   isBackgroundImageEditable: boolean
   opacity: number
   setOpacity: (value: number) => void
+  blur: number
+  setBlur: (value: number) => void
   position: { x: number; y: number }
   setPosition: (value: { x: number; y: number }) => void
   zoom: number
@@ -38,6 +40,8 @@ export function BackgroundTab({
   isBackgroundImageEditable,
   opacity,
   setOpacity,
+  blur,
+  setBlur,
   position,
   setPosition,
   zoom,
@@ -62,7 +66,7 @@ export function BackgroundTab({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {/* Image Upload */}
       <div className="space-y-2 flex flex-col">
         <label className="block text-sm font-medium text-zinc-900">
@@ -317,6 +321,23 @@ export function BackgroundTab({
               max="100"
               value={opacity}
               onChange={e => setOpacity(Number(e.target.value))}
+              className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"
+            />
+          </div>
+
+          {/* Blur Slider */}
+          <div className="space-y-1">
+            <label className="flex items-center gap-2 text-sm font-medium text-zinc-900">
+              <CloudIcon className="h-5 w-5" />
+              Blur
+            </label>
+            <input
+              type="range"
+              min="0"
+              step="1"
+              max="8"
+              value={blur}
+              onChange={e => setBlur(Number(e.target.value))}
               className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"
             />
           </div>

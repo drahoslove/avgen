@@ -1,6 +1,7 @@
 import { Popover } from '@headlessui/react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
-export const About = () => {
+
+const About = () => {
   return (
     <Popover className="relative">
       <Popover.Button className="cursor-pointer">
@@ -42,3 +43,5 @@ export const About = () => {
     </Popover>
   )
 }
+
+export default About

@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import html2canvas from 'html2canvas-pro'
 import { PosterForm } from './components/PosterForm'
 import { PosterPreview } from './components/PosterPreview'
+import ActionButtons from './components/ActionButtons'
 import type { GrayscaleMethod } from './types'
-import { ArrowDownTrayIcon, ShareIcon } from '@heroicons/react/20/solid'
 import { useScrollDirection } from './hooks/useScrollDirection'
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
   const [opacity, setOpacity] = useState(75)
   const [position, setPosition] = useState({ x: 50, y: 50 })
   const [zoom, setZoom] = useState(100)
-
+  const [blur, setBlur] = useState(0)
   const scrollDirection = useScrollDirection()
 
   // save to locale storage
@@ -195,45 +195,49 @@ function App() {
   return (
     <div className="min-h-screen bg-zinc-900 p-0 sm:p-4 md:p-6">
       <div className="flex flex-col lg:flex-row gap-0 sm:gap-6 max-w-7xl mx-auto pb-20 lg:pb-0 h-full">
-        <PosterForm
-          chapter={chapter}
-          setChapter={setChapter}
-          date={date}
-          setDate={setDate}
-          startTime={startTime}
-          setStartTime={setStartTime}
-          endTime={endTime}
-          setEndTime={setEndTime}
-          location={location}
-          setLocation={setLocation}
-          locale={locale}
-          setLocale={setLocale}
-          secondaryLocale={secondaryLocale}
-          setSecondaryLocale={setSecondaryLocale}
-          onGenerateImage={e => {
-            e.preventDefault()
-            void handleGenerateImage(e)
-          }}
-          onShare={e => {
-            e.preventDefault()
-            void handleShare(e)
-          }}
-          backgroundImage={backgroundImage}
-          setBackgroundImage={setBackgroundImage}
-          isBackgroundImageEditable={isBackgroundImageEditable}
-          opacity={opacity}
-          setOpacity={setOpacity}
-          position={position}
-          setPosition={setPosition}
-          zoom={zoom}
-          setZoom={setZoom}
-          grayscaleMethod={grayscaleMethod}
-          setGrayscaleMethod={setGrayscaleMethod}
-          customGrayscaleValues={customGrayscaleValues}
-          setCustomGrayscaleValues={setCustomGrayscaleValues}
-          isGenerating={isGenerating}
-          isSharing={isSharing}
-        />
+        <div className="w-full lg:w-1/3 bg-zinc-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
+          <PosterForm
+            chapter={chapter}
+            setChapter={setChapter}
+            date={date}
+            setDate={setDate}
+            startTime={startTime}
+            setStartTime={setStartTime}
+            endTime={endTime}
+            setEndTime={setEndTime}
+            location={location}
+            setLocation={setLocation}
+            locale={locale}
+            setLocale={setLocale}
+            secondaryLocale={secondaryLocale}
+            setSecondaryLocale={setSecondaryLocale}
+            onGenerateImage={e => {
+              e.preventDefault()
+              void handleGenerateImage(e)
+            }}
+            onShare={e => {
+              e.preventDefault()
+              void handleShare(e)
+            }}
+            backgroundImage={backgroundImage}
+            setBackgroundImage={setBackgroundImage}
+            isBackgroundImageEditable={isBackgroundImageEditable}
+            opacity={opacity}
+            setOpacity={setOpacity}
+            position={position}
+            setPosition={setPosition}
+            zoom={zoom}
+            setZoom={setZoom}
+            blur={blur}
+            setBlur={setBlur}
+            grayscaleMethod={grayscaleMethod}
+            setGrayscaleMethod={setGrayscaleMethod}
+            customGrayscaleValues={customGrayscaleValues}
+            setCustomGrayscaleValues={setCustomGrayscaleValues}
+            isGenerating={isGenerating}
+            isSharing={isSharing}
+          />
+        </div>
         <div className="w-full lg:w-2/3 flex items-center justify-center h-full sticky top-[1.5rem]">
           <PosterPreview
             ref={previewRef}
@@ -250,6 +254,7 @@ function App() {
             opacity={opacity}
             position={position}
             zoom={zoom}
+            blur={blur}
             grayscaleMethod={grayscaleMethod}
             customGrayscaleValues={customGrayscaleValues}
           />
@@ -262,86 +267,16 @@ function App() {
           scrollDirection === 'up' ? 'translate-y-full' : 'translate-y-0'
         }`}
       >
-        <div className="grid grid-cols-2 gap-4 max-w-7xl mx-auto">
-          <button
-            onClick={e => {
-              e.preventDefault()
-              void handleGenerateImage(e)
-            }}
-            disabled={isGenerating}
-            className="bg-zinc-700 hover:bg-zinc-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            {isGenerating ? (
-              <>
-                <svg
-                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                <span>Generating...</span>
-              </>
-            ) : (
-              <>
-                <ArrowDownTrayIcon className="h-5 w-5" />
-                <span>Download</span>
-              </>
-            )}
-          </button>
-          <button
-            onClick={e => {
-              e.preventDefault()
-              void handleShare(e)
-            }}
-            disabled={isSharing}
-            className="bg-zinc-700 hover:bg-zinc-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            {isSharing ? (
-              <>
-                <svg
-                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                <span>Sharing...</span>
-              </>
-            ) : (
-              <>
-                <ShareIcon className="h-5 w-5" />
-                <span>Share</span>
-              </>
-            )}
-          </button>
-        </div>
+        <ActionButtons
+          handleGenerateImage={e => {
+            void handleGenerateImage(e)
+          }}
+          isGenerating={isGenerating}
+          handleShare={e => {
+            void handleShare(e)
+          }}
+          isSharing={isSharing}
+        />
       </div>
     </div>
   )

@@ -3,6 +3,7 @@ import type { GrayscaleMethod, GrayscaleWeights } from '../types'
 export const processImage = async (
   imageUrl: string,
   method: GrayscaleMethod,
+  blur: number,
   customWeights?: GrayscaleWeights
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -18,6 +19,12 @@ export const processImage = async (
       if (!ctx) {
         reject(new Error('Could not get canvas context'))
         return
+      }
+
+      const blurValue = Math.ceil(blur / 2 + (blur / 4) ** 2 * 4) // less linear
+
+      if (blurValue > 0) {
+        ctx.filter = `blur(${blurValue}px)`
       }
 
       // Draw original image

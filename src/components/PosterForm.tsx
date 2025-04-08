@@ -1,10 +1,10 @@
-import { ArrowDownTrayIcon, ShareIcon } from '@heroicons/react/24/outline'
+import { useEffect, useState, useRef } from 'react'
 import { Tab } from '@headlessui/react'
 import { ContentTab } from './ContentTab'
 import { BackgroundTab } from './BackgroundTab'
+import About from './About'
+import ActionButtons from './ActionButtons'
 import type { GrayscaleMethod } from '../types'
-import { About } from './About'
-import { useEffect, useState, useRef } from 'react'
 
 interface PosterFormProps {
   chapter: string
@@ -32,6 +32,8 @@ interface PosterFormProps {
   setPosition: (value: { x: number; y: number }) => void
   zoom: number
   setZoom: (value: number) => void
+  blur: number
+  setBlur: (value: number) => void
   grayscaleMethod: GrayscaleMethod
   setGrayscaleMethod: (value: GrayscaleMethod) => void
   customGrayscaleValues: { r: number; g: number; b: number }
@@ -66,6 +68,8 @@ export function PosterForm({
   setPosition,
   zoom,
   setZoom,
+  blur,
+  setBlur,
   grayscaleMethod,
   setGrayscaleMethod,
   customGrayscaleValues,
@@ -107,10 +111,10 @@ export function PosterForm({
         clearTimeout(timeout)
       }
     }
-  }, [letters])
+  }, [letters, rest])
 
   return (
-    <div className="w-full lg:w-1/3 bg-zinc-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
+    <>
       {/* headline */}
       <div className="flex">
         <h1 className="bg-zinc-900 text-2xl text-white mb-6 font-bold font-libre-franklin rounded-md p-1 px-3">
@@ -119,12 +123,12 @@ export function PosterForm({
             {letters.map((letter, index, { length }) => (
               <span
                 key={index}
-                className={`${index !== length - 1 ? 'text-brand-red decoration-brand-red' : 'text-black decoration-black'} underline  transition-colors duration-1000 ease-in-out`}
+                className={`${index !== length - 1 ? 'text-brand-red decoration-brand-red' : 'text-zinc-900 decoration-zinc-9text-zinc-900'} underline  transition-colors duration-1000 ease-in-out`}
               >
                 {letter}
               </span>
             ))}
-            <span className="text-black decoration-black underline">{rest}</span>
+            <span className="text-zinc-900 decoration-black underline">{rest}</span>
           </a>
         </h1>
         <div className="flex flex-grow justify-end pt-1">
@@ -188,6 +192,8 @@ export function PosterForm({
               setPosition={setPosition}
               zoom={zoom}
               setZoom={setZoom}
+              blur={blur}
+              setBlur={setBlur}
               grayscaleMethod={grayscaleMethod}
               setGrayscaleMethod={setGrayscaleMethod}
               customGrayscaleValues={customGrayscaleValues}
@@ -198,80 +204,14 @@ export function PosterForm({
       </Tab.Group>
 
       {/* Action buttons - at the bottom of the form */}
-      <div className="mt-auto pt-6 hidden lg:grid grid-cols-2 gap-4">
-        <button
-          onClick={handleGenerateImage}
-          disabled={isGenerating}
-          className="bg-zinc-700 hover:bg-zinc-800 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isGenerating ? (
-            <>
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              <span>Generating...</span>
-            </>
-          ) : (
-            <>
-              <ArrowDownTrayIcon className="h-5 w-5" />
-              <span>Download</span>
-            </>
-          )}
-        </button>
-        <button
-          onClick={handleShare}
-          disabled={isSharing}
-          className="bg-zinc-700 hover:bg-zinc-800 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSharing ? (
-            <>
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              <span>Sharing...</span>
-            </>
-          ) : (
-            <>
-              <ShareIcon className="h-5 w-5" />
-              <span>Share</span>
-            </>
-          )}
-        </button>
+      <div className="mt-auto pt-8 hidden lg:block">
+        <ActionButtons
+          handleGenerateImage={handleGenerateImage}
+          isGenerating={isGenerating}
+          handleShare={handleShare}
+          isSharing={isSharing}
+        />
       </div>
-    </div>
+    </>
   )
 }

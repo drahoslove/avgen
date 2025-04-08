@@ -19,6 +19,7 @@ interface PosterPreviewProps {
   opacity: number
   position: { x: number; y: number }
   zoom: number
+  blur: number
   grayscaleMethod: GrayscaleMethod
   customGrayscaleValues: { r: number; g: number; b: number }
   isBackgroundImageEditable: boolean
@@ -39,6 +40,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       opacity,
       position,
       zoom,
+      blur,
       grayscaleMethod,
       customGrayscaleValues,
       isBackgroundImageEditable,
@@ -52,7 +54,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
 
     useEffect(() => {
       if (backgroundImage) {
-        processImage(backgroundImage, grayscaleMethod, customGrayscaleValues)
+        processImage(backgroundImage, grayscaleMethod, blur, customGrayscaleValues)
           .then(processedImage => {
             setProcessedImage(processedImage)
             setIsBackgroundImageEditable(true)
@@ -63,7 +65,13 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       } else {
         setProcessedImage(null)
       }
-    }, [backgroundImage, grayscaleMethod, customGrayscaleValues])
+    }, [
+      backgroundImage,
+      grayscaleMethod,
+      blur,
+      customGrayscaleValues,
+      setIsBackgroundImageEditable,
+    ])
 
     // Update container size on resize
     useEffect(() => {

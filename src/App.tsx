@@ -75,32 +75,29 @@ function App() {
   const getCanvas = async () => {
     if (!previewRef.current) return null
     // Set fixed dimensions for image generation
-    previewRef.current.style.width = '1080px'
-    previewRef.current.style.height = '1350px'
-    setIsGenerating(true) // must be set after the dimensions are set
-    // wait a frame
-    await new Promise(resolve => requestAnimationFrame(resolve)) // wait for the layout to be updated
+    const [width, height] = [1080, 1350] // should be  be 4/5
+    const baseFontSize = height / 60
+
     try {
       return await html2canvas(previewRef.current, {
-        scale: 2,
+        scale: 1,
         backgroundColor: '#000000',
         logging: false,
+        onclone: (_, element) => {
+          element.style.width = `${width}px`
+          element.style.height = `${height}px`
+          element.style.fontSize = `${baseFontSize}px`
+        },
       })
     } catch (error) {
       console.error('Error generating image:', error)
       return null
-    } finally {
-      // Reset dimensions after generation
-      previewRef.current.style.width = ''
-      previewRef.current.style.height = ''
-      setIsGenerating(false)
     }
   }
 
   // Function to generate image and return the blob
   const generateImageBlob = async (): Promise<Blob | null> => {
     if (!previewRef.current) return null
-
     try {
       const canvas = await getCanvas()
       if (!canvas) return null
@@ -120,27 +117,29 @@ function App() {
   }
 
   // Function to download the image
-  const handleGenerateImage = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    if (previewRef.current) {
-      try {
-        const dataUrl = await getCanvas().then(canvas => canvas?.toDataURL('image/png'))
-        if (!dataUrl) return
+  const downloadImage = async () => {
+    setIsGenerating(true)
+    if (!previewRef.current) return
+    try {
+      const canvas = await getCanvas()
+      if (!canvas) return
+      const dataUrl = canvas.toDataURL('image/png')
+      if (!dataUrl) return
 
-        const link = document.createElement('a')
-        link.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}.png`
-        link.href = dataUrl
-        link.click()
-      } catch (error) {
-        console.error('Error generating image:', error)
-      } finally {
-        setIsGenerating(false)
-      }
+      const link = document.createElement('a')
+      link.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}.png`
+      link.href = dataUrl
+      link.click()
+    } catch (error) {
+      console.error('Error generating image:', error)
+    } finally {
+      setIsGenerating(false)
     }
   }
 
   // Function to share the image
   const shareImage = async () => {
+    setIsSharing(true)
     try {
       const blob = await generateImageBlob()
       if (!blob) return
@@ -160,33 +159,15 @@ function App() {
           text: `Join us at the Cube of Truth in ${chapter}!`,
         })
       } else {
-        try {
-          await navigator.clipboard.write([
-            new ClipboardItem({
-              'image/png': blob,
-            }),
-          ])
-          alert('Image copied to clipboard!')
-        } catch (clipboardError) {
-          console.error('Clipboard error:', clipboardError)
-          // If clipboard fails, fall back to download
-          await handleGenerateImage({
-            preventDefault: () => {},
-          } as React.MouseEvent<HTMLButtonElement>)
-        }
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            'image/png': blob,
+          }),
+        ])
+        alert('Image copied to clipboard!')
       }
     } catch (error) {
       console.error('Share error:', error)
-      // If sharing fails, fall back to download
-      await handleGenerateImage({ preventDefault: () => {} } as React.MouseEvent<HTMLButtonElement>)
-    }
-  }
-
-  const handleShare = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    setIsSharing(true)
-    try {
-      await shareImage()
     } finally {
       setIsSharing(false)
     }
@@ -213,11 +194,11 @@ function App() {
             setSecondaryLocale={setSecondaryLocale}
             onGenerateImage={e => {
               e.preventDefault()
-              void handleGenerateImage(e)
+              void downloadImage()
             }}
             onShare={e => {
               e.preventDefault()
-              void handleShare(e)
+              void shareImage()
             }}
             backgroundImage={backgroundImage}
             setBackgroundImage={setBackgroundImage}
@@ -268,12 +249,12 @@ function App() {
         }`}
       >
         <ActionButtons
-          handleGenerateImage={e => {
-            void handleGenerateImage(e)
+          handleGenerateImage={() => {
+            void downloadImage()
           }}
           isGenerating={isGenerating}
-          handleShare={e => {
-            void handleShare(e)
+          handleShare={() => {
+            void shareImage()
           }}
           isSharing={isSharing}
         />

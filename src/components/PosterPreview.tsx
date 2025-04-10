@@ -90,10 +90,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
     const timeRange = `${formatTime(timeStart, secondaryLocale || locale)} – ${formatTime(timeEnd, secondaryLocale || locale)}`
 
     // Calculate base font size based on container height
-    const baseFontSize =
-      ref && 'current' in ref && ref.current?.style.height
-        ? parseInt(ref.current.style.height) / 60 // Use fixed height when set
-        : containerSize.height / 60 // Fallback to container height
+    const baseFontSize = containerSize.height / 60
 
     return (
       <div className="w-full bg-zinc-300 sm:rounded-lg shadow-lg p-6 lg:h-[calc(100vh-3rem)] overflow-hidden">

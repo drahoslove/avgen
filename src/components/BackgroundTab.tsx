@@ -317,8 +317,8 @@ export function BackgroundTab({
             </label>
             <input
               type="range"
-              min="50"
-              max="100"
+              min="40"
+              max="90"
               value={opacity}
               onChange={e => setOpacity(Number(e.target.value))}
               className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-zinc-700 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-zinc-700 [&::-moz-range-thumb]:cursor-pointer"

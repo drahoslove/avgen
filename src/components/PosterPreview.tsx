@@ -173,7 +173,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
                 <div className="text-[4em] font-libre-franklin">{timeRange}</div>
               </div>
 
-              <div className=" text-[1.75em] px-[2em] font-libre-franklin">{inLines(location)}</div>
+              <div className=" text-[2em] px-[2em] font-libre-franklin">{inLines(location)}</div>
             </div>
 
             {/* Bottom Logo */}

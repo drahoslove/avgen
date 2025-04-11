@@ -37,7 +37,7 @@ function App() {
   const [backgroundImage, setBackgroundImage] = useState<string | null>(
     localStorage.getItem('backgroundUrl') || '/bg/1.jpg'
   )
-  const [opacity, setOpacity] = useState(75)
+  const [opacity, setOpacity] = useState(65)
   const [position, setPosition] = useState({ x: 50, y: 50 })
   const [zoom, setZoom] = useState(100)
   const [blur, setBlur] = useState(0)

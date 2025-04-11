@@ -5,20 +5,18 @@ AVGen is a modern web application built with React and TypeScript for generating
 ## Features
 
 - **Content Customization**
+
   - Chapter name
   - Date and time selection
-  - Location and language settings
-  - Customizable text content
+  - Location address
+  - Localization settings
 
 - **Background Image Processing**
+
   - Image upload and preview
-  - Multiple grayscale conversion methods:
-    - Luma (weighted RGB based on human perception)
-    - Average (simple RGB average)
-    - Luminosity (perceived brightness)
-    - Lightness (based on max/min RGB values)
-    - Custom (user-defined RGB weights)
+  - Multiple grayscale conversion methods
   - Background opacity control
+  - Background blur
   - Image positioning and zoom
 
 - **Responsive Design**
@@ -33,7 +31,9 @@ AVGen is a modern web application built with React and TypeScript for generating
 - Vite
 - Tailwind CSS
 - Headless UI
-- Canvas API for image processing
+- html2canvas-pro
+- zustand
+- zod
 
 ## Getting Started
 
@@ -45,12 +45,14 @@ AVGen is a modern web application built with React and TypeScript for generating
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/drahoslove/avgen.git
    cd avgen
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    # or
@@ -58,6 +60,7 @@ AVGen is a modern web application built with React and TypeScript for generating
    ```
 
 3. Start the development server:
+
    ```bash
    npm run dev
    # or
@@ -72,12 +75,8 @@ AVGen is a modern web application built with React and TypeScript for generating
 src/
 ├── assets/         # Static assets (logos, images)
 ├── components/     # React components
-│   ├── BackgroundForm.tsx
-│   ├── ContentForm.tsx
-│   ├── PosterForm.tsx
-│   └── PosterPreview.tsx
 ├── utils/          # Utility functions
-│   └── imageProcessing.ts
+├── hooks/          # React hooks
 ├── App.tsx         # Main application component
 └── types.ts        # TypeScript type definitions
 ```
@@ -86,12 +85,9 @@ src/
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Acknowledgments
 
 - Built with [Vite](https://vitejs.dev/)
 - Styled with [Tailwind CSS](https://tailwindcss.com/)
 - UI components from [Headless UI](https://headlessui.com/)
+- State managed with [Zustand](https://zustand.com/)

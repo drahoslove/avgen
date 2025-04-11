@@ -1,41 +1,33 @@
 import { forwardRef, useEffect, useState } from 'react'
+import { useShallow } from 'zustand/shallow'
 
 import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
 import whiteLogoTop from '../assets/AV-Logo-White-Transparent.svg'
 import { processImage } from '../utils/imageProcessing'
 import { inLines, formatTime, formatDate } from '../utils/strings'
-import type { GrayscaleMethod } from '../types'
 import { LOCALIZATIONS } from '../constants/localization'
+import { useBackgroundStore, useContentStore } from '../hooks/useStore'
 
 interface PosterPreviewProps {
-  chapter: string
-  timeStart: string
-  timeEnd: string
-  date: string
-  location: string
-  locale: (typeof LOCALIZATIONS)[number]['code']
-  secondaryLocale: (typeof LOCALIZATIONS)[number]['code']
-  backgroundImage: string | null
-  opacity: number
-  position: { x: number; y: number }
-  zoom: number
-  blur: number
-  grayscaleMethod: GrayscaleMethod
-  customGrayscaleValues: { r: number; g: number; b: number }
   isBackgroundImageEditable: boolean
   setIsBackgroundImageEditable: (isBackgroundImageEditable: boolean) => void
 }
 
 export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
-  (
-    {
-      chapter,
-      timeStart,
-      timeEnd,
-      date,
-      location,
-      locale,
-      secondaryLocale,
+  ({ isBackgroundImageEditable, setIsBackgroundImageEditable }, ref) => {
+    const { chapter, date, startTime, endTime, location, locale, secondaryLocale } =
+      useContentStore(
+        useShallow(state => ({
+          chapter: state.chapter,
+          date: state.date,
+          startTime: state.startTime,
+          endTime: state.endTime,
+          location: state.location,
+          locale: state.locale,
+          secondaryLocale: state.secondaryLocale,
+        }))
+      )
+    const {
       backgroundImage,
       opacity,
       position,
@@ -43,11 +35,18 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       blur,
       grayscaleMethod,
       customGrayscaleValues,
-      isBackgroundImageEditable,
-      setIsBackgroundImageEditable,
-    },
-    ref
-  ) => {
+    } = useBackgroundStore(
+      useShallow(state => ({
+        backgroundImage: state.backgroundImage,
+        opacity: state.opacity,
+        position: state.position,
+        zoom: state.zoom,
+        blur: state.blur,
+        grayscaleMethod: state.grayscaleMethod,
+        customGrayscaleValues: state.customGrayscaleValues,
+      }))
+    )
+
     const [processedImage, setProcessedImage] = useState<string | null>(null)
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
     const [isImageLoaded, setIsImageLoaded] = useState(false)
@@ -87,7 +86,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       return () => window.removeEventListener('resize', updateSize)
     }, [ref])
 
-    const timeRange = `${formatTime(timeStart, secondaryLocale || locale)} – ${formatTime(timeEnd, secondaryLocale || locale)}`
+    const timeRange = `${formatTime(startTime, secondaryLocale || locale)} – ${formatTime(endTime, secondaryLocale || locale)}`
 
     // Calculate base font size based on container height
     const baseFontSize = containerSize.height / 60

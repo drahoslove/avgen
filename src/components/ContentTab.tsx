@@ -5,42 +5,47 @@ import {
   ClockIcon,
   BuildingOffice2Icon,
 } from '@heroicons/react/20/solid'
+import { useShallow } from 'zustand/shallow'
 import { Listbox, Textarea } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import { LOCALIZATIONS } from '../constants/localization'
-interface ContentTabProps {
-  chapter: string
-  setChapter: (value: string) => void
-  date: string
-  setDate: (value: string) => void
-  startTime: string
-  setStartTime: (value: string) => void
-  endTime: string
-  setEndTime: (value: string) => void
-  location: string
-  setLocation: (value: string) => void
-  locale: string
-  setLocale: (value: string) => void
-  secondaryLocale: string
-  setSecondaryLocale: (value: string) => void
-}
+import { useContentStore } from '../hooks/useStore'
 
-export function ContentTab({
-  chapter,
-  setChapter,
-  date,
-  setDate,
-  startTime,
-  setStartTime,
-  endTime,
-  setEndTime,
-  location,
-  setLocation,
-  locale,
-  setLocale,
-  secondaryLocale,
-  setSecondaryLocale,
-}: ContentTabProps) {
+export function ContentTab() {
+  const {
+    chapter,
+    setChapter,
+    date,
+    setDate,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    location,
+    setLocation,
+    locale,
+    setLocale,
+    secondaryLocale,
+    setSecondaryLocale,
+  } = useContentStore(
+    useShallow(state => ({
+      chapter: state.chapter,
+      setChapter: state.setChapter,
+      date: state.date,
+      setDate: state.setDate,
+      startTime: state.startTime,
+      setStartTime: state.setStartTime,
+      endTime: state.endTime,
+      setEndTime: state.setEndTime,
+      location: state.location,
+      setLocation: state.setLocation,
+      locale: state.locale,
+      setLocale: state.setLocale,
+      secondaryLocale: state.secondaryLocale,
+      setSecondaryLocale: state.setSecondaryLocale,
+    }))
+  )
+
   // Generate time options in 15-minute intervals
   const generateTimeOptions = () => {
     const options = []

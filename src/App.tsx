@@ -1,76 +1,32 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import html2canvas from 'html2canvas-pro'
+import { useShallow } from 'zustand/shallow'
 import { PosterForm } from './components/PosterForm'
 import { PosterPreview } from './components/PosterPreview'
 import ActionButtons from './components/ActionButtons'
-import type { GrayscaleMethod } from './types'
 import { useScrollDirection } from './hooks/useScrollDirection'
+import { useContentStore } from './hooks/useStore'
 
 function App() {
   // State management
-  // load from local storage if available
-  const [chapter, setChapter] = useState(localStorage.getItem('chapter') || 'PRAGUE')
-  const [date, setDate] = useState(
-    localStorage.getItem('date') || new Date().toISOString().split('T')[0]
-  )
-  const [startTime, setStartTime] = useState(localStorage.getItem('startTime') || '17:00')
-  const [endTime, setEndTime] = useState(localStorage.getItem('endTime') || '19:00')
-  const [location, setLocation] = useState(localStorage.getItem('location') || 'Wenceslas Square')
-  const [locale, setLocale] = useState(localStorage.getItem('locale') || 'en-US')
-  const [secondaryLocale, setSecondaryLocale] = useState(
-    localStorage.getItem('secondaryLocale') || ''
-  )
-  const [isBackgroundImageEditable, setIsBackgroundImageEditable] = useState(false)
-  const [grayscaleMethod, setGrayscaleMethod] = useState<GrayscaleMethod>('luma')
-  const [customGrayscaleValues, setCustomGrayscaleValues] = useState({
-    r: 0.299,
-    g: 0.587,
-    b: 0.114,
-  })
+
   const [isGenerating, setIsGenerating] = useState(false)
   const [isSharing, setIsSharing] = useState(false)
+
+  const [isBackgroundImageEditable, setIsBackgroundImageEditable] = useState(false)
 
   // Reference to the preview container
   const previewRef = useRef<HTMLDivElement>(null)
 
   // Background image state
-  const [backgroundImage, setBackgroundImage] = useState<string | null>(
-    localStorage.getItem('backgroundUrl') || '/bg/1.jpg'
-  )
-  const [opacity, setOpacity] = useState(65)
-  const [position, setPosition] = useState({ x: 50, y: 50 })
-  const [zoom, setZoom] = useState(100)
-  const [blur, setBlur] = useState(0)
   const scrollDirection = useScrollDirection()
 
-  // save to locale storage
-  useEffect(() => {
-    localStorage.setItem('chapter', chapter)
-    localStorage.setItem('date', date)
-    localStorage.setItem('startTime', startTime)
-    localStorage.setItem('endTime', endTime)
-    localStorage.setItem('location', location)
-    localStorage.setItem('locale', locale)
-    localStorage.setItem('secondaryLocale', secondaryLocale)
-    localStorage.setItem('backgroundUrl', backgroundImage || '')
-  }, [
-    chapter,
-    date,
-    startTime,
-    endTime,
-    location,
-    locale,
-    secondaryLocale,
-    grayscaleMethod,
-    customGrayscaleValues,
-    backgroundImage,
-  ])
-
-  useEffect(() => {
-    if (locale === secondaryLocale) {
-      setSecondaryLocale('')
-    }
-  }, [locale, secondaryLocale])
+  const { chapter, date } = useContentStore(
+    useShallow(state => ({
+      chapter: state.chapter,
+      date: state.date,
+    }))
+  )
 
   const getCanvas = async () => {
     if (!previewRef.current) return null
@@ -178,20 +134,6 @@ function App() {
       <div className="flex flex-col lg:flex-row gap-0 sm:gap-6 max-w-7xl mx-auto pb-20 lg:pb-0 h-full">
         <div className="w-full lg:w-1/3 bg-zinc-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
           <PosterForm
-            chapter={chapter}
-            setChapter={setChapter}
-            date={date}
-            setDate={setDate}
-            startTime={startTime}
-            setStartTime={setStartTime}
-            endTime={endTime}
-            setEndTime={setEndTime}
-            location={location}
-            setLocation={setLocation}
-            locale={locale}
-            setLocale={setLocale}
-            secondaryLocale={secondaryLocale}
-            setSecondaryLocale={setSecondaryLocale}
             onGenerateImage={e => {
               e.preventDefault()
               void downloadImage()
@@ -200,44 +142,16 @@ function App() {
               e.preventDefault()
               void shareImage()
             }}
-            backgroundImage={backgroundImage}
-            setBackgroundImage={setBackgroundImage}
-            isBackgroundImageEditable={isBackgroundImageEditable}
-            opacity={opacity}
-            setOpacity={setOpacity}
-            position={position}
-            setPosition={setPosition}
-            zoom={zoom}
-            setZoom={setZoom}
-            blur={blur}
-            setBlur={setBlur}
-            grayscaleMethod={grayscaleMethod}
-            setGrayscaleMethod={setGrayscaleMethod}
-            customGrayscaleValues={customGrayscaleValues}
-            setCustomGrayscaleValues={setCustomGrayscaleValues}
             isGenerating={isGenerating}
             isSharing={isSharing}
+            isBackgroundImageEditable={isBackgroundImageEditable}
           />
         </div>
         <div className="w-full lg:w-2/3 flex items-center justify-center h-full sticky top-[1.5rem]">
           <PosterPreview
             ref={previewRef}
-            chapter={chapter}
-            date={date}
-            timeStart={startTime}
-            timeEnd={endTime}
-            location={location}
-            locale={locale}
-            secondaryLocale={secondaryLocale}
-            backgroundImage={backgroundImage}
             isBackgroundImageEditable={isBackgroundImageEditable}
             setIsBackgroundImageEditable={setIsBackgroundImageEditable}
-            opacity={opacity}
-            position={position}
-            zoom={zoom}
-            blur={blur}
-            grayscaleMethod={grayscaleMethod}
-            customGrayscaleValues={customGrayscaleValues}
           />
         </div>
       </div>

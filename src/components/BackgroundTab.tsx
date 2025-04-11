@@ -8,49 +8,49 @@ import {
   ArrowRightIcon,
   ChevronUpDownIcon,
 } from '@heroicons/react/20/solid'
+import { useShallow } from 'zustand/shallow'
 import { SunIcon, CloudIcon } from '@heroicons/react/24/outline'
 import { Input, Listbox } from '@headlessui/react'
-import type { GrayscaleMethod } from '../types'
-
+import { useBackgroundStore } from '../hooks/useStore'
 interface BackgroundTabProps {
-  backgroundImage: string | null
-  setBackgroundImage: (value: string | null) => void
   isBackgroundImageEditable: boolean
-  opacity: number
-  setOpacity: (value: number) => void
-  blur: number
-  setBlur: (value: number) => void
-  position: { x: number; y: number }
-  setPosition: (value: { x: number; y: number }) => void
-  zoom: number
-  setZoom: (value: number) => void
-  grayscaleMethod: GrayscaleMethod
-  setGrayscaleMethod: (value: GrayscaleMethod) => void
-  customGrayscaleValues?: {
-    r: number
-    g: number
-    b: number
-  }
-  setCustomGrayscaleValues?: (values: { r: number; g: number; b: number }) => void
 }
 
-export function BackgroundTab({
-  backgroundImage,
-  setBackgroundImage,
-  isBackgroundImageEditable,
-  opacity,
-  setOpacity,
-  blur,
-  setBlur,
-  position,
-  setPosition,
-  zoom,
-  setZoom,
-  grayscaleMethod,
-  setGrayscaleMethod,
-  customGrayscaleValues = { r: 0.299, g: 0.587, b: 0.114 },
-  setCustomGrayscaleValues,
-}: BackgroundTabProps) {
+export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps) {
+  const {
+    backgroundImage,
+    setBackgroundImage,
+    opacity,
+    setOpacity,
+    blur,
+    setBlur,
+    position,
+    setPosition,
+    zoom,
+    setZoom,
+    grayscaleMethod,
+    setGrayscaleMethod,
+    customGrayscaleValues,
+    setCustomGrayscaleValues,
+  } = useBackgroundStore(
+    useShallow(state => ({
+      backgroundImage: state.backgroundImage,
+      setBackgroundImage: state.setBackgroundImage,
+      opacity: state.opacity,
+      setOpacity: state.setOpacity,
+      blur: state.blur,
+      setBlur: state.setBlur,
+      position: state.position,
+      setPosition: state.setPosition,
+      zoom: state.zoom,
+      setZoom: state.setZoom,
+      grayscaleMethod: state.grayscaleMethod,
+      setGrayscaleMethod: state.setGrayscaleMethod,
+      customGrayscaleValues: state.customGrayscaleValues,
+      setCustomGrayscaleValues: state.setCustomGrayscaleValues,
+    }))
+  )
+
   const [dragOver, setDragOver] = useState(false)
   const defaultUrl = window.location.href + 'bg/1.jpg'
   const [url, setUrl] = useState(backgroundImage?.startsWith('http') ? backgroundImage : defaultUrl)

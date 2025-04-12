@@ -5,11 +5,12 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'cloudflare'] },
   {
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -31,18 +32,6 @@ export default tseslint.config(
         varsIgnorePattern: '^_',
       }],
       'no-unused-vars': 'off', // Turn off base rule as it can report incorrect errors
-    },
-  },
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      ...tseslint.configs.recommendedTypeChecked,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: './tsconfig.app.json',
-        tsconfigRootDir: import.meta.dirname,
-      },
     },
   },
 )

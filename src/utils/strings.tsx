@@ -16,11 +16,10 @@ export const formatDate = (date: string, localeCode: string) => {
 
 // Format time range for display
 export const formatTime = (time: string, localeCode: string) => {
-  if (!['en-US', 'en-GB'].includes(localeCode)) return time // only format time for non English
-
-  const [hours, minutes] = time.split(':')
-  const hour = parseInt(hours)
-  const period = hour >= 12 ? 'PM' : 'AM'
-  const formattedHour = hour % 12 || 12
-  return `${formattedHour}:${minutes} ${period}`
+  const date = new Date(`2025-01-01T${time}:00Z`)
+  const formatter = new Intl.DateTimeFormat(localeCode, {
+    hour: 'numeric',
+    minute: 'numeric',
+  })
+  return formatter.format(date)
 }

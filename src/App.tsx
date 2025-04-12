@@ -132,7 +132,7 @@ function App() {
   return (
     <div className="min-h-screen bg-zinc-900 p-0 sm:p-4 md:p-6">
       <div className="flex flex-col lg:flex-row gap-0 sm:gap-6 max-w-7xl mx-auto pb-20 lg:pb-0 h-full">
-        <div className="w-full lg:w-1/3 bg-zinc-300 sm:rounded-lg shadow-lg p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
+        <div className="w-full lg:w-1/3 bg-zinc-300 sm:rounded-lg shadow-lg p-4 md:p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
           <PosterForm
             onGenerateImage={e => {
               e.preventDefault()
@@ -147,12 +147,14 @@ function App() {
             isBackgroundImageEditable={isBackgroundImageEditable}
           />
         </div>
-        <div className="w-full lg:w-2/3 flex items-center justify-center h-full sticky top-[1.5rem]">
-          <PosterPreview
-            ref={previewRef}
-            isBackgroundImageEditable={isBackgroundImageEditable}
-            setIsBackgroundImageEditable={setIsBackgroundImageEditable}
-          />
+        <div className="lg:w-2/3 flex items-center justify-center h-full sticky top-[1.5rem]">
+          <div className="w-full bg-zinc-300 sm:rounded-lg shadow-lg p-4 md:p-6 lg:h-[calc(100vh-3rem)]">
+            <PosterPreview
+              ref={previewRef}
+              isBackgroundImageEditable={isBackgroundImageEditable}
+              setIsBackgroundImageEditable={setIsBackgroundImageEditable}
+            />
+          </div>
         </div>
       </div>
 

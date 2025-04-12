@@ -122,7 +122,7 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
               />
               <button
                 onClick={() => document.getElementById('background-upload')?.click()}
-                className="mt-4 px-4 py-2 bg-zinc-500 text-white rounded hover:bg-zinc-600 cursor-pointer"
+                className="mt-4 px-4 py-2 bg-zinc-500 text-white rounded-md hover:bg-zinc-600 cursor-pointer"
               >
                 Select Image
               </button>
@@ -148,7 +148,7 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
               <Input
                 type="text"
                 value={url}
-                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 onChange={e => setUrl(e.target.value)}
                 onKeyDown={e => {
                   if (e.key === 'Enter') {
@@ -158,9 +158,9 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
               />
               <button
                 onClick={() => setBackgroundImage(url)}
-                className="px-4 h-10 py-2 bg-zinc-500 text-white rounded hover:bg-zinc-600 cursor-pointer"
+                disabled={!url}
+                className="px-4 h-10 py-2 bg-zinc-500/90 text-white rounded-md hover:bg-zinc-600 shadow-sm cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-zinc-500/90"
               >
-                {/* <CloudArrowDownIcon className="h-5 w-5" /> */}
                 <ArrowRightIcon className="h-5 w-5" />
               </button>
             </div>
@@ -182,13 +182,13 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
               </label>
               <Listbox value={grayscaleMethod} onChange={setGrayscaleMethod}>
                 <div className="relative">
-                  <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left text-sm text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-3 pl-3 pr-10 text-left text-sm text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <span className="block truncate capitalize">{grayscaleMethod}</span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
                     </span>
                   </Listbox.Button>
-                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg focus:outline-none sm:text-sm">
                     {[
                       {
                         label: 'None',

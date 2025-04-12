@@ -92,97 +92,91 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
     const baseFontSize = containerSize.height / 60
 
     return (
-      <div className="w-full bg-zinc-300 sm:rounded-lg shadow-lg p-6 lg:h-[calc(100vh-3rem)] overflow-hidden">
+      <div
+        ref={ref}
+        className="relative h-full mx-auto aspect-[4/5] bg-black rounded-lg shadow-lg overflow-hidden"
+        style={{ fontSize: `${baseFontSize}px` }}
+      >
+        {/* Background Image */}
+        {processedImage && (
+          <img
+            src={processedImage}
+            alt=""
+            className="hidden"
+            onLoad={() => setIsImageLoaded(true)}
+          />
+        )}
         <div
-          ref={ref}
-          className="relative h-full mx-auto aspect-[4/5] bg-black rounded-lg shadow-lg overflow-hidden"
-          style={{ fontSize: `${baseFontSize}px` }}
-        >
-          {/* Background Image */}
-          {processedImage && (
+          className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+          style={{
+            backgroundImage: `url(${isBackgroundImageEditable && processedImage ? processedImage : backgroundImage})`,
+            backgroundSize: `${zoom}%`,
+            backgroundPosition: `${position.x}% ${position.y}%`,
+          }}
+        />
+
+        {/* Black overlay with adjustable opacity */}
+        <div
+          className="absolute inset-0 bg-black"
+          style={{
+            opacity: opacity / 100,
+          }}
+        />
+
+        {/* Content - Always fully opaque */}
+        <div className="absolute inset-0 flex flex-col items-center text-white">
+          {/* Top Logo */}
+          <div className="aspect-[4/3] flex items-center justify-center mt-[1.5em] w-[11em]">
             <img
-              src={processedImage}
-              alt=""
-              className="hidden"
-              onLoad={() => setIsImageLoaded(true)}
+              src={whiteLogoTop}
+              alt="Anonymous for the Voiceless"
+              className="w-full h-full object-contain"
             />
-          )}
-          <div
-            className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-            style={{
-              backgroundImage: `url(${isBackgroundImageEditable && processedImage ? processedImage : backgroundImage})`,
-              backgroundSize: `${zoom}%`,
-              backgroundPosition: `${position.x}% ${position.y}%`,
-            }}
-          />
+          </div>
 
-          {/* Black overlay with adjustable opacity */}
-          <div
-            className="absolute inset-0 bg-black"
-            style={{
-              opacity: opacity / 100,
-            }}
-          />
+          {/* Main Content */}
+          <div className="flex flex-col items-center text-center flex-grow w-full">
+            <h1 className="uppercase text-[4.25em] text-white text-stroke-[0.1em] text-stroke-white font-bold font-libre-franklin">
+              {LOCALIZATIONS.find(loc => loc.code === locale)?.['Cube of Truth'] ?? ''}
+            </h1>
 
-          {/* Content - Always fully opaque */}
-          <div className="absolute inset-0 flex flex-col items-center text-white">
-            {/* Top Logo */}
-            <div className="aspect-[4/3] flex items-center justify-center mt-[1.5em] w-[11em]">
-              <img
-                src={whiteLogoTop}
-                alt="Anonymous for the Voiceless"
-                className="w-full h-full object-contain"
-              />
+            <div className="mb-[1em]">
+              <h2
+                className={`uppercase text-zinc-300 ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
+              >
+                {LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ??
+                  'Cube of Truth'}
+              </h2>
             </div>
 
-            {/* Main Content */}
-            <div className="flex flex-col items-center text-center flex-grow w-full">
-              <h1 className=" text-[4.25em] text-white text-stroke-[0.1em] text-stroke-white font-bold font-libre-franklin">
-                {(
-                  LOCALIZATIONS.find(loc => loc.code === locale)?.['Cube of Truth'] ?? ''
-                ).toLocaleUpperCase()}
-              </h1>
+            <div className="uppercase text-brand-red text-[6em] tracking-[0.2em] -mr-[0.2em] font-black font-libre-franklin">
+              {inLines(chapter)}
+            </div>
 
-              <div className="mb-[1em]">
-                <h2
-                  className={`text-zinc-300 ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
-                >
-                  {(
-                    LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ??
-                    'Cube of Truth'
-                  ).toLocaleUpperCase()}
-                </h2>
-              </div>
-
-              <div className="text-brand-red text-[6em] tracking-[0.2em] -mr-[0.2em] font-black font-libre-franklin">
-                {inLines(chapter)}
-              </div>
-
-              <div>
-                <div className="flex flex-col">
-                  <div className="text-[2.5em] font-libre-franklin">
-                    {formatDate(date, locale).toLocaleUpperCase()}
-                  </div>
-                  <div
-                    className={`text-zinc-300 mt-[0m] ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
-                  >
-                    {formatDate(date, secondaryLocale || locale).toLocaleUpperCase()}
-                  </div>
+            <div>
+              <div className="flex flex-col">
+                <div className="uppercase text-[2.5em] font-libre-franklin">
+                  {formatDate(date, locale)}
                 </div>
-                <div className="text-[4em] font-libre-franklin">{timeRange}</div>
+                <div
+                  className={`uppercase text-zinc-300 mt-[0m] ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] font-libre-franklin`}
+                >
+                  {formatDate(date, secondaryLocale || locale)}
+                </div>
               </div>
-
-              <div className=" text-[2em] px-[2em] font-libre-franklin">{inLines(location)}</div>
+              <div className="text-[4em] font-libre-franklin">{timeRange}</div>
             </div>
 
-            {/* Bottom Logo */}
-            <div className="aspect-square flex items-center justify-center my-[3em] w-[5em]">
-              <img
-                src={whiteLogo}
-                alt="Anonymous for the Voiceless"
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <div className="text-[2em] px-[2em] font-libre-franklin">{inLines(location)}</div>
+          </div>
+
+          {/* Bottom Logo */}
+          <div className="aspect-square flex items-center justify-center my-[3em] w-[5em]">
+            <img
+              src={whiteLogo}
+              alt="Anonymous for the Voiceless"
+              className="w-full h-full object-contain"
+            />
           </div>
         </div>
       </div>

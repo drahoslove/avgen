@@ -22,7 +22,7 @@ const ActionButtons = ({
       >
         {isGenerating ? (
           <>
-            <Spinner className="h-5 w-5 animate-spin" />
+            <Spinner className="-ml-1 mr-3 h-5 w-5" />
             <span>Generating...</span>
           </>
         ) : (
@@ -39,7 +39,7 @@ const ActionButtons = ({
       >
         {isSharing ? (
           <>
-            <Spinner className="h-5 w-5 animate-spin" />
+            <Spinner className="-ml-1 mr-3 h-5 w-5" />
             <span>Sharing...</span>
           </>
         ) : (

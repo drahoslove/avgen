@@ -39,3 +39,11 @@ export interface BackgroundStore {
   customGrayscaleValues: GrayscaleWeights
   setCustomGrayscaleValues: (values: GrayscaleWeights) => void
 }
+
+export interface EventData {
+  chapterName: string
+  location: string
+  date: string // YYYY-MM-DD
+  timeStart: string // HH:MM
+  timeEnd: string // HH:MM
+}

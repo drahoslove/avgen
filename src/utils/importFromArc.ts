@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { EventData } from '../types'
-import { trimNonLetters } from './strings'
+import { toLocalIsoString, trimNonLetters } from './strings'
 import safeFetch from './safeFetch'
 
 // const EXAMPLEDATA: ArcEvent = {
@@ -66,17 +66,12 @@ const importFromArc = async (url: string): Promise<EventData> => {
       .find(part => !part.includes('Cube of Truth'))
       ?.trim() ?? ''
   const location: string = trimNonLetters(locationName.replace(chapterName, ''))
-  const date: string = new Date(startDate).toISOString().split('T')[0]
-  const timeStart: string = new Date(startDate)
-    .toISOString()
+  const date: string = toLocalIsoString(startDate).split('T')[0]
+  const timeStart: string = toLocalIsoString(startDate)
     .split('T')[1]
     .split('.')[0]
     .replace(/:00$/, '')
-  const timeEnd: string = new Date(endDate)
-    .toISOString()
-    .split('T')[1]
-    .split('.')[0]
-    .replace(/:00$/, '')
+  const timeEnd: string = toLocalIsoString(endDate).split('T')[1].split('.')[0].replace(/:00$/, '')
 
   return {
     chapterName,

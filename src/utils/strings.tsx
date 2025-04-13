@@ -35,7 +35,7 @@ export const trimNonLetters = (str: string) => {
 }
 
 // Convert timestamp to local ISO string
-export const toLocalIsoString = (timestamp: number) => {
-  const date = new Date(timestamp * 1000)
+export const toLocalIsoString = (timestamp: number | string) => {
+  const date = new Date(timestamp)
   return date.toLocaleString('sv').replace(' ', 'T')
 }

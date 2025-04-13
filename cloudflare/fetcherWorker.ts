@@ -40,8 +40,32 @@ export default {
       newRequest.headers.set('sec-fetch-site', 'same-origin')
       newRequest.headers.set('sec-fetch-user', '?1')
 
-      // Fetch the original response
-      const originalResponse = await fetch(newRequest)
+      // Fetch the actuall resource
+      const originalResponse = await fetch(newRequest, {
+        redirect: 'manual', // do not follow possible redirects automatically
+      })
+
+      // Handle redirects manually
+      if (originalResponse.status >= 300 && originalResponse.status < 400) {
+        const location = originalResponse.headers.get('Location')
+        if (location) {
+          // Construct a new URL for the redirect
+          const redirectUrl = new URL(location, remote).toString()
+
+          // Create a response with the redirect location, but add CORS headers
+          const redirectResponse = new Response(null, {
+            status: originalResponse.status,
+            statusText: originalResponse.statusText,
+            headers: {
+              Location: `${url.origin}${url.pathname}?url=${encodeURIComponent(redirectUrl)}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          })
+
+          return redirectResponse
+        }
+      }
+
       // Get the original response body as a readable stream
       const originalBody = originalResponse.body
 

@@ -80,8 +80,8 @@ const importFromFb = async (url: string): Promise<EventData> => {
 
   const chapterName = trimNonLetters(decodeURI(name).split(':')[1])
   const locationName = trimNonLetters(decodeURI(event_place.name).replace(chapterName, ''))
-  const startDatetime = toLocalIsoString(parsedData.current_start_timestamp)
-  const endDatetime = toLocalIsoString(end_timestamp)
+  const startDatetime = toLocalIsoString(parsedData.current_start_timestamp * 1000)
+  const endDatetime = toLocalIsoString(end_timestamp * 1000)
   const date = startDatetime.split('T')[0]
   const timeStart = startDatetime.split('T')[1].split('.')[0].replace(/:00$/, '')
   const timeEnd = endDatetime.split('T')[1].split('.')[0].replace(/:00$/, '')

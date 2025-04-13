@@ -16,10 +16,26 @@ export const formatDate = (date: string, localeCode: string) => {
 
 // Format time range for display
 export const formatTime = (time: string, localeCode: string) => {
-  const date = new Date(`2025-01-01T${time}:00Z`)
+  if (!time) return ''
+  const date = new Date(`2025-01-01T${time}:00`)
   const formatter = new Intl.DateTimeFormat(localeCode, {
     hour: 'numeric',
     minute: 'numeric',
   })
   return formatter.format(date)
+}
+
+export const trimNonLetters = (str: string) => {
+  if (!str) return ''
+  return str
+    .trim()
+    .replace(/^[.,;: ]+/, '')
+    .replace(/[.,;: ]+$/, '')
+    .trim()
+}
+
+// Convert timestamp to local ISO string
+export const toLocalIsoString = (timestamp: number) => {
+  const date = new Date(timestamp * 1000)
+  return date.toLocaleString('sv').replace(' ', 'T')
 }

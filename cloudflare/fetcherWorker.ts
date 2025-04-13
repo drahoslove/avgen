@@ -9,10 +9,21 @@
  */
 
 // usage
-// curl -X GET 'https://fetcher.drahoslav.workers.dev/?url=https://animalrightscalendar.org/events/67c090acb55943f2ac8503ee'
+// curl -X GET 'https://fetcher.drahoslav.workers.dev/?url=https://facebook.com/events/123456789
 
 export default {
   async fetch(request, env, ctx) {
+    // handle preflight
+    if (request.method === 'OPTIONS') {
+      return new Response('ok', {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': '*',
+        },
+      })
+    }
+
     try {
       const url = new URL(request.url)
       const remote = url.searchParams.get('url')
@@ -21,15 +32,22 @@ export default {
         return new Response('Missing "url" parameter', { status: 400 })
       }
 
-      // Fetch the original response
-      const originalResponse = await fetch(remote, request)
+      const newRequest = new Request(remote, request)
+      // pretend to be browser
+      newRequest.headers.delete('Origin')
+      newRequest.headers.set('sec-fetch-dest', 'document')
+      newRequest.headers.set('sec-fetch-mode', 'navigate')
+      newRequest.headers.set('sec-fetch-site', 'same-origin')
+      newRequest.headers.set('sec-fetch-user', '?1')
 
+      // Fetch the original response
+      const originalResponse = await fetch(newRequest)
       // Get the original response body as a readable stream
       const originalBody = originalResponse.body
 
       // Create a new response with the original body stream
       const newHeaders = new Headers(originalResponse.headers)
-      // Remove the Link header to prevent fetching aditional resources
+      // Remove the Link header to prevent fetching aditional resources by browser
       newHeaders.delete('Link')
       // Allow all origins to access the resource
       newHeaders.set('Access-Control-Allow-Origin', '*')

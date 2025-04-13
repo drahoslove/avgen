@@ -1,5 +1,7 @@
 import { z } from 'zod'
 import { EventData } from '../types'
+import { trimNonLetters } from './strings'
+import safeFetch from './safeFetch'
 
 // const EXAMPLEDATA: ArcEvent = {
 //   "@context": "https://schema.org",
@@ -28,7 +30,7 @@ const ArcEventSchema = z.object({
 type ArcEvent = z.infer<typeof ArcEventSchema>
 
 const importFromArc = async (url: string): Promise<EventData> => {
-  const page = await fetch(`https://fetcher.drahoslav.workers.dev/?url=${url}`)
+  const page = await safeFetch(url)
 
   const html = await page.text()
   const parser = new DOMParser()
@@ -63,11 +65,7 @@ const importFromArc = async (url: string): Promise<EventData> => {
       .split(':')
       .find(part => !part.includes('Cube of Truth'))
       ?.trim() ?? ''
-  const location: string = locationName
-    .replace(chapterName, '')
-    .trim()
-    .replace(/[,;:]$/, '')
-    .trim()
+  const location: string = trimNonLetters(locationName.replace(chapterName, ''))
   const date: string = new Date(startDate).toISOString().split('T')[0]
   const timeStart: string = new Date(startDate)
     .toISOString()

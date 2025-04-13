@@ -102,6 +102,7 @@ const Import = () => {
                         importFrom(importFromArc, arcUrl)()
                       }
                     }}
+                    onFocus={e => e.target.select()}
                   />
                 </div>
                 <button
@@ -142,6 +143,7 @@ const Import = () => {
                         importFrom(importFromFb, fbUrl)()
                       }
                     }}
+                    onFocus={e => e.target.select()}
                   />
                 </div>
                 <button

@@ -155,6 +155,7 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
                     setBackgroundImage(url)
                   }
                 }}
+                onFocus={e => e.target.select()}
               />
               <button
                 onClick={() => setBackgroundImage(url)}

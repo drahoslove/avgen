@@ -73,7 +73,7 @@ export function ContentTab() {
           <BuildingOffice2Icon className="h-5 w-5" />
           Chapter Name
         </label>
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <Textarea
             id="chapter"
             rows={chapter.split('\n').length || 1}
@@ -222,7 +222,7 @@ export function ContentTab() {
         <div className="space-y-1">
           <label
             htmlFor="language"
-            className="flex items-center gap-2 text-sm font-medium text-zinc-900 mb-2"
+            className="flex items-center gap-2 text-sm font-medium text-zinc-900"
           >
             <GlobeAltIcon className="h-5 w-5" />
             Localization
@@ -266,7 +266,7 @@ export function ContentTab() {
         <div className="space-y-1">
           <label
             htmlFor="secondaryLocale"
-            className="flex items-center gap-2 text-sm font-medium text-zinc-900 mb-2"
+            className="flex items-center gap-2 text-sm font-medium text-zinc-900"
           >
             Secondary
           </label>

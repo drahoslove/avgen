@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useShallow } from 'zustand/shallow'
 
 import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
@@ -7,6 +7,7 @@ import { processImage } from '../utils/imageProcessing'
 import { inLines, formatTime, formatDate, getScale } from '../utils/strings'
 import { LOCALIZATIONS } from '../constants/localization'
 import { useBackgroundStore, useContentStore } from '../hooks/useStore'
+import { safeUrl } from '../utils/safeFetch'
 
 interface PosterPreviewProps {
   isBackgroundImageEditable: boolean
@@ -28,10 +29,11 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         }))
       )
     const {
-      backgroundImage,
+      backgroundImage: rawBackgroundImage,
       opacity,
       position,
       zoom,
+      setZoom,
       blur,
       grayscaleMethod,
       customGrayscaleValues,
@@ -41,6 +43,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         opacity: state.opacity,
         position: state.position,
         zoom: state.zoom,
+        setZoom: state.setZoom,
         blur: state.blur,
         grayscaleMethod: state.grayscaleMethod,
         customGrayscaleValues: state.customGrayscaleValues,
@@ -50,6 +53,17 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
     const [processedImage, setProcessedImage] = useState<string | null>(null)
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
     const [isImageLoaded, setIsImageLoaded] = useState(false)
+
+    const backgroundImage = useMemo(() => {
+      // fetch the iamge throught the cloud worker to overcome CORS, if needed
+      if (
+        rawBackgroundImage?.startsWith('http') &&
+        !rawBackgroundImage.startsWith(window.location.href)
+      ) {
+        return safeUrl(rawBackgroundImage)
+      }
+      return rawBackgroundImage
+    }, [rawBackgroundImage])
 
     useEffect(() => {
       if (backgroundImage) {
@@ -86,6 +100,18 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       return () => window.removeEventListener('resize', updateSize)
     }, [ref])
 
+    const onLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+      const { width, height } = e.target as HTMLImageElement
+      const ratioRatio = width / height / (containerSize.width / containerSize.height)
+      if (ratioRatio > 1) {
+        // too wide - should zoom
+        setZoom(Math.max(100, Math.ceil(zoom * ratioRatio)))
+      } else {
+        setZoom(100)
+      }
+      setIsImageLoaded(true)
+    }
+
     const timeRange = `${formatTime(startTime, secondaryLocale || locale)} – ${formatTime(endTime, secondaryLocale || locale)}`
 
     // Calculate base font size based on container height
@@ -100,13 +126,8 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         style={{ fontSize: `${baseFontSize}px` }}
       >
         {/* Background Image */}
-        {processedImage && (
-          <img
-            src={processedImage}
-            alt=""
-            className="hidden"
-            onLoad={() => setIsImageLoaded(true)}
-          />
+        {processedImage && ( // only used to detect first image loaded event
+          <img src={processedImage} alt="" className="hidden" onLoad={onLoad} />
         )}
         <div
           className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
@@ -114,6 +135,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
             backgroundImage: `url(${isBackgroundImageEditable && processedImage ? processedImage : backgroundImage})`,
             backgroundSize: `${zoom}%`,
             backgroundPosition: `${position.x}% ${position.y}%`,
+            backgroundRepeat: 'no-repeat',
           }}
         />
 

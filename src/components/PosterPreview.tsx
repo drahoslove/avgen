@@ -153,7 +153,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
             </div>
 
             <div
-              className="uppercase text-brand-red text-[6em]/[1.2em] tracking-[0.2em] -mr-[0.2em] mb-[0.3em] font-black"
+              className="uppercase text-brand-red text-[6em]/[1.2em] tracking-[0.2em] -mr-[0.2em] mb-[0.3em] font-black whitespace-nowrap"
               style={{
                 scale: chapterScale,
               }}
@@ -164,14 +164,15 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
             <div className="text-center flex flex-col items-center">
               <div className="uppercase text-[2.5em]">{formatDate(date, locale)}</div>
               <div
-                className={`uppercase text-zinc-300 mt-[0m] ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em]`}
+                className={`uppercase text-zinc-300 text-[2.5em] ${secondaryLocale ? 'visible' : 'invisible'}`}
               >
                 {formatDate(date, secondaryLocale || locale)}
               </div>
 
               <div className="text-[4em]">{timeRange}</div>
 
-              <div className="text-[2.25em] px-[2em]">{inLines(location)}</div>
+              <div className="text-[2.25em] px-[2em] whitespace-nowrap">{inLines(location)}</div>
+
               {/* Bottom Logo */}
               <div
                 className={`aspect-square flex items-center justify-center my-[3em] w-[5em] ${inLines(chapter).length > 1 ? 'invisible' : 'visible'}`}

@@ -1,8 +1,7 @@
-const splitToLines = (str: string, bsp?: false) => {
+const splitToLines = (str: string) => {
   return str
     .split(/\/\/|\n/gi) // brean on new line
     .map(line => line.trim())
-    .map(line => line.replace(/ /gi, !bsp ? '\u00a0' : ' ')) // use nonbreak spaces
     .filter(Boolean)
 }
 

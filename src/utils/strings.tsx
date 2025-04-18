@@ -67,7 +67,21 @@ export const formatDate = (date: string, localeCode: string) => {
 // Format time range for display
 export const formatTime = (time: string, localeCode: string) => {
   if (!time) return ''
-  const date = new Date(`2025-01-01T${time}:00`)
+
+  console.log(time, localeCode)
+  // Special cases for midnight and times between 00:00-00:59
+  // if (time.startsWith('00:') && localeCode.startsWith('en')) {
+  //   return `${time} AM`
+  // }
+  if (time === '24:00') {
+    if (localeCode.startsWith('en')) {
+      // return '12:00 AM'
+    } else {
+      return time
+    }
+  }
+
+  const date = new Date(`2025-01-01T${time}`)
   const formatter = new Intl.DateTimeFormat(localeCode, {
     hour: 'numeric',
     minute: 'numeric',

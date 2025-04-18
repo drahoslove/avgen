@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   GlobeAltIcon,
   MapPinIcon,
@@ -11,6 +12,7 @@ import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import { LOCALIZATIONS } from '../constants/localization'
 import { useContentStore } from '../hooks/useStore'
 import Import from './Import'
+import { insertBreak } from '../utils/strings'
 
 export function ContentTab() {
   const {
@@ -47,9 +49,36 @@ export function ContentTab() {
     }))
   )
 
+  // if chapter name or location changes a lot via pasting a text, apply insert break
+  const [lastChapterLength, setLastChapterLength] = useState(chapter.length)
+  const [lastLocationLength, setLastLocationLength] = useState(location.length)
+
+  useEffect(() => {
+    const lengthDiff = chapter.length - lastChapterLength
+    setLastChapterLength(chapter.length)
+    // Only process if length increased by more than 1 character (indicating a paste)
+    if (lengthDiff > 1) {
+      if (chapter.length > 12 && !chapter.includes('\n')) {
+        setChapter(insertBreak(chapter, 12))
+      }
+    }
+  }, [chapter])
+
+  useEffect(() => {
+    const lengthDiff = location.length - lastLocationLength
+    setLastLocationLength(location.length)
+    // Only process if length increased by more than 1 character (indicating a paste)
+    if (lengthDiff > 1) {
+      if (location.length > 32 && !location.includes('\n')) {
+        setLocation(insertBreak(location, 32))
+      }
+    }
+  }, [location])
+
   // Generate time options in 15-minute intervals
-  const generateTimeOptions = () => {
+  const generateTimeOptions = (variant: 'start' | 'end') => {
     const options = []
+
     for (let hours = 0; hours < 24; hours++) {
       for (let minutes = 0; minutes < 60; minutes += 15) {
         const hour = hours.toString().padStart(2, '0')
@@ -57,10 +86,15 @@ export function ContentTab() {
         options.push(`${hour}:${minute}`)
       }
     }
+    if (variant === 'end') {
+      options.shift()
+      options.push('24:00')
+    }
     return options
   }
 
-  const timeOptions = generateTimeOptions()
+  const startTimeOptions = generateTimeOptions('start')
+  const endTimeOptions = generateTimeOptions('end')
 
   return (
     <div className="space-y-5">
@@ -113,9 +147,9 @@ export function ContentTab() {
             onChange={value => {
               setStartTime(value)
               if (value >= endTime) {
-                const startIndex = timeOptions.indexOf(value)
-                if (startIndex < timeOptions.length - 1) {
-                  setEndTime(timeOptions[startIndex + 1])
+                const startIndex = startTimeOptions.indexOf(value)
+                if (startIndex < startTimeOptions.length - 1) {
+                  setEndTime(startTimeOptions[startIndex + 1])
                 }
               }
             }}
@@ -128,7 +162,7 @@ export function ContentTab() {
                 </span>
               </Listbox.Button>
               <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {timeOptions.map(time => (
+                {startTimeOptions.map(time => (
                   <Listbox.Option
                     key={time}
                     value={time}
@@ -167,7 +201,7 @@ export function ContentTab() {
                 </span>
               </Listbox.Button>
               <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {timeOptions
+                {endTimeOptions
                   .filter(time => time > startTime)
                   .map(time => (
                     <Listbox.Option

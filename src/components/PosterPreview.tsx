@@ -112,12 +112,15 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       setIsImageLoaded(true)
     }
 
+    const TITLE =
+      LOCALIZATIONS.find(loc => loc.code === locale)?.['Cube of Truth'] ?? 'Cube of Truth'
+    const TITLE_SECONDARY =
+      LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ?? 'Cube of Truth'
+
     const timeRange = `${formatTime(startTime, secondaryLocale || locale)} – ${formatTime(endTime, secondaryLocale || locale)}`
 
     // Calculate base font size based on container height
     const baseFontSize = containerSize.height / 60
-
-    const chapterScale = getScale(8, chapter)
 
     return (
       <div
@@ -159,53 +162,48 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
           </div>
 
           {/* Main Content */}
-          <div className="flex flex-col items-center text-center flex-grow w-full font-libre-franklin">
-            <h1 className="uppercase text-[4.25em]/[1.5em] text-white text-stroke-white font-bold">
-              {LOCALIZATIONS.find(loc => loc.code === locale)?.['Cube of Truth'] ?? ''}
-              {/* Cube of Truth */}
+          <div className="text-center font-libre-franklin">
+            <h1
+              className="uppercase text-[4.25em]/[1.5em] text-white text-stroke-white font-bold whitespace-nowrap"
+              style={{ scale: getScale(15, TITLE) }}
+            >
+              {TITLE}
             </h1>
 
-            <div className="mb-[1em]">
-              <h2
-                className={`uppercase text-zinc-300 ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em]`}
-              >
-                {LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ??
-                  'Cube of Truth'}
-              </h2>
-            </div>
+            <h2
+              className={`uppercase text-zinc-300 ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] mb-[0.25em]`}
+            >
+              {TITLE_SECONDARY}
+            </h2>
 
             <div
-              className="uppercase text-brand-red text-[6em]/[1.2em] tracking-[0.2em] -mr-[0.2em] mb-[0.3em] font-black whitespace-nowrap"
-              style={{
-                scale: chapterScale,
-              }}
+              className="uppercase text-brand-red text-[6em]/[1.2em] tracking-[0.2em] -mr-[0.2em] mt-[0em] mb-[0.3em] font-black whitespace-nowrap"
+              style={{ scale: getScale(8, chapter) }}
             >
               {inLines(chapter)}
             </div>
 
-            <div className="text-center flex flex-col items-center">
-              <div className="uppercase text-[2.5em]">{formatDate(date, locale)}</div>
-              <div
-                className={`uppercase text-zinc-300 text-[2.5em] ${secondaryLocale ? 'visible' : 'invisible'}`}
-              >
-                {formatDate(date, secondaryLocale || locale)}
-              </div>
-
-              <div className="text-[4em]">{timeRange}</div>
-
-              <div className="text-[2.25em] px-[2em] whitespace-nowrap">{inLines(location)}</div>
-
-              {/* Bottom Logo */}
-              <div
-                className={`aspect-square flex items-center justify-center my-[3em] w-[5em] ${inLines(chapter).length > 1 ? 'invisible' : 'visible'}`}
-              >
-                <img
-                  src={whiteLogo}
-                  alt="Anonymous for the Voiceless"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+            <div className="uppercase text-[2.5em]">{formatDate(date, locale)}</div>
+            <div
+              className={`uppercase text-zinc-300 text-[2.5em] ${secondaryLocale ? 'visible' : 'invisible'}`}
+            >
+              {formatDate(date, secondaryLocale || locale)}
             </div>
+
+            <div className="text-[3.75em]">{timeRange}</div>
+
+            <div className="text-[2.25em] px-[2em] whitespace-nowrap">{inLines(location)}</div>
+          </div>
+
+          {/* Bottom Logo */}
+          <div
+            className={`aspect-square flex items-center justify-center my-[3em] w-[5em]  ${inLines(chapter).length > 1 ? 'invisible' : 'visible'}`}
+          >
+            <img
+              src={whiteLogo}
+              alt="Anonymous for the Voiceless"
+              className="w-full h-full object-contain"
+            />
           </div>
         </div>
       </div>

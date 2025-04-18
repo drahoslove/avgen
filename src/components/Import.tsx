@@ -88,6 +88,7 @@ const Import = () => {
                   </label>
                   <Input
                     type="text"
+                    name="fbUrl"
                     placeholder="https://www.facebook.com/events/1234567890"
                     value={fbUrl}
                     className="w-full px-3 py-2 bg-white rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder:text-zinc-300"
@@ -125,6 +126,7 @@ const Import = () => {
                   </label>
                   <Input
                     type="text"
+                    name="arcUrl"
                     placeholder="https://animalrightscalendar.org/events/123456789"
                     value={arcUrl}
                     className="w-full px-3 py-2 bg-white rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder:text-zinc-300"

@@ -14,7 +14,9 @@ export const processImage = async (
       const canvas = document.createElement('canvas')
       canvas.width = img.width
       canvas.height = img.height
-      const ctx = canvas.getContext('2d')
+      const ctx = canvas.getContext('2d', {
+        colorSpace: 'display-p3',
+      })
 
       if (!ctx) {
         reject(new Error('Could not get canvas context'))

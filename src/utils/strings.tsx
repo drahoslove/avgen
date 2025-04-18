@@ -1,5 +1,23 @@
+const splitToLines = (str: string, bsp?: false) => {
+  return str
+    .split(/\/\/|\n/gi) // brean on new line
+    .map(line => line.trim())
+    .map(line => line.replace(/ /gi, !bsp ? '\u00a0' : ' ')) // use nonbreak spaces
+    .filter(Boolean)
+}
+
 export const inLines = (str: string) => {
-  return str.split(/\/\/|\n/gi).map((line: string, i: number) => <div key={i}>{line}</div>)
+  return splitToLines(str).map((line: string, i: number) => <div key={i}>{line}</div>)
+}
+
+export const getScale = (breakpoint: number, str: string) => {
+  const largestPart = splitToLines(str).reduce((max, part, i) => {
+    if (i === 0) {
+      return part
+    }
+    return part.length > max.length ? part : max
+  }, '')
+  return Math.min(1, breakpoint / (largestPart.length || 1)) // scale down if more than 8 letters
 }
 
 // Format date based on language

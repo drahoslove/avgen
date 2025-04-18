@@ -1,14 +1,47 @@
+// Returns an array of lines from a string
 const splitToLines = (str: string) => {
   return str
-    .split(/\/\/|\n/gi) // brean on new line
+    .split(/\/\/|\n/gi) // break on new line
     .map(line => line.trim())
     .filter(Boolean)
+}
+
+// Replace a space nearest of the middle of the string by new line when the string is longer than certaian amount
+export const insertBreak = (str: string, minLength = 10) => {
+  if (!str) return str
+  if (str.length <= minLength) return str
+  const words = str.split(' ')
+  if (words.length <= 1) return str
+
+  const targetMiddle = str.length / 2
+  // Find break point closest to middle
+  let bestBreakIndex = 0
+  let currentLength = 0
+  let minDiff = str.length
+  words.forEach((word, i) => {
+    currentLength += word.length
+    if (i > 0) currentLength++ // Account for spaces between words
+
+    const diff = Math.abs(currentLength - targetMiddle)
+    if (diff < minDiff) {
+      minDiff = diff
+      bestBreakIndex = i + 1
+    }
+  })
+
+  // Join words back together with newline at best break point
+  return [
+    words.slice(0, bestBreakIndex).join(' ').trim(),
+    '\n',
+    words.slice(bestBreakIndex).join(' ').trim(),
+  ].join('')
 }
 
 export const inLines = (str: string) => {
   return splitToLines(str).map((line: string, i: number) => <div key={i}>{line}</div>)
 }
 
+// Returns a scaling factor <1 when the longest line of string is largen than breakpoint
 export const getScale = (breakpoint: number, str: string) => {
   const largestPart = splitToLines(str).reduce((max, part, i) => {
     if (i === 0) {
@@ -54,5 +87,5 @@ export const trimNonLetters = (str: string) => {
 // Convert timestamp to local ISO string
 export const toLocalIsoString = (timestamp: number | string) => {
   const date = new Date(timestamp)
-  return date.toLocaleString('sv').replace(' ', 'T')
+  return date.toLocaleString('sv').replace(' ', 'T') // use hack with SV date being close to ISO
 }

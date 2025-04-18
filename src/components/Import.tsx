@@ -8,6 +8,7 @@ import importFromFb from '../utils/importFromFb'
 import type { EventData } from '../types'
 import { useContentStore } from '../hooks/useStore'
 import Spinner from './icons/spinner'
+import { insertBreak } from '../utils/strings'
 
 const Import = () => {
   const { setChapter, setLocation, setDate, setStartTime, setEndTime } = useContentStore(
@@ -32,8 +33,8 @@ const Import = () => {
       try {
         if (!url) return
         const eventData = await importer(url)
-        setChapter(eventData.chapterName)
-        setLocation(eventData.location)
+        setChapter(insertBreak(eventData.chapterName, 12))
+        setLocation(insertBreak(eventData.location, 32))
         setDate(eventData.date)
         setStartTime(eventData.timeStart)
         setEndTime(eventData.timeEnd)

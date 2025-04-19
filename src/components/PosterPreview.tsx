@@ -1,13 +1,12 @@
 import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useShallow } from 'zustand/shallow'
 
-import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
-import whiteLogoTop from '../assets/AV-Logo-White-Transparent.svg'
 import { processImage } from '../utils/imageProcessing'
-import { inLines, formatTime, formatDate, getScale } from '../utils/strings'
 import { LOCALIZATIONS } from '../constants/localization'
 import { useBackgroundStore, useContentStore } from '../hooks/useStore'
 import { safeUrl } from '../utils/safeFetch'
+import Content from './Content'
+import { useStyleFromHash } from '../hooks/useStyleFromHash'
 
 interface PosterPreviewProps {
   isBackgroundImageEditable: boolean
@@ -50,12 +49,14 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       }))
     )
 
+    const style = useStyleFromHash()
+
     const [processedImage, setProcessedImage] = useState<string | null>(null)
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
     const [isImageLoaded, setIsImageLoaded] = useState(false)
 
     const backgroundImage = useMemo(() => {
-      // fetch the iamge throught the cloud worker to overcome CORS, if needed
+      // fetch the image through the cloud worker to overcome CORS, if needed
       if (
         rawBackgroundImage?.startsWith('http') &&
         !rawBackgroundImage.startsWith(window.location.href)
@@ -117,8 +118,6 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
     const TITLE_SECONDARY =
       LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ?? 'Cube of Truth'
 
-    const timeRange = `${formatTime(startTime, secondaryLocale || locale)} – ${formatTime(endTime, secondaryLocale || locale)}`
-
     // Calculate base font size based on container height
     const baseFontSize = containerSize.height / 60
 
@@ -150,62 +149,19 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
           }}
         />
 
-        {/* Content - Always fully opaque */}
-        <div className="absolute inset-0 flex flex-col items-center text-white">
-          {/* Top Logo */}
-          <div className="aspect-[4/3] flex items-center justify-center mt-[1.5em] w-[11em]">
-            <img
-              src={whiteLogoTop}
-              alt="Anonymous for the Voiceless"
-              className="w-full h-full object-contain"
-            />
-          </div>
-
-          {/* Main Content */}
-          <div className="text-center font-libre-franklin">
-            <h1
-              className="uppercase text-[4.25em]/[1.5em] text-white text-stroke-white font-bold whitespace-nowrap"
-              style={{ scale: getScale(15, TITLE) }}
-            >
-              {TITLE}
-            </h1>
-
-            <h2
-              className={`uppercase text-zinc-300 ${secondaryLocale ? 'visible' : 'invisible'} text-[2.5em] mb-[0.25em]`}
-            >
-              {TITLE_SECONDARY}
-            </h2>
-
-            <div
-              className="uppercase text-brand-red text-[6em]/[1.2em] tracking-[0.2em] -mr-[0.2em] mt-[0em] mb-[0.3em] font-black whitespace-nowrap"
-              style={{ scale: getScale(8, chapter) }}
-            >
-              {inLines(chapter)}
-            </div>
-
-            <div className="uppercase text-[2.5em]">{formatDate(date, locale)}</div>
-            <div
-              className={`uppercase text-zinc-300 text-[2.5em] ${secondaryLocale ? 'visible' : 'invisible'}`}
-            >
-              {formatDate(date, secondaryLocale || locale)}
-            </div>
-
-            <div className="text-[3.75em]">{timeRange}</div>
-
-            <div className="text-[2.25em] px-[2em] whitespace-nowrap">{inLines(location)}</div>
-          </div>
-
-          {/* Bottom Logo */}
-          <div
-            className={`aspect-square flex items-center justify-center my-[3em] w-[5em]  ${inLines(chapter).length > 1 ? 'invisible' : 'visible'}`}
-          >
-            <img
-              src={whiteLogo}
-              alt="Anonymous for the Voiceless"
-              className="w-full h-full object-contain"
-            />
-          </div>
-        </div>
+        {/* Content */}
+        <Content
+          style={style}
+          title={TITLE}
+          titleSecondary={TITLE_SECONDARY}
+          chapter={chapter}
+          date={date}
+          startTime={startTime}
+          endTime={endTime}
+          location={location}
+          secondaryLocale={secondaryLocale}
+          locale={locale}
+        />
       </div>
     )
   }

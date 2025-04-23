@@ -30,7 +30,7 @@ interface StyleConfig {
 }
 
 const styleConfigs: Record<ContentStyle, StyleConfig> = {
-  default: {
+  old: {
     container: 'absolute inset-0 flex flex-col items-center text-white',
     topLogo: {
       container: 'aspect-[4/3] flex items-center justify-center mt-[1.5em] w-[11em]',
@@ -52,7 +52,7 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
       show: true,
     },
   },
-  prague: {
+  default: {
     container: 'absolute inset-0 flex flex-col items-center text-white',
     topLogo: {
       container: 'aspect-[4/3] flex items-center justify-center mt-[1.5em] w-[11em]',
@@ -64,14 +64,14 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
       titleSecondary: 'text-[2.5em] text-zinc-300 uppercase mb-[0.25em]',
       chapter:
         'text-[6em]/[1.2em] tracking-[0.2em] font-black uppercase text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
-      date: 'text-[2.5em] uppercase',
+      date: 'text-[2.5em] bg-brand-red text-white uppercase inline px-[0.5em] py-[0.25em]',
       dateSecondary: 'text-[2.5em] uppercase text-zinc-300',
-      timeRange: 'text-[3.75em]',
-      location: 'text-[2.25em] px-[2em] whitespace-nowrap',
+      timeRange: 'text-[3.5em]',
+      location: 'text-[2.25em] px-[2em] whitespace-nowrap uppercase',
     },
     bottomLogo: {
       container: 'aspect-square flex items-center justify-center my-[3em] w-[5em]',
-      show: true,
+      show: false,
     },
   },
 }

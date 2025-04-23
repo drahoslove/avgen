@@ -18,7 +18,7 @@ const Header = () => {
           clearTimeout(timeoutRef.current ?? undefined)
         }
       },
-      letters.length === 0 ? 500 : 250
+      letters.length === 0 ? 200 : 100
     )
     return () => {
       if (timeout) {
@@ -30,16 +30,16 @@ const Header = () => {
   return (
     <h1 className="bg-zinc-900 text-2xl text-white mb-6 font-bold font-libre-franklin rounded-md p-1 px-3">
       <a href="/">
-        <span className="text-white underline">AV Gen</span>
+        <span className="text-white">AV Gen</span>
         {letters.map((letter, index, { length }) => (
           <span
             key={index}
-            className={`${index !== length - 1 ? 'text-brand-red decoration-brand-red' : 'text-zinc-900 decoration-zinc-9text-zinc-900'} underline  transition-colors duration-1000 ease-in-out`}
+            className={`${index !== length - 1 ? 'text-white decoration-brand-red' : 'text-zinc-900 decoration-zinc-9text-zinc-900'}  transition-colors duration-1000 ease-in-out`}
           >
             {letter}
           </span>
         ))}
-        <span className="text-zinc-900 decoration-black underline">{rest}</span>
+        <span className="text-zinc-900 decoration-black">{rest}</span>
       </a>
     </h1>
   )

@@ -1,6 +1,7 @@
 import { Tab } from '@headlessui/react'
 import { ContentTab } from './ContentTab'
 import { BackgroundTab } from './BackgroundTab'
+import { LinksTab } from './LinksTab'
 import Header from './Header'
 import ActionButtons from './ActionButtons'
 import About from './About'
@@ -64,12 +65,27 @@ export function PosterForm({
               }`
             }
           >
+            Links
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              `w-full rounded-md py-2.5 text-sm font-medium leading-5 transition-all duration-200 ease-in-out cursor-pointer
+              ${
+                selected
+                  ? 'bg-white text-zinc-900'
+                  : ' text-zinc-600 hover:bg-white/[0.5] hover:text-zinc-900'
+              }`
+            }
+          >
             Background
           </Tab>
         </Tab.List>
         <Tab.Panels className="flex-1">
           <Tab.Panel>
             <ContentTab />
+          </Tab.Panel>
+          <Tab.Panel>
+            <LinksTab />
           </Tab.Panel>
           <Tab.Panel>
             <BackgroundTab isBackgroundImageEditable={isBackgroundImageEditable} />

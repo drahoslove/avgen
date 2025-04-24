@@ -6,6 +6,13 @@ export interface GrayscaleWeights {
   b: number
 }
 
+export type SocialLinkType = 'web' | 'instagram' | 'facebook'
+
+export interface SocialLink {
+  type: SocialLinkType
+  handle: string
+}
+
 export interface ContentStore {
   chapter: string
   setChapter: (chapter: string) => void
@@ -21,6 +28,8 @@ export interface ContentStore {
   setLocale: (locale: string) => void
   secondaryLocale: string
   setSecondaryLocale: (secondaryLocale: string) => void
+  socialLinks: SocialLink[]
+  setSocialLinks: (socialLinks: SocialLink[]) => void
 }
 
 export interface BackgroundStore {

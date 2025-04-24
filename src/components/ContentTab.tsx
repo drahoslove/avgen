@@ -155,7 +155,7 @@ export function ContentTab() {
             }}
           >
             <div className="relative">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-2 text-left text-md text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span className="block truncate">{startTime}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
@@ -194,7 +194,7 @@ export function ContentTab() {
           </label>
           <Listbox value={endTime} onChange={setEndTime}>
             <div className="relative">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-2 text-left text-md text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span className="block truncate">{endTime}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
@@ -263,7 +263,7 @@ export function ContentTab() {
           </label>
           <Listbox value={locale} onChange={setLocale}>
             <div className="relative">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-2 text-left text-md text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span className="block truncate">
                   {LOCALIZATIONS.find(loc => loc.code === locale)?.name}
                 </span>
@@ -306,7 +306,7 @@ export function ContentTab() {
           </label>
           <Listbox value={secondaryLocale} onChange={setSecondaryLocale}>
             <div className="relative">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-3 text-left text-sm text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-2 text-left text-md text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span className="block truncate">
                   {LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.name ?? 'None'}
                 </span>

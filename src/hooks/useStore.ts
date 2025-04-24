@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { z } from 'zod'
 import type { ZodObject, ZodRawShape } from 'zod'
-import { ContentStore, BackgroundStore, GrayscaleMethod } from '../types'
+import { ContentStore, BackgroundStore, GrayscaleMethod, SocialLink } from '../types'
 const DEFAULT_IMAGE = '/bg/1.jpg'
 const previousImage = localStorage.getItem('backgroundImage')
 
@@ -68,6 +68,10 @@ const useContentStore = create<ContentStore>(set => ({
     })),
   secondaryLocale: localStorageOr(String, 'secondaryLocale', ''),
   setSecondaryLocale: secondaryLocale => set({ secondaryLocale }),
+  socialLinks: localStorageOr(JSON.parse, 'socialLinks', [
+    { type: 'web', handle: 'jointhecube.com' },
+  ]) as SocialLink[],
+  setSocialLinks: socialLinks => set({ socialLinks }),
 }))
 
 const useBackgroundStore = create<BackgroundStore>(set => ({
@@ -100,6 +104,7 @@ useContentStore.subscribe(state => {
   localStorage.setItem('location', state.location)
   localStorage.setItem('locale', state.locale)
   localStorage.setItem('secondaryLocale', state.secondaryLocale)
+  localStorage.setItem('socialLinks', JSON.stringify(state.socialLinks))
 })
 
 useBackgroundStore.subscribe(state => {

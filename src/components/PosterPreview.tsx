@@ -15,7 +15,7 @@ interface PosterPreviewProps {
 
 export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
   ({ isBackgroundImageEditable, setIsBackgroundImageEditable }, ref) => {
-    const { chapter, date, startTime, endTime, location, locale, secondaryLocale } =
+    const { chapter, date, startTime, endTime, location, locale, secondaryLocale, socialLinks } =
       useContentStore(
         useShallow(state => ({
           chapter: state.chapter,
@@ -25,6 +25,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
           location: state.location,
           locale: state.locale,
           secondaryLocale: state.secondaryLocale,
+          socialLinks: state.socialLinks,
         }))
       )
     const {
@@ -161,6 +162,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
           location={location}
           secondaryLocale={secondaryLocale}
           locale={locale}
+          socialLinks={socialLinks}
         />
       </div>
     )

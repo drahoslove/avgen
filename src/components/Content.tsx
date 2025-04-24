@@ -4,6 +4,9 @@ import { inLines, formatTime, formatDate, getScale } from '../utils/strings'
 import whiteLogoTop from '../assets/AV-Logo-White-Transparent.svg'
 import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
 import { styleSchema } from '../constants/styles'
+import { SocialLink } from '../types'
+import { GlobeAltIcon } from '@heroicons/react/24/outline'
+import { InstagramIcon, FacebookIcon } from './icons/SocialIcons'
 
 export type ContentStyle = z.infer<typeof styleSchema>
 
@@ -37,7 +40,7 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
       show: true,
     },
     mainContent: {
-      container: 'text-center font-libre-franklin',
+      container: 'text-center font-libre-franklin flex-1 flex flex-col items-center',
       title: 'text-[4.25em]/[1.5em] font-bold uppercase whitespace-nowrap text-stroke-white',
       titleSecondary: 'text-[2.5em] text-zinc-300 uppercase mb-[0.25em]',
       chapter:
@@ -87,6 +90,42 @@ interface ContentProps {
   secondaryLocale: string | null
   locale: string
   style?: ContentStyle
+  socialLinks: SocialLink[]
+}
+
+const getSocialIcon = (type: string) => {
+  switch (type) {
+    case 'instagram':
+      return <InstagramIcon className="h-4 w-4" />
+    case 'facebook':
+      return <FacebookIcon className="h-4 w-4" />
+    default:
+      return <GlobeAltIcon className="h-5 w-5" />
+  }
+}
+
+const isValidInstagramHandle = (handle: string) => {
+  return /^av(?:__|_|\.)(?=[a-zA-Z])/.test(handle)
+}
+
+const isValidSocialLink = (link: SocialLink) => {
+  if (link.type === 'web') return true
+  if (!link.handle) return false
+  if (link.type === 'instagram') return isValidInstagramHandle(link.handle)
+  return true // other social links just need non-empty handle
+}
+
+const getSocialTypeOrder = (type: string): number => {
+  switch (type) {
+    case 'instagram':
+      return 0
+    case 'facebook':
+      return 1
+    case 'web':
+      return 2
+    default:
+      return 3
+  }
 }
 
 const Content: React.FC<ContentProps> = ({
@@ -100,9 +139,13 @@ const Content: React.FC<ContentProps> = ({
   secondaryLocale,
   locale,
   style = 'default',
+  socialLinks,
 }) => {
   const timeRange = `${formatTime(startTime, secondaryLocale || locale)} – ${formatTime(endTime, secondaryLocale || locale)}`
   const styles = styleConfigs[style]
+  const validSocialLinks = socialLinks
+    .filter(isValidSocialLink)
+    .sort((a, b) => getSocialTypeOrder(a.type) - getSocialTypeOrder(b.type))
 
   return (
     <div className={styles.container}>
@@ -152,6 +195,19 @@ const Content: React.FC<ContentProps> = ({
             alt="Anonymous for the Voiceless"
             className="w-full h-full object-contain"
           />
+        </div>
+      )}
+
+      <div className="flex-1" />
+
+      {validSocialLinks.length > 0 && (
+        <div className="mb-5 text-[1.25em] flex items-center justify-center gap-6">
+          {validSocialLinks.map((link, index) => (
+            <div key={index} className="flex items-center gap-2">
+              {getSocialIcon(link.type)}
+              <span>{link.handle}</span>
+            </div>
+          ))}
         </div>
       )}
     </div>

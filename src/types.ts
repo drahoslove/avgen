@@ -6,7 +6,7 @@ export interface GrayscaleWeights {
   b: number
 }
 
-export type SocialLinkType = 'web' | 'instagram' | 'facebook'
+export type SocialLinkType = 'web' | 'instagram' | 'facebook' | 'youtube'
 
 export interface SocialLink {
   type: SocialLinkType

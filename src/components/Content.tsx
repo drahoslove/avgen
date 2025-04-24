@@ -6,7 +6,7 @@ import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
 import { styleSchema } from '../constants/styles'
 import { SocialLink } from '../types'
 import { GlobeAltIcon } from '@heroicons/react/24/outline'
-import { InstagramIcon, FacebookIcon } from './icons/SocialIcons'
+import { InstagramIcon, FacebookIcon, YouTubeIcon } from './icons/SocialIcons'
 
 export type ContentStyle = z.infer<typeof styleSchema>
 
@@ -99,6 +99,8 @@ const getSocialIcon = (type: string) => {
       return <InstagramIcon className="h-4 w-4" />
     case 'facebook':
       return <FacebookIcon className="h-4 w-4" />
+    case 'youtube':
+      return <YouTubeIcon className="h-4 w-4" />
     default:
       return <GlobeAltIcon className="h-5 w-5" />
   }
@@ -121,10 +123,12 @@ const getSocialTypeOrder = (type: string): number => {
       return 0
     case 'facebook':
       return 1
-    case 'web':
+    case 'youtube':
       return 2
-    default:
+    case 'web':
       return 3
+    default:
+      return 4
   }
 }
 

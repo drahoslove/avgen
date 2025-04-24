@@ -4,8 +4,13 @@ export const LOCALIZATIONS: Array<{
   ['Cube of Truth']: string
 }> = [
   {
-    name: 'English',
+    name: 'English (US)',
     code: 'en-US',
+    ['Cube of Truth']: 'Cube of Truth',
+  },
+  {
+    name: 'English (UK)',
+    code: 'en-GB',
     ['Cube of Truth']: 'Cube of Truth',
   },
   {
@@ -14,8 +19,18 @@ export const LOCALIZATIONS: Array<{
     ['Cube of Truth']: '真相立方体',
   },
   {
+    name: 'Hindi',
+    code: 'hi-IN',
+    ['Cube of Truth']: 'सच्चाई का घन',
+  },
+  {
     name: 'Spanish',
     code: 'es-ES',
+    ['Cube of Truth']: 'Cubo de la Verdad',
+  },
+  {
+    name: 'Mexican Spanish',
+    code: 'es-MX',
     ['Cube of Truth']: 'Cubo de la Verdad',
   },
   {
@@ -23,20 +38,40 @@ export const LOCALIZATIONS: Array<{
     code: 'pt-PT',
     ['Cube of Truth']: 'Cubo da Verdade',
   },
+  // {
+  //   name: 'Portuguese (Brazil)', // same formats as Portuguese
+  //   code: 'pt-BR',
+  //   ['Cube of Truth']: 'Cubo da Verdade',
+  // },
   {
     name: 'Russian',
     code: 'ru-RU',
     ['Cube of Truth']: 'Куб Правды',
   },
   {
-    name: 'German',
-    code: 'de-DE',
-    ['Cube of Truth']: 'Würfel der Wahrheit',
+    name: 'Indonesian',
+    code: 'id-ID',
+    ['Cube of Truth']: 'Kubus Kebenaran',
   },
   {
     name: 'French',
     code: 'fr-FR',
-    ['Cube of Truth']: 'Cube de Vérité',
+    ['Cube of Truth']: 'Cube de la Vérité',
+  },
+  {
+    name: 'Canadian French',
+    code: 'fr-CA',
+    ['Cube of Truth']: 'Cube de la Vérité',
+  },
+  {
+    name: 'Japanese',
+    code: 'ja-JP',
+    ['Cube of Truth']: '真実の立方体',
+  },
+  {
+    name: 'German',
+    code: 'de-DE',
+    ['Cube of Truth']: 'Würfel der Wahrheit',
   },
   {
     name: 'Italian',
@@ -48,6 +83,11 @@ export const LOCALIZATIONS: Array<{
     code: 'nl-NL',
     ['Cube of Truth']: 'Waarheidskubus',
   },
+  // {
+  //   name: 'Belgian Dutch',
+  //   code: 'nl-BE', // same formats as Dutch
+  //   ['Cube of Truth']: 'Waarheidskubus',
+  // },
   {
     name: 'Polish',
     code: 'pl-PL',

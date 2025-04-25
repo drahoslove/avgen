@@ -131,7 +131,7 @@ export function LinksTab() {
     <div className="space-y-5">
       <div className="space-y-1">
         <label className="text-sm font-medium text-zinc-900 flex items-center gap-2">
-          <LinkIcon className="h-5 w-5" />
+          <LinkIcon className="h-[1.25em] w-[1.25em]" />
           Social Links
         </label>
 
@@ -147,12 +147,15 @@ export function LinksTab() {
                     <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left text-md text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                       <span className="flex items-center">
                         {React.createElement(SocialIcons[link.type as keyof typeof SocialIcons], {
-                          className: 'h-5 w-5 text-zinc-600',
+                          className: 'h-[1.25em] w-[1.25em] text-zinc-600',
                         })}
                         <span className="ml-2 block truncate">{SocialLabels[link.type]}</span>
                       </span>
                       <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                        <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
+                        <ChevronUpDownIcon
+                          className="h-[1.25em] w-[1.25em] text-zinc-400"
+                          aria-hidden="true"
+                        />
                       </span>
                     </Listbox.Button>
                     <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
@@ -171,7 +174,7 @@ export function LinksTab() {
                               className={`flex items-center ${selected ? 'font-medium' : 'font-normal'}`}
                             >
                               {React.createElement(SocialIcons[type], {
-                                className: `h-5 w-5 ${active ? 'text-blue-600' : 'text-zinc-600'}`,
+                                className: `h-[1.25em] w-[1.25em] ${active ? 'text-blue-600' : 'text-zinc-600'}`,
                               })}
                               <span className="ml-2 block truncate">{SocialLabels[type]}</span>
                             </span>
@@ -193,7 +196,7 @@ export function LinksTab() {
                       onClick={() => handleRemoveLink(index)}
                       className="p-2 text-zinc-500 hover:text-zinc-700 focus:outline-none"
                     >
-                      <TrashIcon className="h-5 w-5" />
+                      <TrashIcon className="h-[1.25em] w-[1.25em]" />
                     </button>
                   </div>
                 </div>
@@ -222,7 +225,7 @@ export function LinksTab() {
                       onClick={() => handleRemoveLink(index)}
                       className="p-2 text-zinc-500 hover:text-zinc-700 focus:outline-none"
                     >
-                      <TrashIcon className="h-5 w-5" />
+                      <TrashIcon className="h-[1.25em] w-[1.25em]" />
                     </button>
                   </div>
                 </div>
@@ -240,7 +243,7 @@ export function LinksTab() {
               : 'bg-white text-zinc-700 hover:bg-zinc-50'
           }`}
         >
-          <PlusIcon className="h-5 w-5" />
+          <PlusIcon className="h-[1.25em] w-[1.25em]" />
           Add Link
         </button>
         {socialLinks.length >= MAX_LINKS && (

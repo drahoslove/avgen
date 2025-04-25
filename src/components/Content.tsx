@@ -32,6 +32,8 @@ interface StyleConfig {
   }
 }
 
+// all sizes in this component must use em as unit
+
 const styleConfigs: Record<ContentStyle, StyleConfig> = {
   old: {
     container: 'absolute inset-0 flex flex-col items-center text-white',
@@ -96,13 +98,13 @@ interface ContentProps {
 const getSocialIcon = (type: string) => {
   switch (type) {
     case 'instagram':
-      return <InstagramIcon className="h-4 w-4" />
+      return <InstagramIcon className="h-[1em] w-[1em]" />
     case 'facebook':
-      return <FacebookIcon className="h-4 w-4" />
+      return <FacebookIcon className="h-[1em] w-[1em]" />
     case 'youtube':
-      return <YouTubeIcon className="h-4 w-4" />
+      return <YouTubeIcon className="h-[1em] w-[1em]" />
     default:
-      return <GlobeAltIcon className="h-5 w-5" />
+      return <GlobeAltIcon className="h-[1.2em] w-[1.2em]" />
   }
 }
 
@@ -205,11 +207,11 @@ const Content: React.FC<ContentProps> = ({
       <div className="flex-1" />
 
       {validSocialLinks.length > 0 && (
-        <div className="mb-5 text-[1.25em] flex items-center justify-center gap-6">
+        <div className="mb-[1em] text-[1.25em] flex items-center justify-center gap-[1.5em]">
           {validSocialLinks.map((link, index) => (
-            <div key={index} className="flex items-center gap-2">
+            <div key={index} className="flex items-center gap-[0.5em]">
               {getSocialIcon(link.type)}
-              <span>{link.handle}</span>
+              <span className="mb-[0.2em]">{link.handle}</span>
             </div>
           ))}
         </div>

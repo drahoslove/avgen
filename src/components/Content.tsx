@@ -1,12 +1,15 @@
 import React from 'react'
 import { z } from 'zod'
 import { inLines, formatTime, formatDate, getScale } from '../utils/strings'
+import { getSocialTypeOrder, isValidInstagramHandle, SOCIAL_LABELS } from '../utils/social'
 import whiteLogoTop from '../assets/AV-Logo-White-Transparent.svg'
 import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
 import { styleSchema } from '../constants/styles'
 import { SocialLink } from '../types'
-import { GlobeAltIcon } from '@heroicons/react/24/outline'
-import { InstagramIcon, FacebookIcon, YouTubeIcon } from './icons/SocialIcons'
+import instagramIcon from '../assets/icons/instagram.svg'
+import facebookIcon from '../assets/icons/facebook.svg'
+import youtubeIcon from '../assets/icons/youtube.svg'
+import globeIcon from '../assets/icons/globe.svg'
 
 export type ContentStyle = z.infer<typeof styleSchema>
 
@@ -33,6 +36,7 @@ interface StyleConfig {
 }
 
 // all sizes in this component must use em as unit
+// make sure to not nest usage of em inside another element with text-[em]
 
 const styleConfigs: Record<ContentStyle, StyleConfig> = {
   old: {
@@ -96,20 +100,20 @@ interface ContentProps {
 }
 
 const getSocialIcon = (type: string) => {
+  const iconClass = 'h-full w-full object-contain'
+
   switch (type) {
     case 'instagram':
-      return <InstagramIcon className="h-[1em] w-[1em]" />
+      return <img src={instagramIcon} alt={SOCIAL_LABELS.instagram} className={iconClass} />
     case 'facebook':
-      return <FacebookIcon className="h-[1em] w-[1em]" />
+      return <img src={facebookIcon} alt={SOCIAL_LABELS.facebook} className={iconClass} />
     case 'youtube':
-      return <YouTubeIcon className="h-[1em] w-[1em]" />
+      return (
+        <img src={youtubeIcon} alt={SOCIAL_LABELS.youtube} className={`${iconClass} scale-[1.1]`} />
+      )
     default:
-      return <GlobeAltIcon className="h-[1.2em] w-[1.2em]" />
+      return <img src={globeIcon} alt={SOCIAL_LABELS.web} className={`${iconClass} scale-[1.1]`} />
   }
-}
-
-const isValidInstagramHandle = (handle: string) => {
-  return /^av(?:__|_|\.)(?=[a-zA-Z])/.test(handle)
 }
 
 const isValidSocialLink = (link: SocialLink) => {
@@ -117,21 +121,6 @@ const isValidSocialLink = (link: SocialLink) => {
   if (!link.handle) return false
   if (link.type === 'instagram') return isValidInstagramHandle(link.handle)
   return true // other social links just need non-empty handle
-}
-
-const getSocialTypeOrder = (type: string): number => {
-  switch (type) {
-    case 'instagram':
-      return 0
-    case 'facebook':
-      return 1
-    case 'youtube':
-      return 2
-    case 'web':
-      return 3
-    default:
-      return 4
-  }
 }
 
 const Content: React.FC<ContentProps> = ({
@@ -207,11 +196,11 @@ const Content: React.FC<ContentProps> = ({
       <div className="flex-1" />
 
       {validSocialLinks.length > 0 && (
-        <div className="mb-[1em] text-[1.25em] flex items-center justify-center gap-[1.5em]">
+        <div className="mb-[1.2em] flex items-center justify-center gap-[1.75em]">
           {validSocialLinks.map((link, index) => (
-            <div key={index} className="flex items-center gap-[0.5em]">
-              {getSocialIcon(link.type)}
-              <span className="mb-[0.2em]">{link.handle}</span>
+            <div key={index} className="flex items-center gap-[0.75em]">
+              <div className="w-[1.25em] h-[1.25em]">{getSocialIcon(link.type)}</div>
+              <span className="mb-[0em] text-[1.25em]">{link.handle}</span>
             </div>
           ))}
         </div>

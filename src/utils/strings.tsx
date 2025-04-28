@@ -1,5 +1,5 @@
 // Returns an array of lines from a string
-const splitToLines = (str: string) => {
+export const splitToLines = (str: string) => {
   return str
     .split(/\/\/|\n/gi) // break on new line
     .map(line => line.trim())
@@ -37,8 +37,10 @@ export const insertBreak = (str: string, minLength = 10) => {
   ].join('')
 }
 
-export const inLines = (str: string) => {
-  return splitToLines(str).map((line: string, i: number) => <div key={i}>{line}</div>)
+export const inLines = (str: string, maxLines = 2) => {
+  return splitToLines(str)
+    .slice(0, maxLines)
+    .map((line: string, i: number) => <div key={i}>{line}</div>)
 }
 
 // Returns a scaling factor <1 when the longest line of string is largen than breakpoint

@@ -12,7 +12,7 @@ import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import { LOCALIZATIONS } from '../constants/localization'
 import { useContentStore } from '../hooks/useStore'
 import Import from './Import'
-import { insertBreak } from '../utils/strings'
+import { insertBreak, splitToLines } from '../utils/strings'
 
 export function ContentTab() {
   const {
@@ -52,10 +52,20 @@ export function ContentTab() {
   // if chapter name or location changes a lot via pasting a text, apply insert break
   const [lastChapterLength, setLastChapterLength] = useState(chapter.length)
   const [lastLocationLength, setLastLocationLength] = useState(location.length)
+  const [chapterError, setChapterError] = useState('')
+  const [locationError, setLocationError] = useState('')
 
   useEffect(() => {
     const lengthDiff = chapter.length - lastChapterLength
     setLastChapterLength(chapter.length)
+
+    const lines = splitToLines(chapter)
+    if (lines.length > 2) {
+      setChapterError('Chapter name cannot exceed 2 lines')
+    } else {
+      setChapterError('')
+    }
+
     // Only process if length increased by more than 1 character (indicating a paste)
     if (lengthDiff > 1) {
       if (chapter.length > 12 && !chapter.includes('\n')) {
@@ -67,6 +77,14 @@ export function ContentTab() {
   useEffect(() => {
     const lengthDiff = location.length - lastLocationLength
     setLastLocationLength(location.length)
+
+    const lines = splitToLines(location)
+    if (lines.length > 2) {
+      setLocationError('Location cannot exceed 2 lines')
+    } else {
+      setLocationError('')
+    }
+
     // Only process if length increased by more than 1 character (indicating a paste)
     if (lengthDiff > 1) {
       if (location.length > 32 && !location.includes('\n')) {
@@ -108,14 +126,19 @@ export function ContentTab() {
           Chapter Name
         </label>
         <div className="flex gap-4">
-          <Textarea
-            id="chapter"
-            rows={chapter.split('\n').length || 1}
-            value={chapter}
-            onChange={e => setChapter(e.target.value)}
-            className="w-full px-3 py-2 bg-white rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter city name"
-          />
+          <div className="w-full">
+            <Textarea
+              id="chapter"
+              rows={chapter.split('\n').length || 1}
+              value={chapter}
+              onChange={e => setChapter(e.target.value)}
+              className={`w-full px-3 py-2 bg-white rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                chapterError ? 'border-red-500' : ''
+              }`}
+              placeholder="Enter city name"
+            />
+            {chapterError && <p className="mt-1 text-sm text-red-500">{chapterError}</p>}
+          </div>
           <Import />
         </div>
       </div>
@@ -240,14 +263,19 @@ export function ContentTab() {
           Location
         </label>
         <div className="flex gap-2">
-          <Textarea
-            id="location"
-            rows={location.split('\n').length || 1}
-            value={location}
-            onChange={e => setLocation(e.target.value)}
-            className="w-full px-3 py-2 bg-white rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter location"
-          />
+          <div className="w-full">
+            <Textarea
+              id="location"
+              rows={location.split('\n').length || 1}
+              value={location}
+              onChange={e => setLocation(e.target.value)}
+              className={`w-full px-3 py-2 bg-white rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                locationError ? 'border-red-500' : ''
+              }`}
+              placeholder="Enter location"
+            />
+            {locationError && <p className="mt-1 text-sm text-red-500">{locationError}</p>}
+          </div>
         </div>
       </div>
 

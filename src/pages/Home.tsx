@@ -19,14 +19,16 @@ function Home() {
   // Background image state
   const scrollDirection = useScrollDirection()
 
-  const { chapter, date } = useContentStore(
+  const { chapter, date, locale, secondaryLocale } = useContentStore(
     useShallow(state => ({
       chapter: state.chapter,
       date: state.date,
+      locale: state.locale,
+      secondaryLocale: state.secondaryLocale,
     }))
   )
 
-  const getCanvas = async () => {
+  const getCanvas = async (targetLocale: string) => {
     if (!previewRef.current) return null
     // Set fixed dimensions for image generation
     const [width, height] = [1080, 1350] // should be  be 4/5
@@ -41,6 +43,27 @@ function Home() {
           element.style.width = `${width}px`
           element.style.height = `${height}px`
           element.style.fontSize = `${baseFontSize}px`
+
+          // Fix slider positioning for capture
+          const sliderTrack = element.querySelector('.slick-track')
+          if (sliderTrack instanceof HTMLElement) {
+            sliderTrack.style.transform = 'none'
+            sliderTrack.style.width = '100%'
+          }
+
+          // Show only the slide for the target locale
+          const slides = element.querySelectorAll('.slick-slide')
+          slides.forEach((slide, index) => {
+            if (slide instanceof HTMLElement) {
+              const isTargetSlide =
+                (targetLocale === locale && index === 0) ||
+                (targetLocale === secondaryLocale && index === 1)
+              slide.style.display = isTargetSlide ? 'block' : 'none'
+              if (isTargetSlide) {
+                slide.style.width = '100%'
+              }
+            }
+          })
         },
       })
     } catch (error) {
@@ -50,10 +73,10 @@ function Home() {
   }
 
   // Function to generate image and return the blob
-  const generateImageBlob = async (): Promise<Blob | null> => {
+  const generateImageBlob = async (targetLocale: string): Promise<Blob | null> => {
     if (!previewRef.current) return null
     try {
-      const canvas = await getCanvas()
+      const canvas = await getCanvas(targetLocale)
       if (!canvas) return null
       return new Promise<Blob>(resolve => {
         canvas.toBlob(
@@ -65,27 +88,45 @@ function Home() {
         )
       })
     } catch (error) {
-      console.error('Error generating image:', error)
+      console.error(
+        'Error generating image:',
+        error instanceof Error ? error.message : 'Unknown error'
+      )
       return null
     }
   }
 
-  // Function to download the image
+  // Function to download the image(s)
   const downloadImage = async () => {
     setIsGenerating(true)
     if (!previewRef.current) return
     try {
-      const canvas = await getCanvas()
-      if (!canvas) return
-      const dataUrl = canvas.toDataURL('image/png')
-      if (!dataUrl) return
+      // Generate primary locale image
+      const primaryCanvas = await getCanvas(locale)
+      if (primaryCanvas) {
+        const primaryDataUrl = primaryCanvas.toDataURL('image/png')
+        const primaryLink = document.createElement('a')
+        primaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${locale}.png`
+        primaryLink.href = primaryDataUrl
+        primaryLink.click()
+      }
 
-      const link = document.createElement('a')
-      link.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}.png`
-      link.href = dataUrl
-      link.click()
+      // Generate secondary locale image if exists
+      if (secondaryLocale) {
+        const secondaryCanvas = await getCanvas(secondaryLocale)
+        if (secondaryCanvas) {
+          const secondaryDataUrl = secondaryCanvas.toDataURL('image/png')
+          const secondaryLink = document.createElement('a')
+          secondaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${secondaryLocale}.png`
+          secondaryLink.href = secondaryDataUrl
+          secondaryLink.click()
+        }
+      }
     } catch (error) {
-      console.error('Error generating image:', error)
+      console.error(
+        'Error generating image:',
+        error instanceof Error ? error.message : 'Unknown error'
+      )
     } finally {
       setIsGenerating(false)
     }
@@ -95,33 +136,46 @@ function Home() {
   const shareImage = async () => {
     setIsSharing(true)
     try {
-      const blob = await generateImageBlob()
-      if (!blob) return
+      const blobs: Blob[] = []
 
-      const file = new File(
-        [blob],
-        `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}.png`,
-        {
-          type: 'image/png',
-        }
-      )
+      // Generate primary locale image
+      const primaryBlob = await generateImageBlob(locale)
+      if (primaryBlob) blobs.push(primaryBlob)
 
-      if (navigator.share && navigator.canShare({ files: [file] })) {
+      // Generate secondary locale image if exists
+      if (secondaryLocale) {
+        const secondaryBlob = await generateImageBlob(secondaryLocale)
+        if (secondaryBlob) blobs.push(secondaryBlob)
+      }
+
+      if (blobs.length === 0) return
+
+      const files = blobs.map((blob, index) => {
+        const localeCode = index === 0 ? locale : secondaryLocale
+        return new File(
+          [blob],
+          `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${localeCode}.png`,
+          { type: 'image/png' }
+        )
+      })
+
+      if (navigator.share && navigator.canShare({ files })) {
         await navigator.share({
-          files: [file],
+          files,
           title: 'Cube of Truth',
           text: `Join us at the Cube of Truth in ${chapter}!`,
         })
       } else {
+        // If sharing multiple files isn't supported, just copy the primary locale image
         await navigator.clipboard.write([
           new ClipboardItem({
-            'image/png': blob,
+            'image/png': blobs[0],
           }),
         ])
-        alert('Image copied to clipboard!')
+        alert('Primary locale image copied to clipboard!')
       }
     } catch (error) {
-      console.error('Share error:', error)
+      console.error('Share error:', error instanceof Error ? error.message : 'Unknown error')
     } finally {
       setIsSharing(false)
     }

@@ -27,10 +27,10 @@ interface StyleConfig {
   mainContent: {
     container: string
     title: string
-    titleSecondary: string
+    subTitle: string
     chapter: string
     date: string
-    dateSecondary: string
+    subDate: string
     timeRange: string
     location: string
   }
@@ -45,7 +45,8 @@ interface StyleConfig {
 
 const styleConfigs: Record<ContentStyle, StyleConfig> = {
   old: {
-    container: 'absolute inset-0 flex flex-col items-center text-white',
+    container:
+      'absolute inset-0 flex flex-col items-center text-white pointer-events-none select-none',
     topLogo: {
       container: 'aspect-[4/3] flex items-center justify-center mt-[1.5em] w-[11em]',
       show: true,
@@ -53,11 +54,11 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
     mainContent: {
       container: 'text-center font-libre-franklin flex-1 flex flex-col items-center',
       title: 'text-[4.25em]/[1.5em] font-bold uppercase whitespace-nowrap text-stroke-white',
-      titleSecondary: 'text-[2.5em] text-zinc-300 uppercase mb-[0.25em]',
+      subTitle: 'text-[2.5em] text-zinc-300 uppercase mb-[0.25em]',
       chapter:
         'text-[6em]/[1.2em] tracking-[0.2em] font-black uppercase text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
       date: 'text-[2.5em] uppercase',
-      dateSecondary: 'text-[2.5em] uppercase text-zinc-300',
+      subDate: 'text-[2.5em] uppercase text-zinc-300',
       timeRange: 'text-[3.75em]',
       location: 'text-[2.25em] px-[2em] whitespace-nowrap',
     },
@@ -67,7 +68,8 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
     },
   },
   default: {
-    container: 'absolute inset-0 flex flex-col items-center text-white',
+    container:
+      'absolute inset-0 flex flex-col items-center text-white pointer-events-none select-none',
     topLogo: {
       container: 'aspect-[4/3] flex items-center justify-center mt-[1.5em] w-[11em]',
       show: true,
@@ -75,11 +77,11 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
     mainContent: {
       container: 'text-center font-libre-franklin',
       title: 'text-[4.25em]/[1.5em] font-bold uppercase whitespace-nowrap text-stroke-white',
-      titleSecondary: 'text-[2.5em] text-zinc-300 uppercase mb-[0.25em]',
+      subTitle: 'text-[2.5em] text-zinc-300 uppercase mb-[0.25em]',
       chapter:
         'text-[6em]/[1.2em] tracking-[0.2em] font-black uppercase text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
       date: 'text-[2.5em]/[1.75em] font-bold bg-brand-red text-white uppercase inline px-[0.5em] py-[0.25em]',
-      dateSecondary: 'text-[2.5em]/[1.75em] uppercase text-zinc-300',
+      subDate: 'text-[2.5em]/[1.75em] uppercase text-zinc-300',
       timeRange: 'text-[3.5em]',
       location: 'text-[2.25em] px-[2em] whitespace-nowrap uppercase',
     },
@@ -92,13 +94,12 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
 
 interface ContentProps {
   title: string
-  titleSecondary: string
+  subTitle: string
   chapter: string
   date: string
   startTime: string
   endTime: string
   location: string
-  secondaryLocale: string | null
   locale: string
   style?: ContentStyle
   socialLinks: SocialLink[]
@@ -133,13 +134,12 @@ const isValidSocialLink = (link: SocialLink) => {
 
 const Content: React.FC<ContentProps> = ({
   title,
-  titleSecondary,
+  subTitle,
   chapter,
   date,
   startTime,
   endTime,
   location,
-  secondaryLocale,
   locale,
   style = 'default',
   socialLinks,
@@ -167,10 +167,8 @@ const Content: React.FC<ContentProps> = ({
           {title}
         </h1>
 
-        <h2
-          className={`${styles.mainContent.titleSecondary} ${secondaryLocale ? 'visible' : 'invisible'}`}
-        >
-          {titleSecondary}
+        <h2 className={`${styles.mainContent.subTitle} ${subTitle ? 'visible' : 'invisible'}`}>
+          {subTitle || '.'}
         </h2>
 
         <div className={styles.mainContent.chapter} style={{ scale: getScale(8, chapter) }}>
@@ -178,11 +176,7 @@ const Content: React.FC<ContentProps> = ({
         </div>
 
         <div className={styles.mainContent.date}>{formatDate(date, locale)}</div>
-        <div
-          className={`${styles.mainContent.dateSecondary} ${secondaryLocale ? 'visible' : 'invisible'}`}
-        >
-          {formatDate(date, secondaryLocale || locale)}
-        </div>
+        <div className={`${styles.mainContent.subDate} invisible`}>{formatDate(date, locale)}</div>
 
         <div className={styles.mainContent.timeRange}>{timeRange}</div>
 

@@ -1,8 +1,9 @@
-import { forwardRef, useEffect, useMemo, useState } from 'react'
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
 import { useShallow } from 'zustand/shallow'
+import Slider from 'react-slick'
 
 import { processImage } from '../utils/imageProcessing'
-import { useBackgroundStore, useContentStore } from '../hooks/useStore'
+import { useBackgroundStore, useContentStore, useSliderStore } from '../hooks/useStore'
 import { safeUrl } from '../utils/safeFetch'
 import Content from './Content'
 import { useHashMode } from '../hooks/useHashMode'
@@ -14,17 +15,26 @@ interface PosterPreviewProps {
 
 export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
   ({ isBackgroundImageEditable, setIsBackgroundImageEditable }, ref) => {
-    const { chapter, date, startTime, endTime, location, locale, socialLinks } = useContentStore(
+    const sliderRef = useRef<Slider>(null)
+    const { setSliderRef, setCurrentSlide } = useSliderStore(
       useShallow(state => ({
-        chapter: state.chapter,
-        date: state.date,
-        startTime: state.startTime,
-        endTime: state.endTime,
-        location: state.location,
-        locale: state.locale,
-        socialLinks: state.socialLinks,
+        setSliderRef: state.setSliderRef,
+        setCurrentSlide: state.setCurrentSlide,
       }))
     )
+    const { chapter, date, startTime, endTime, location, locale, socialLinks, secondaryLocale } =
+      useContentStore(
+        useShallow(state => ({
+          chapter: state.chapter,
+          date: state.date,
+          startTime: state.startTime,
+          endTime: state.endTime,
+          location: state.location,
+          locale: state.locale,
+          socialLinks: state.socialLinks,
+          secondaryLocale: state.secondaryLocale,
+        }))
+      )
     const {
       backgroundImage: rawBackgroundImage,
       opacity,
@@ -119,6 +129,17 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
     // Calculate base font size based on container height
     const baseFontSize = containerSize.height / 60
 
+    const handleBeforeChange = (_: number, newIndex: number) => {
+      setCurrentSlide(newIndex)
+    }
+
+    // Set slider ref when it's available
+    useEffect(() => {
+      if (sliderRef.current) {
+        setSliderRef(sliderRef.current)
+      }
+    }, [setSliderRef])
+
     return (
       <div
         ref={ref}
@@ -148,22 +169,60 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         />
 
         {/* Content */}
-        <Content
-          style={mode}
-          title={TITLE}
-          titleSecondary={TITLE_SECONDARY}
-          chapter={chapter}
-          date={date}
-          startTime={startTime}
-          endTime={endTime}
-          location={location}
-          secondaryLocale={''}
-          locale={locale}
-          socialLinks={socialLinks}
-        />
+        <div className="absolute inset-0">
+          <Slider
+            ref={sliderRef}
+            dots={false}
+            infinite={false}
+            speed={500}
+            slidesToShow={1}
+            slidesToScroll={1}
+            arrows={false}
+            className="h-full [&_.slick-list]:!h-full [&_.slick-track]:!flex [&_.slick-track]:!h-full [&_.slick-slide]:!w-[100vw] [&_.slick-slide]:!h-full [&_.slick-slide>div]:!h-full"
+            swipe={secondaryLocale ? true : false}
+            touchThreshold={10}
+            beforeChange={handleBeforeChange}
+          >
+            <div className="h-full w-full flex items-center justify-center relative">
+              <Content
+                style={mode}
+                title={TITLE}
+                subTitle={''}
+                chapter={chapter}
+                date={date}
+                startTime={startTime}
+                endTime={endTime}
+                location={location}
+                locale={locale}
+                socialLinks={socialLinks}
+              />
+            </div>
+            {secondaryLocale && (
+              <div className="h-full w-full flex items-center justify-center relative">
+                <Content
+                  style={mode}
+                  title={TITLE_SECONDARY}
+                  subTitle={''}
+                  chapter={chapter}
+                  date={date}
+                  startTime={startTime}
+                  endTime={endTime}
+                  location={location}
+                  locale={secondaryLocale}
+                  socialLinks={socialLinks}
+                />
+              </div>
+            )}
+          </Slider>
+        </div>
       </div>
     )
   }
 )
 
 PosterPreview.displayName = 'PosterPreview'
+
+// Add these exports to use in ContentTab
+export const goToSlide = (slider: Slider | null, index: number) => {
+  slider?.slickGoTo(index)
+}

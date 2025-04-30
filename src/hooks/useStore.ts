@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { z } from 'zod'
 import type { ZodObject, ZodRawShape } from 'zod'
 import { ContentStore, BackgroundStore, GrayscaleMethod, SocialLink } from '../types'
+import type Slider from 'react-slick'
 const DEFAULT_IMAGE = '/bg/1.jpg'
 const previousImage = localStorage.getItem('backgroundImage')
 
@@ -93,6 +94,20 @@ const useBackgroundStore = create<BackgroundStore>(set => ({
     b: 0.114,
   }),
   setCustomGrayscaleValues: values => set({ customGrayscaleValues: values }),
+}))
+
+interface SliderState {
+  currentSlide: number
+  setCurrentSlide: (slide: number) => void
+  sliderRef: Slider | null
+  setSliderRef: (ref: Slider | null) => void
+}
+
+export const useSliderStore = create<SliderState>(set => ({
+  currentSlide: 0,
+  setCurrentSlide: slide => set({ currentSlide: slide }),
+  sliderRef: null,
+  setSliderRef: ref => set({ sliderRef: ref }),
 }))
 
 // save to local storage

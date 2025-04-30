@@ -40,7 +40,11 @@ export const insertBreak = (str: string, minLength = 10) => {
 export const inLines = (str: string, maxLines = 2) => {
   return splitToLines(str)
     .slice(0, maxLines)
-    .map((line: string, i: number) => <div key={i}>{line}</div>)
+    .map((line: string, i: number, { length }) => (
+      <div key={i} className={length > 1 ? '-my-[0.1em]' : ''}>
+        {line}
+      </div>
+    ))
 }
 
 // Returns a scaling factor <1 when the longest line of string is largen than breakpoint

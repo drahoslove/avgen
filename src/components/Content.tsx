@@ -1,7 +1,12 @@
 import React from 'react'
 import { z } from 'zod'
 import { inLines, formatTime, formatDate, getScale } from '../utils/strings'
-import { getSocialTypeOrder, isValidInstagramHandle, SOCIAL_LABELS } from '../utils/social'
+import {
+  getSocialTypeOrder,
+  isValidInstagramHandle,
+  SOCIAL_LABELS,
+  formatSocialHandle,
+} from '../utils/social'
 import whiteLogoTop from '../assets/AV-Logo-White-Transparent.svg'
 import whiteLogo from '../assets/AV-Symbol-White-Transparent.png'
 import { styleSchema } from '../constants/styles'
@@ -111,6 +116,9 @@ const getSocialIcon = (type: string) => {
       return (
         <img src={youtubeIcon} alt={SOCIAL_LABELS.youtube} className={`${iconClass} scale-[1.1]`} />
       )
+    case 'web':
+    case 'linktree':
+      return <img src={globeIcon} alt={SOCIAL_LABELS.web} className={`${iconClass} scale-[1.1]`} />
     default:
       return <img src={globeIcon} alt={SOCIAL_LABELS.web} className={`${iconClass} scale-[1.1]`} />
   }
@@ -136,7 +144,7 @@ const Content: React.FC<ContentProps> = ({
   style = 'default',
   socialLinks,
 }) => {
-  const timeRange = `${formatTime(startTime, secondaryLocale || locale)} – ${formatTime(endTime, secondaryLocale || locale)}`
+  const timeRange = `${formatTime(startTime, locale)} – ${formatTime(endTime, locale)}`
   const styles = styleConfigs[style]
   const validSocialLinks = socialLinks
     .filter(isValidSocialLink)
@@ -200,7 +208,9 @@ const Content: React.FC<ContentProps> = ({
           {validSocialLinks.map((link, index) => (
             <div key={index} className="flex items-center gap-[0.75em]">
               <div className="w-[1.25em] h-[1.25em]">{getSocialIcon(link.type)}</div>
-              <span className="mb-[0em] text-[1.25em]">{link.handle}</span>
+              <span className="mb-[0em] text-[1.25em]">
+                {formatSocialHandle(link.type, link.handle)}
+              </span>
             </div>
           ))}
         </div>

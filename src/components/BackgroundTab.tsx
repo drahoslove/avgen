@@ -12,11 +12,15 @@ import { useShallow } from 'zustand/shallow'
 import { SunIcon, CloudIcon } from '@heroicons/react/24/outline'
 import { Input, Listbox } from '@headlessui/react'
 import { useBackgroundStore } from '../hooks/useStore'
+import { useHashMode } from '../hooks/useHashMode'
+
 interface BackgroundTabProps {
   isBackgroundImageEditable: boolean
 }
 
 export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps) {
+  const mode = useHashMode()
+
   const {
     backgroundImage,
     setBackgroundImage,
@@ -63,6 +67,11 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
       }
       reader.readAsDataURL(file)
     }
+  }
+
+  // Only render the background settings when hash is "#old"
+  if (mode !== 'old') {
+    return null
   }
 
   return (

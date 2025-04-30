@@ -1,9 +1,5 @@
 import React from 'react'
 
-interface CodeProps {
-  children: React.ReactNode
-}
-
-export function Code({ children }: CodeProps) {
-  return <code className="px-1.5 py-0.5 rounded bg-zinc-100 font-mono text-sm">{children}</code>
-}
+export const Code: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <code className="bg-zinc-100 px-1 py-0.5 rounded text-sm font-mono">{children}</code>
+)

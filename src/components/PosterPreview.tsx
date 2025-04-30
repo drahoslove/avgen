@@ -2,11 +2,10 @@ import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useShallow } from 'zustand/shallow'
 
 import { processImage } from '../utils/imageProcessing'
-import { LOCALIZATIONS } from '../constants/localization'
 import { useBackgroundStore, useContentStore } from '../hooks/useStore'
 import { safeUrl } from '../utils/safeFetch'
 import Content from './Content'
-import { useStyleFromHash } from '../hooks/useStyleFromHash'
+import { useHashMode } from '../hooks/useHashMode'
 
 interface PosterPreviewProps {
   isBackgroundImageEditable: boolean
@@ -15,19 +14,17 @@ interface PosterPreviewProps {
 
 export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
   ({ isBackgroundImageEditable, setIsBackgroundImageEditable }, ref) => {
-    const { chapter, date, startTime, endTime, location, locale, secondaryLocale, socialLinks } =
-      useContentStore(
-        useShallow(state => ({
-          chapter: state.chapter,
-          date: state.date,
-          startTime: state.startTime,
-          endTime: state.endTime,
-          location: state.location,
-          locale: state.locale,
-          secondaryLocale: state.secondaryLocale,
-          socialLinks: state.socialLinks,
-        }))
-      )
+    const { chapter, date, startTime, endTime, location, locale, socialLinks } = useContentStore(
+      useShallow(state => ({
+        chapter: state.chapter,
+        date: state.date,
+        startTime: state.startTime,
+        endTime: state.endTime,
+        location: state.location,
+        locale: state.locale,
+        socialLinks: state.socialLinks,
+      }))
+    )
     const {
       backgroundImage: rawBackgroundImage,
       opacity,
@@ -50,7 +47,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       }))
     )
 
-    const style = useStyleFromHash()
+    const mode = useHashMode()
 
     const [processedImage, setProcessedImage] = useState<string | null>(null)
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
@@ -114,10 +111,10 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
       setIsImageLoaded(true)
     }
 
-    const TITLE =
-      LOCALIZATIONS.find(loc => loc.code === locale)?.['Cube of Truth'] ?? 'Cube of Truth'
-    const TITLE_SECONDARY =
-      LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ?? 'Cube of Truth'
+    const TITLE = 'Cube of Truth'
+    // LOCALIZATIONS.find(loc => loc.code === locale)?.['Cube of Truth'] ?? 'Cube of Truth'
+    const TITLE_SECONDARY = 'Cube of Truth'
+    // LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ?? 'Cube of Truth'
 
     // Calculate base font size based on container height
     const baseFontSize = containerSize.height / 60
@@ -152,7 +149,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
 
         {/* Content */}
         <Content
-          style={style}
+          style={mode}
           title={TITLE}
           titleSecondary={TITLE_SECONDARY}
           chapter={chapter}
@@ -160,7 +157,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
           startTime={startTime}
           endTime={endTime}
           location={location}
-          secondaryLocale={secondaryLocale}
+          secondaryLocale={''}
           locale={locale}
           socialLinks={socialLinks}
         />

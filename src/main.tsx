@@ -5,7 +5,7 @@ import App from './App.tsx'
 
 window.addEventListener('error', () => {
   localStorage.clear()
-  console.log('Clearing localStorage')
+  console.warn('Clearing localStorage')
   // setTimeout(() => {
   //   window.location.reload()
   // }, 30000)

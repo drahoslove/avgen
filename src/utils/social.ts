@@ -4,8 +4,22 @@
 
 import { SocialLinkType } from '../types'
 
-export const isValidInstagramHandle = (handle: string): boolean => {
-  return /^av(?:__|_|\.)(?=[a-zA-Z])/.test(handle)
+export const WEB_URL = 'jointhecube.com'
+
+export const SOCIAL_TYPES: SocialLinkType[] = [
+  'web',
+  'instagram',
+  'facebook',
+  'youtube',
+  'linktree',
+]
+
+export const SOCIAL_LABELS: Record<SocialLinkType, string> = {
+  web: 'JoinTheCube.com',
+  instagram: 'Instagram',
+  facebook: 'Facebook',
+  youtube: 'Youtube',
+  linktree: 'Linktree',
 }
 
 export const getSocialTypeOrder = (type: string): number => {
@@ -16,32 +30,45 @@ export const getSocialTypeOrder = (type: string): number => {
       return 1
     case 'youtube':
       return 2
-    case 'web':
+    case 'linktree':
       return 3
-    default:
+    case 'web':
       return 4
+    default:
+      return -1
   }
 }
 
-export const SOCIAL_TYPES: SocialLinkType[] = ['web', 'instagram', 'facebook', 'youtube']
-
-export const SOCIAL_LABELS: Record<SocialLinkType, string> = {
-  web: 'Web',
-  instagram: 'IG',
-  facebook: 'FB',
-  youtube: 'YT',
+const isValidAVHandle = (handle: string): boolean => {
+  return /^av(?:__|_|\.)(?=[a-zA-Z])/.test(handle)
 }
+
+export const isValidInstagramHandle = isValidAVHandle
+
+export const isValidLinktreeHandle = isValidAVHandle
 
 export const placeholderByType = (type: SocialLinkType): string => {
   switch (type) {
     case 'instagram':
-      return 'Enter handle'
+      return 'IG handle'
     case 'facebook':
-      return 'Enter page name'
+      return 'FB page name'
     case 'youtube':
-      return 'Enter channel name'
+      return 'YT channel name'
+    case 'linktree':
+      return 'linktree handle'
     default:
       return 'Enter URL'
   }
 }
-export const WEB_URL = 'jointhecube.com'
+
+export const formatSocialHandle = (type: SocialLinkType, handle: string): string => {
+  switch (type) {
+    case 'web':
+      return handle
+    case 'linktree':
+      return `linktr.ee/${handle}`
+    default:
+      return handle
+  }
+}

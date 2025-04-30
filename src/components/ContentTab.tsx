@@ -5,6 +5,7 @@ import {
   CalendarIcon,
   ClockIcon,
   BuildingOffice2Icon,
+  InformationCircleIcon,
 } from '@heroicons/react/20/solid'
 import { useShallow } from 'zustand/shallow'
 import { Listbox, Textarea } from '@headlessui/react'
@@ -287,7 +288,7 @@ export function ContentTab() {
             className="flex items-center gap-2 text-sm font-medium text-zinc-900"
           >
             <GlobeAltIcon className="h-5 w-5" />
-            Localization
+            Date localization
           </label>
           <Listbox value={locale} onChange={setLocale}>
             <div className="relative">
@@ -377,6 +378,13 @@ export function ContentTab() {
           </Listbox>
         </div>
       </div>
+      {/* note when secondary locale is selected */}
+      {secondaryLocale && (
+        <div className="text-sm text-zinc-500 flex items-center gap-2">
+          <InformationCircleIcon className="h-5 w-5" />
+          Two images will be generated, one for each locale.
+        </div>
+      )}
     </div>
   )
 }

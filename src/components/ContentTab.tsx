@@ -130,22 +130,16 @@ export function ContentTab() {
   useEffect(() => {
     if (!sliderRef) return
 
-    // If secondary locale is removed, ensure we're on the first slide
     if (!secondaryLocale) {
+      // If secondary locale is removed, ensure we're on the first slide
       sliderRef.slickGoTo(0)
-      return
+    } else if (locale !== secondaryLocale) {
+      // If we have both locales, stay on current slide unless it's invalid
+      if (currentSlide > 1) {
+        sliderRef.slickGoTo(0)
+      }
     }
-
-    // If locale changes, go to slide 0
-    sliderRef.slickGoTo(0)
-  }, [locale, sliderRef, secondaryLocale])
-
-  useEffect(() => {
-    if (!sliderRef || !secondaryLocale) return
-
-    // If secondary locale changes, go to slide 1
-    sliderRef.slickGoTo(1)
-  }, [secondaryLocale, sliderRef])
+  }, [locale, secondaryLocale, sliderRef, currentSlide])
 
   // Get the localization data for the current locale
   const currentLocalization = LOCALIZATIONS.find(loc => loc.code === locale)

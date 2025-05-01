@@ -18,6 +18,9 @@ interface BackgroundTabProps {
   isBackgroundImageEditable: boolean
 }
 
+// Available background images in the public/bg directory
+const BACKGROUND_IMAGES = [1, 2, 3, 4, 5, 6].map(num => `/bg/${num}.jpg`)
+
 export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps) {
   const mode = useHashMode()
 
@@ -69,9 +72,27 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
     }
   }
 
-  // Only render the background settings when hash is "#old"
+  // Render the grid selector when hash is not "#old"
   if (mode !== 'old') {
-    return null
+    return (
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {BACKGROUND_IMAGES.map((imgPath, index) => (
+          <button
+            key={index}
+            onClick={() => setBackgroundImage(imgPath)}
+            className={`relative aspect-[4/5] rounded-lg overflow-hidden transition-all duration-200 hover:ring-4 hover:ring-brand-red focus:outline-none ${
+              backgroundImage === imgPath ? 'ring-4 ring-brand-red' : 'ring-1 ring-zinc-200'
+            }`}
+          >
+            <img
+              src={imgPath}
+              alt={`Background ${index + 1}`}
+              className="w-full h-full object-cover grayscale"
+            />
+          </button>
+        ))}
+      </div>
+    )
   }
 
   return (

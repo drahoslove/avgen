@@ -6,7 +6,7 @@ import { PosterPreview } from '../components/PosterPreview'
 import ActionButtons from '../components/ActionButtons'
 import { useScrollDirection } from '../hooks/useScrollDirection'
 import { useContentStore } from '../hooks/useStore'
-
+import { TARGET_WIDTH, TARGET_HEIGHT, EM_ROWS } from '../constants/dimensions'
 function Home() {
   // State management
   const [isGenerating, setIsGenerating] = useState(false)
@@ -31,8 +31,8 @@ function Home() {
   const getCanvas = async (targetLocale: string) => {
     if (!previewRef.current) return null
     // Set fixed dimensions for image generation
-    const [width, height] = [1080, 1350] // should be  be 4/5
-    const baseFontSize = height / 60
+    const [width, height] = [TARGET_WIDTH, TARGET_HEIGHT] // should be  be 4/5
+    const baseFontSize = height / EM_ROWS
 
     try {
       return await html2canvas(previewRef.current, {

@@ -1,4 +1,5 @@
 import type { GrayscaleMethod, GrayscaleWeights } from '../types'
+import { TARGET_WIDTH, TARGET_HEIGHT } from '../constants/dimensions'
 
 export const processImage = async (
   imageUrl: string,
@@ -12,8 +13,23 @@ export const processImage = async (
 
     img.onload = () => {
       const canvas = document.createElement('canvas')
-      canvas.width = img.width
-      canvas.height = img.height
+      // use the ratio from the img, but the size should fit into TARGET_WIDTH and TARGET_HEIGHT
+      const targetRatio = TARGET_WIDTH / TARGET_HEIGHT
+      const imgRatio = img.width / img.height
+      let width = img.width
+      let height = img.height
+      if (imgRatio / targetRatio > 1) {
+        // wider than target, use height of target and compute width
+        height = TARGET_HEIGHT
+        width = TARGET_HEIGHT * imgRatio
+      } else {
+        // taller than target, use width of target and compute height
+        width = TARGET_WIDTH
+        height = TARGET_WIDTH / imgRatio
+      }
+
+      canvas.width = width
+      canvas.height = height
       const ctx = canvas.getContext('2d', {
         colorSpace: 'display-p3',
       })
@@ -30,7 +46,7 @@ export const processImage = async (
       }
 
       // Draw original image
-      ctx.drawImage(img, 0, 0)
+      ctx.drawImage(img, 0, 0, width, height)
 
       // Get image data
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)

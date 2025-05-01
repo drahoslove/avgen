@@ -3,8 +3,9 @@ import { z } from 'zod'
 import type { ZodObject, ZodRawShape } from 'zod'
 import { ContentStore, BackgroundStore, GrayscaleMethod, SocialLink } from '../types'
 import type Slider from 'react-slick'
-const DEFAULT_IMAGE = '/bg/1.jpg'
-const previousImage = localStorage.getItem('backgroundImage')
+import { DEFAULT_IMAGE } from '../constants/assets'
+
+// const previousImage = localStorage.getItem('backgroundImage')
 
 // use zod to parse
 const positionSchema = z.object({
@@ -42,10 +43,10 @@ const localStorageOr = <T>(parser: (value: string) => T, key: string, defaultVal
 }
 
 const bgLocalStorageOr = <T>(parser: (value: string) => T, key: string, defaultValue: T): T => {
-  if (!previousImage || previousImage?.endsWith(DEFAULT_IMAGE)) {
-    // only use saved settings if image is not default
-    return defaultValue
-  }
+  // if (!previousImage || previousImage?.endsWith(DEFAULT_IMAGE)) {
+  //   // only use saved settings if image is not default
+  //   return defaultValue
+  // }
   return localStorageOr(parser, key, defaultValue)
 }
 
@@ -76,7 +77,7 @@ const useContentStore = create<ContentStore>(set => ({
 }))
 
 const useBackgroundStore = create<BackgroundStore>(set => ({
-  backgroundImage: previousImage || DEFAULT_IMAGE,
+  backgroundImage: DEFAULT_IMAGE,
   setBackgroundImage: backgroundImage => set({ backgroundImage }),
   opacity: bgLocalStorageOr(Number, 'opacity', 65),
   setOpacity: opacity => set({ opacity }),

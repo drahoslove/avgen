@@ -7,6 +7,7 @@ import { useBackgroundStore, useContentStore, useSliderStore } from '../hooks/us
 import { safeUrl } from '../utils/safeFetch'
 import Content from './Content'
 import { useHashMode } from '../hooks/useHashMode'
+import { EM_ROWS } from '../constants/dimensions'
 
 interface PosterPreviewProps {
   isBackgroundImageEditable: boolean
@@ -127,7 +128,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
     // LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.['Cube of Truth'] ?? 'Cube of Truth'
 
     // Calculate base font size based on container height
-    const baseFontSize = containerSize.height / 60
+    const baseFontSize = containerSize.height / EM_ROWS
 
     const handleBeforeChange = (_: number, newIndex: number) => {
       setCurrentSlide(newIndex)

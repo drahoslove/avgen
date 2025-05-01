@@ -13,13 +13,11 @@ import { SunIcon, CloudIcon } from '@heroicons/react/24/outline'
 import { Input, Listbox } from '@headlessui/react'
 import { useBackgroundStore } from '../hooks/useStore'
 import { useHashMode } from '../hooks/useHashMode'
+import { BACKGROUND_IMAGES, DEFAULT_IMAGE } from '../constants/assets'
 
 interface BackgroundTabProps {
   isBackgroundImageEditable: boolean
 }
-
-// Available background images in the public/bg directory
-const BACKGROUND_IMAGES = [1, 2, 3, 4, 5, 6].map(num => `/bg/${num}.jpg`)
 
 export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps) {
   const mode = useHashMode()
@@ -59,7 +57,7 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
   )
 
   const [dragOver, setDragOver] = useState(false)
-  const defaultUrl = window.location.href + 'bg/1.jpg'
+  const defaultUrl = window.location.href + DEFAULT_IMAGE
   const [url, setUrl] = useState(backgroundImage?.startsWith('http') ? backgroundImage : defaultUrl)
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]

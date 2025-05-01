@@ -15,6 +15,10 @@ import { useContentStore, useSliderStore } from '../hooks/useStore'
 import Import from './Import'
 import { insertBreak, splitToLines } from '../utils/strings'
 
+// Type for localization
+type Localization = (typeof LOCALIZATIONS)[number]
+type LocalizationCode = Localization['code']
+
 export function ContentTab() {
   const {
     chapter,
@@ -45,8 +49,8 @@ export function ContentTab() {
       setLocation: state.setLocation,
       locale: state.locale,
       setLocale: state.setLocale,
-      secondaryLocale: state.secondaryLocale,
-      setSecondaryLocale: state.setSecondaryLocale,
+      secondaryLocale: state.secondaryLocale as LocalizationCode | null,
+      setSecondaryLocale: state.setSecondaryLocale as (locale: LocalizationCode | null) => void,
     }))
   )
 
@@ -143,6 +147,12 @@ export function ContentTab() {
     sliderRef.slickGoTo(1)
   }, [secondaryLocale, sliderRef])
 
+  // Get the localization data for the current locale
+  const currentLocalization = LOCALIZATIONS.find(loc => loc.code === locale)
+  const secondaryLocalization = secondaryLocale
+    ? LOCALIZATIONS.find(loc => loc.code === secondaryLocale)
+    : null
+
   return (
     <div className="space-y-5">
       {/* Chapter Input */}
@@ -206,7 +216,7 @@ export function ContentTab() {
               }
             }}
           >
-            <div className="relative">
+            <div className="relative z-20">
               <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-2 text-left text-md text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span className="block truncate">{startTime}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -245,7 +255,7 @@ export function ContentTab() {
             End Time
           </label>
           <Listbox value={endTime} onChange={setEndTime}>
-            <div className="relative">
+            <div className="relative z-20">
               <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-2 text-left text-md text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span className="block truncate">{endTime}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -304,93 +314,39 @@ export function ContentTab() {
         {locationError && <p className="mt-1 text-sm text-red-500">{locationError}</p>}
       </div>
 
-      {/* Language Selection */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1 relative">
-          <div
-            className="flex items-center gap-2 cursor-pointer group"
-            onClick={() => sliderRef?.slickGoTo(0)}
-          >
-            <label className="text-sm font-medium text-zinc-900 flex items-center gap-2 cursor-pointer">
+      {/* Locale Selector */}
+      <div className="space-y-4 relative mb-2">
+        <div className="grid grid-cols-2 gap-4">
+          <div className={`space-y-1 z-10 ${secondaryLocale ? 'p-1' : ''}`}>
+            <label
+              className="text-sm font-medium text-zinc-900 flex items-center gap-2 cursor-pointer"
+              onClick={() => sliderRef?.slickGoTo(0)}
+            >
               <GlobeAltIcon className="h-5 w-5" />
               Date localization
             </label>
-          </div>
-          <Listbox value={locale} onChange={setLocale}>
-            <div className="relative">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-2 text-left text-md text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <span className="block truncate">
-                  {LOCALIZATIONS.find(loc => loc.code === locale)?.name}
-                </span>
-                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
-                </span>
-              </Listbox.Button>
-              <Listbox.Options className="absolute z-10 -top-[2rem] mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {LOCALIZATIONS.map(loc => (
-                  <Listbox.Option
-                    key={loc.code}
-                    value={loc.code}
-                    className={({ active }) =>
-                      `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
-                        active ? 'bg-blue-50 text-blue-900' : 'text-zinc-900'
-                      }`
-                    }
-                  >
-                    {({ selected }) => (
-                      <>
-                        <span
-                          className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
-                        >
-                          {loc.name}
-                        </span>
-                      </>
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </div>
-          </Listbox>
-        </div>
-
-        <div className="space-y-1 relative">
-          <div
-            className="flex items-center gap-2 cursor-pointer group"
-            onClick={() => secondaryLocale && sliderRef?.slickGoTo(1)}
-          >
-            <label className="text-sm font-medium text-zinc-900 flex items-center gap-2 cursor-pointer">
-              <GlobeAltIcon className="h-5 w-5" />
-              Secondary
-            </label>
-          </div>
-          <Listbox value={secondaryLocale} onChange={setSecondaryLocale}>
-            <div className="relative">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white px-3 py-2 text-left text-md text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <span className="block truncate">
-                  {LOCALIZATIONS.find(loc => loc.code === secondaryLocale)?.name ?? 'None'}
-                </span>
-                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <ChevronUpDownIcon className="h-5 w-5 text-zinc-400" aria-hidden="true" />
-                </span>
-              </Listbox.Button>
-              <Listbox.Options className="absolute z-10 -top-[2rem] mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {[
-                  {
-                    code: '',
-                    name: 'None',
-                  },
-                  ...LOCALIZATIONS,
-                ]
-                  .filter(loc => loc.code !== locale)
-                  .map(loc => (
+            <Listbox value={locale} onChange={setLocale}>
+              <div className="relative">
+                <Listbox.Button
+                  className={`relative w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm ${
+                    currentSlide === 0 ? '' : ''
+                  }`}
+                >
+                  <span className="block truncate">{currentLocalization?.name}</span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </span>
+                </Listbox.Button>
+                <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {LOCALIZATIONS.map(loc => (
                     <Listbox.Option
                       key={loc.code}
-                      value={loc.code}
                       className={({ active }) =>
-                        `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
-                          active ? 'bg-blue-50 text-blue-900' : 'text-zinc-900'
+                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                          active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'
                         }`
                       }
+                      value={loc.code}
                     >
                       {({ selected }) => (
                         <>
@@ -399,28 +355,111 @@ export function ContentTab() {
                           >
                             {loc.name}
                           </span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
+                              <GlobeAltIcon className="h-5 w-5" aria-hidden="true" />
+                            </span>
+                          ) : null}
                         </>
                       )}
                     </Listbox.Option>
                   ))}
-              </Listbox.Options>
-            </div>
-          </Listbox>
-        </div>
-
-        {/* Animated underline */}
-        {secondaryLocale && (
-          <div
-            className="col-span-2 relative h-2 -mt-1 cursor-pointer"
-            onClick={() => sliderRef?.slickGoTo(currentSlide === 0 ? 1 : 0)}
-          >
-            <div
-              className={`absolute h-0.5 bg-zinc-700 w-[calc(50%-8px)] transition-transform duration-500 ease-in-out ${
-                currentSlide === 0 ? 'translate-x-0' : 'translate-x-[calc(100%+16px)]'
-              }`}
-            />
+                </Listbox.Options>
+              </div>
+            </Listbox>
           </div>
-        )}
+
+          <div className={`space-y-1 z-10 ${secondaryLocale ? 'p-1' : ''}`}>
+            <label
+              className="text-sm font-medium text-zinc-900 flex items-center gap-2 cursor-pointer"
+              onClick={() => secondaryLocale && sliderRef?.slickGoTo(1)}
+            >
+              <GlobeAltIcon className="h-5 w-5" />
+              Secondary
+            </label>
+            <Listbox
+              value={secondaryLocale || ''}
+              onChange={value => setSecondaryLocale(value || null)}
+            >
+              <div className="relative">
+                <Listbox.Button
+                  className={`relative w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm ${
+                    currentSlide === 1 && secondaryLocale ? '' : ''
+                  }`}
+                >
+                  <span className="block truncate">{secondaryLocalization?.name || 'None'}</span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </span>
+                </Listbox.Button>
+                <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Option
+                    value=""
+                    className={({ active }) =>
+                      `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                        active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'
+                      }`
+                    }
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
+                        >
+                          None
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
+                            <GlobeAltIcon className="h-5 w-5" aria-hidden="true" />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                  {LOCALIZATIONS.filter(loc => loc.code !== locale).map(loc => (
+                    <Listbox.Option
+                      key={loc.code}
+                      className={({ active }) =>
+                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                          active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'
+                        }`
+                      }
+                      value={loc.code}
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
+                          >
+                            {loc.name}
+                          </span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
+                              <GlobeAltIcon className="h-5 w-5" aria-hidden="true" />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </div>
+            </Listbox>
+          </div>
+          {/* Animated background */}
+          {secondaryLocale && (
+            <div
+              className="absolute inset-0 pointer-events-none"
+              onClick={() => sliderRef?.slickGoTo(currentSlide === 0 ? 1 : 0)}
+            >
+              <div
+                className={`absolute top-[0px] h-full bg-zinc-100/75 w-[calc(50%-8px)] rounded-lg transition-transform duration-500 ease-in-out ${
+                  currentSlide === 0 ? 'translate-x-0' : 'translate-x-[calc(100%+16px)]'
+                }`}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* note when secondary locale is selected */}

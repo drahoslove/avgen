@@ -14,6 +14,7 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom'],
         },
+        assetFileNames: 'assets/[name].[ext]',
       },
     },
   },

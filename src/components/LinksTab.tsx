@@ -234,12 +234,17 @@ export function LinksTab() {
                 {link.type === 'web' ? (
                   <div className="flex-1">
                     <div className="flex items-start gap-2">
-                      <div className="flex-1 min-w-0 px-3 py-2 bg-zinc-50/50 rounded-lg text-zinc-900">
-                        {WEB_URL}
+                      <div className="flex-1">
+                        <input
+                          type="text"
+                          value={WEB_URL}
+                          disabled
+                          className="w-full min-w-0 px-3 py-2 bg-zinc-50/50 rounded-lg focus:outline-none text-zinc-900"
+                        />
                       </div>
                       <button
                         onClick={() => handleRemoveLink(index)}
-                        className="p-2 text-zinc-500 hover:text-zinc-700 focus:outline-none cursor-pointer"
+                        className="p-2 text-zinc-500 hover:text-zinc-700 focus:outline-none"
                       >
                         <TrashIcon className="h-[1.25em] w-[1.25em]" />
                       </button>

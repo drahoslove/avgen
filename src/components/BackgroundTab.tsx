@@ -78,7 +78,7 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
           <button
             key={index}
             onClick={() => setBackgroundImage(imgPath)}
-            className={`relative aspect-[4/5] rounded-lg overflow-hidden transition-all duration-200 hover:ring-4 hover:ring-brand-red focus:outline-none ${
+            className={`relative aspect-[4/5] rounded-lg overflow-hidden transition-all duration-200 hover:ring-4 hover:ring-brand-red focus:outline-none cursor-pointer ${
               backgroundImage === imgPath ? 'ring-4 ring-brand-red' : 'ring-1 ring-zinc-200'
             }`}
           >

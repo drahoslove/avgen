@@ -47,6 +47,7 @@ const bgLocalStorageOr = <T>(parser: (value: string) => T, key: string, defaultV
   //   // only use saved settings if image is not default
   //   return defaultValue
   // }
+  return defaultValue
   return localStorageOr(parser, key, defaultValue)
 }
 
@@ -79,7 +80,7 @@ const useContentStore = create<ContentStore>(set => ({
 const useBackgroundStore = create<BackgroundStore>(set => ({
   backgroundImage: DEFAULT_IMAGE,
   setBackgroundImage: backgroundImage => set({ backgroundImage }),
-  opacity: bgLocalStorageOr(Number, 'opacity', 65),
+  opacity: bgLocalStorageOr(Number, 'opacity', 50),
   setOpacity: opacity => set({ opacity }),
   position: bgLocalStorageOr(parse(positionSchema), 'position', { x: 50, y: 50 }),
   setPosition: position => set({ position }),

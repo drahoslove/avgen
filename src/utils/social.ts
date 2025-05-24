@@ -9,9 +9,9 @@ export const WEB_URL = 'jointhecube.com'
 export const SOCIAL_TYPES: SocialLinkType[] = [
   'web',
   'instagram',
-  'facebook',
-  'youtube',
-  'linktree',
+  // 'facebook',
+  // 'youtube',
+  // 'linktree',
 ]
 
 export const SOCIAL_LABELS: Record<SocialLinkType, string> = {

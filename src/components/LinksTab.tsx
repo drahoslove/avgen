@@ -91,7 +91,7 @@ export function LinksTab() {
       // For other types, clear the handle
       newLinks[index] = {
         type: value as SocialLinkType,
-        handle: value === 'web' ? WEB_URL : socialLinks[index].handle,
+        handle: value === 'web' ? WEB_URL : '', // socialLinks[index].handle,
       }
       setSocialLinks(newLinks)
 

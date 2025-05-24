@@ -73,6 +73,7 @@ export const formatDate = (date: string, localeCode: string) => {
 // Format time range for display
 export const formatTime = (time: string, localeCode: string) => {
   if (!time) return ''
+  if (!localeCode) return time
 
   // Special cases for midnight and times between 00:00-00:59
   // if (time.startsWith('00:') && localeCode.startsWith('en')) {

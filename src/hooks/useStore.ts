@@ -31,7 +31,7 @@ const parse =
 
 const localStorageOr = <T>(parser: (value: string) => T, key: string, defaultValue: T): T => {
   const value = localStorage.getItem(key)
-  if (value === null) {
+  if (value === null || value === 'null') {
     return defaultValue
   }
   try {

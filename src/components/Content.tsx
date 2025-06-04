@@ -76,14 +76,15 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
     },
     mainContent: {
       container: 'text-center font-libre-franklin',
-      title: 'text-[4.25em]/[1.5em] font-bold uppercase whitespace-nowrap text-stroke-white',
-      subTitle: 'text-[2.5em] text-zinc-300 uppercase mb-[0.25em]',
+      title:
+        'text-[4.25em]/[1.5em] word-spacing-wide font-bold uppercase whitespace-nowrap text-stroke-white',
+      subTitle: 'text-[2.5em] word-spacing-wide text-zinc-300 uppercase mb-[0.25em]',
       chapter:
-        'text-[6em]/[1.2em] tracking-[0.2em] font-black uppercase text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
+        'text-[6em]/[1.2em] tracking-[0.2em] word-spacing-wide font-black uppercase text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
       date: 'text-[2.5em]/[1.75em] font-bold bg-brand-red text-white uppercase inline px-[0.5em] py-[0.25em]',
       subDate: 'text-[2.5em]/[1.75em] uppercase text-zinc-300',
       timeRange: 'text-[3.5em]',
-      location: 'text-[2.25em] px-[2em] whitespace-nowrap uppercase',
+      location: 'text-[2.25em] word-spacing-wider px-[2em] whitespace-nowrap uppercase',
     },
     bottomLogo: {
       container: 'aspect-square flex items-center justify-center my-[3em] w-[5em]',

@@ -18,6 +18,14 @@
   .font-libre-franklin {
     font-family: var(--font-libre-franklin);
   }
+
+  .word-spacing-tighter { word-spacing: -0.01em; }
+  .word-spacing-tight { word-spacing: -0.05em; }
+  .word-spacing-normal { word-spacing: 0; }
+  .word-spacing-wide { word-spacing: 0.05em; }
+  .word-spacing-wider { word-spacing: 0.1em; }
+  .word-spacing-widest { word-spacing: 0.2em; }
+  .word-spacing-custom { word-spacing: var(--word-spacing); }
 }
 
 /* custom colors */

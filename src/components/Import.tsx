@@ -60,7 +60,7 @@ const Import = () => {
         transition
         open={isOpen}
         as="div"
-        className="fixed inset-0 z-10 w-screen overflow-y-auto bg-zinc-900/75 transition-colors duration-300 ease-out data-[closed]:bg-zinc-900/0"
+        className="fixed inset-0 z-[100] w-screen overflow-y-auto bg-zinc-900/75 transition-colors duration-300 ease-out data-[closed]:bg-zinc-900/0"
         onClose={() => setIsOpen(false)}
       >
         <div className="flex min-h-full items-center justify-center p-4">

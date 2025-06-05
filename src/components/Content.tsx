@@ -1,6 +1,6 @@
 import React from 'react'
 import { z } from 'zod'
-import { inLines, formatTime, formatDate, getScale } from '../utils/strings'
+import { inLines, formatTime, formatDate, getScale, capitalize } from '../utils/strings'
 import {
   getSocialTypeOrder,
   isValidInstagramHandle,
@@ -53,12 +53,12 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
     },
     mainContent: {
       container: 'text-center font-libre-franklin flex-1 flex flex-col items-center',
-      title: 'text-[4.25em]/[1.5em] font-bold uppercase whitespace-nowrap text-stroke-white',
-      subTitle: 'text-[2.5em] text-zinc-300 uppercase mb-[0.25em]',
+      title: 'text-[4.25em]/[1.5em] font-bold whitespace-nowrap text-stroke-white',
+      subTitle: 'text-[2.5em] text-zinc-300 mb-[0.25em]',
       chapter:
-        'text-[6em]/[1.2em] tracking-[0.2em] font-black uppercase text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
-      date: 'text-[2.5em] uppercase',
-      subDate: 'text-[2.5em] uppercase text-zinc-300',
+        'text-[6em]/[1.2em] tracking-[0.2em] font-black text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
+      date: 'text-[2.5em]',
+      subDate: 'text-[2.5em] text-zinc-300',
       timeRange: 'text-[3.75em]',
       location: 'text-[2.25em] px-[2em] whitespace-nowrap',
     },
@@ -77,14 +77,14 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
     mainContent: {
       container: 'text-center font-libre-franklin',
       title:
-        'text-[4.25em]/[1.5em] word-spacing-wide font-bold uppercase whitespace-nowrap text-stroke-white',
-      subTitle: 'text-[2.5em] word-spacing-wide text-zinc-300 uppercase mb-[0.25em]',
+        'text-[4.25em]/[1.5em] word-spacing-wide font-bold whitespace-nowrap text-stroke-white',
+      subTitle: 'text-[2.5em] word-spacing-wide text-zinc-300 mb-[0.25em]',
       chapter:
-        'text-[6em]/[1.2em] tracking-[0.2em] word-spacing-wide font-black uppercase text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
-      date: 'text-[2.5em]/[1.75em] font-bold bg-brand-red text-white uppercase inline px-[0.5em] py-[0.25em]',
-      subDate: 'text-[2.5em]/[1.75em] uppercase text-zinc-300',
+        'text-[6em]/[1.2em] tracking-[0.2em] word-spacing-wide font-black text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
+      date: 'text-[2.5em]/[1.75em] font-bold bg-brand-red text-white inline px-[0.5em] py-[0.25em]',
+      subDate: 'text-[2.5em]/[1.75em] text-zinc-300',
       timeRange: 'text-[3.5em]',
-      location: 'text-[2.25em] word-spacing-wider px-[2em] whitespace-nowrap uppercase',
+      location: 'text-[2.25em] word-spacing-wider px-[2em] whitespace-nowrap',
     },
     bottomLogo: {
       container: 'aspect-square flex items-center justify-center my-[3em] w-[5em]',
@@ -165,23 +165,25 @@ const Content: React.FC<ContentProps> = ({
 
       <div className={styles.mainContent.container}>
         <h1 className={styles.mainContent.title} style={{ scale: getScale(15, title) }}>
-          {title}
+          {capitalize(title)}
         </h1>
 
         <h2 className={`${styles.mainContent.subTitle} ${subTitle ? 'visible' : 'invisible'}`}>
-          {subTitle || '.'}
+          {capitalize(subTitle || '.')}
         </h2>
 
         <div className={styles.mainContent.chapter} style={{ scale: getScale(8, chapter) }}>
-          {inLines(chapter)}
+          {inLines(capitalize(chapter))}
         </div>
 
-        <div className={styles.mainContent.date}>{formatDate(date, locale)}</div>
-        <div className={`${styles.mainContent.subDate} invisible`}>{formatDate(date, locale)}</div>
+        <div className={styles.mainContent.date}>{capitalize(formatDate(date, locale))}</div>
+        <div className={`${styles.mainContent.subDate} invisible`}>
+          {capitalize(formatDate(date, locale))}
+        </div>
 
         <div className={styles.mainContent.timeRange}>{timeRange}</div>
 
-        <div className={styles.mainContent.location}>{inLines(location)}</div>
+        <div className={styles.mainContent.location}>{inLines(capitalize(location))}</div>
       </div>
 
       {styles.bottomLogo.show && (

@@ -109,3 +109,10 @@ export const toLocalIsoString = (timestamp: number | string) => {
   const date = new Date(timestamp)
   return date.toLocaleString('sv').replace(' ', 'T') // use hack with SV date being close to ISO
 }
+
+// Capitalize text using locale-aware transformation
+export const capitalize = (text: string | undefined | null): string => {
+  if (!text) return ''
+  // First replace ß with ẞ before general uppercase transformation
+  return text.replace(/ß/g, 'ẞ').toLocaleUpperCase()
+}

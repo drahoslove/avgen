@@ -7,6 +7,7 @@ import ActionButtons from '../components/ActionButtons'
 import { useScrollDirection } from '../hooks/useScrollDirection'
 import { useContentStore } from '../hooks/useStore'
 import { TARGET_WIDTH, TARGET_HEIGHT, EM_ROWS } from '../constants/dimensions'
+
 function Home() {
   // State management
   const [isGenerating, setIsGenerating] = useState(false)
@@ -35,7 +36,7 @@ function Home() {
     const baseFontSize = height / EM_ROWS
 
     try {
-      return await html2canvas(previewRef.current, {
+      const canvas = await html2canvas(previewRef.current, {
         scale: 1,
         backgroundColor: '#000000',
         logging: false,
@@ -45,8 +46,8 @@ function Home() {
           element.style.fontSize = `${baseFontSize}px`
 
           // Fix slider positioning for capture
-          const sliderTrack = element.querySelector('.slick-track')
-          if (sliderTrack instanceof HTMLElement) {
+          const sliderTrack = element.querySelector('.slick-track') as HTMLDivElement
+          if (sliderTrack) {
             sliderTrack.style.transform = 'none'
             sliderTrack.style.width = '100%'
           }
@@ -54,18 +55,20 @@ function Home() {
           // Show only the slide for the target locale
           const slides = element.querySelectorAll('.slick-slide')
           slides.forEach((slide, index) => {
-            if (slide instanceof HTMLElement) {
-              const isTargetSlide =
+            const slideDiv = slide as HTMLDivElement
+            if (slideDiv) {
+              const shouldDisplay =
                 (targetLocale === locale && index === 0) ||
                 (targetLocale === secondaryLocale && index === 1)
-              slide.style.display = isTargetSlide ? 'block' : 'none'
-              if (isTargetSlide) {
-                slide.style.width = '100%'
+              slideDiv.style.display = shouldDisplay ? 'block' : 'none'
+              if (shouldDisplay) {
+                slideDiv.style.width = '100%'
               }
             }
           })
         },
       })
+      return canvas
     } catch (error) {
       console.error('Error generating image:', error)
       return null
@@ -103,24 +106,22 @@ function Home() {
     try {
       // Generate primary locale image
       const primaryCanvas = await getCanvas(locale)
-      if (primaryCanvas) {
-        const primaryDataUrl = primaryCanvas.toDataURL('image/png')
-        const primaryLink = document.createElement('a')
-        primaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${locale}.png`
-        primaryLink.href = primaryDataUrl
-        primaryLink.click()
-      }
+      if (!primaryCanvas) return
+      const primaryDataUrl = primaryCanvas.toDataURL('image/png')
+      const primaryLink = document.createElement('a')
+      primaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${locale}.png`
+      primaryLink.href = primaryDataUrl
+      primaryLink.click()
 
       // Generate secondary locale image if exists
       if (secondaryLocale) {
         const secondaryCanvas = await getCanvas(secondaryLocale)
-        if (secondaryCanvas) {
-          const secondaryDataUrl = secondaryCanvas.toDataURL('image/png')
-          const secondaryLink = document.createElement('a')
-          secondaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${secondaryLocale}.png`
-          secondaryLink.href = secondaryDataUrl
-          secondaryLink.click()
-        }
+        if (!secondaryCanvas) return
+        const secondaryDataUrl = secondaryCanvas.toDataURL('image/png')
+        const secondaryLink = document.createElement('a')
+        secondaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${secondaryLocale}.png`
+        secondaryLink.href = secondaryDataUrl
+        secondaryLink.click()
       }
     } catch (error) {
       console.error(

@@ -35,6 +35,8 @@ export function ContentTab() {
     setLocale,
     secondaryLocale,
     setSecondaryLocale,
+    includeYear,
+    setIncludeYear,
   } = useContentStore(
     useShallow(state => ({
       chapter: state.chapter,
@@ -51,6 +53,8 @@ export function ContentTab() {
       setLocale: state.setLocale,
       secondaryLocale: state.secondaryLocale as LocalizationCode | null,
       setSecondaryLocale: state.setSecondaryLocale as (locale: LocalizationCode | null) => void,
+      includeYear: state.includeYear,
+      setIncludeYear: state.setIncludeYear,
     }))
   )
 
@@ -182,13 +186,39 @@ export function ContentTab() {
           <CalendarIcon className="h-5 w-5" />
           Date
         </label>
-        <input
-          type="date"
-          id="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
-          className="w-full px-3 py-2 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        />
+        <div className="relative">
+          <input
+            type="date"
+            id="date"
+            value={date}
+            onChange={e => setDate(e.target.value)}
+            className="w-full px-3 pr-16 py-2 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+          <div className="absolute right-2 top-1/2 -translate-y-1/2">
+            <button
+              type="button"
+              role="switch"
+              aria-checked={includeYear}
+              onClick={() => setIncludeYear(!includeYear)}
+              className={`${
+                includeYear ? 'bg-zinc-600' : 'bg-zinc-300'
+              } relative inline-flex h-6 w-12 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+            >
+              <span
+                className={`absolute text-[10px] font-medium text-white ${
+                  includeYear ? 'left-1' : 'right-1'
+                }`}
+              >
+                Year
+              </span>
+              <span
+                className={`${
+                  includeYear ? 'translate-x-7' : 'translate-x-1'
+                } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              />
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Time Range Inputs */}

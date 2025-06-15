@@ -81,8 +81,8 @@ const styleConfigs: Record<ContentStyle, StyleConfig> = {
       subTitle: 'text-[2.5em] word-spacing-wide text-zinc-300 mb-[0.25em]',
       chapter:
         'text-[6em]/[1.2em] tracking-[0.2em] word-spacing-wide font-black text-brand-red whitespace-nowrap -mr-[0.2em] mb-[0.3em]',
-      date: 'text-[2.5em]/[1.75em] font-bold bg-brand-red text-white inline px-[0.5em] py-[0.25em]',
-      subDate: 'text-[2.5em]/[1.75em] text-zinc-300',
+      date: 'text-[2.5em]/[1.75em] word-spacing-wide font-bold bg-brand-red text-white inline px-[0.5em] py-[0.25em]',
+      subDate: 'text-[2.5em]/[1.75em] word-spacing-wide text-zinc-300',
       timeRange: 'text-[3.5em]',
       location: 'text-[2.25em] word-spacing-wider px-[2em] whitespace-nowrap',
     },
@@ -104,6 +104,7 @@ interface ContentProps {
   locale: string
   style?: ContentStyle
   socialLinks: SocialLink[]
+  includeYear: boolean
 }
 
 const getSocialIcon = (type: string) => {
@@ -144,6 +145,7 @@ const Content: React.FC<ContentProps> = ({
   locale,
   style = 'default',
   socialLinks,
+  includeYear,
 }) => {
   const timeRange = `${formatTime(startTime, locale)} – ${formatTime(endTime, locale)}`
   const styles = styleConfigs[style]
@@ -176,9 +178,11 @@ const Content: React.FC<ContentProps> = ({
           {inLines(capitalize(chapter))}
         </div>
 
-        <div className={styles.mainContent.date}>{capitalize(formatDate(date, locale))}</div>
+        <div className={styles.mainContent.date}>
+          {capitalize(formatDate(date, locale, includeYear))}
+        </div>
         <div className={`${styles.mainContent.subDate} invisible`}>
-          {capitalize(formatDate(date, locale))}
+          {capitalize(formatDate(date, locale, includeYear))}
         </div>
 
         <div className={styles.mainContent.timeRange}>{timeRange}</div>

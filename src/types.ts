@@ -30,6 +30,8 @@ export interface ContentStore {
   setSecondaryLocale: (secondaryLocale: string) => void
   socialLinks: SocialLink[]
   setSocialLinks: (socialLinks: SocialLink[]) => void
+  includeYear: boolean
+  setIncludeYear: (includeYear: boolean) => void
 }
 
 export interface BackgroundStore {

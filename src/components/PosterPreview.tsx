@@ -23,19 +23,29 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         setCurrentSlide: state.setCurrentSlide,
       }))
     )
-    const { chapter, date, startTime, endTime, location, locale, socialLinks, secondaryLocale } =
-      useContentStore(
-        useShallow(state => ({
-          chapter: state.chapter,
-          date: state.date,
-          startTime: state.startTime,
-          endTime: state.endTime,
-          location: state.location,
-          locale: state.locale,
-          socialLinks: state.socialLinks,
-          secondaryLocale: state.secondaryLocale,
-        }))
-      )
+    const {
+      chapter,
+      date,
+      startTime,
+      endTime,
+      location,
+      locale,
+      socialLinks,
+      secondaryLocale,
+      includeYear,
+    } = useContentStore(
+      useShallow(state => ({
+        chapter: state.chapter,
+        date: state.date,
+        startTime: state.startTime,
+        endTime: state.endTime,
+        location: state.location,
+        locale: state.locale,
+        socialLinks: state.socialLinks,
+        secondaryLocale: state.secondaryLocale,
+        includeYear: state.includeYear,
+      }))
+    )
     const {
       backgroundImage: rawBackgroundImage,
       opacity,
@@ -196,6 +206,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
                 location={location}
                 locale={locale}
                 socialLinks={socialLinks}
+                includeYear={includeYear}
               />
             </div>
             {secondaryLocale && (
@@ -211,6 +222,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
                   location={location}
                   locale={secondaryLocale}
                   socialLinks={socialLinks}
+                  includeYear={includeYear}
                 />
               </div>
             )}
@@ -222,8 +234,3 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
 )
 
 PosterPreview.displayName = 'PosterPreview'
-
-// Add these exports to use in ContentTab
-export const goToSlide = (slider: Slider | null, index: number) => {
-  slider?.slickGoTo(index)
-}

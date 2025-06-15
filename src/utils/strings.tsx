@@ -59,13 +59,14 @@ export const getScale = (breakpoint: number, str: string) => {
 }
 
 // Format date based on language
-export const formatDate = (date: string, localeCode: string) => {
+export const formatDate = (date: string, localeCode: string, includeYear = true) => {
   if (!date || !localeCode) return ''
   const dateObj = new Date(date)
   const formatter = new Intl.DateTimeFormat(localeCode, {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
+    year: includeYear ? 'numeric' : undefined,
   })
   return formatter.format(dateObj)
 }

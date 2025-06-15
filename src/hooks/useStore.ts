@@ -29,6 +29,10 @@ const parse =
     return parsedValue
   }
 
+const parseBoolean = (value: string): boolean => {
+  return value === 'true'
+}
+
 const localStorageOr = <T>(parser: (value: string) => T, key: string, defaultValue: T): T => {
   const value = localStorage.getItem(key)
   if (value === null || value === 'null') {
@@ -75,6 +79,8 @@ const useContentStore = create<ContentStore>(set => ({
     { type: 'web', handle: 'jointhecube.com' },
   ]) as SocialLink[],
   setSocialLinks: socialLinks => set({ socialLinks }),
+  includeYear: localStorageOr(parseBoolean, 'includeYear', true),
+  setIncludeYear: includeYear => set({ includeYear }),
 }))
 
 const useBackgroundStore = create<BackgroundStore>(set => ({
@@ -122,6 +128,7 @@ useContentStore.subscribe(state => {
   localStorage.setItem('locale', state.locale)
   localStorage.setItem('secondaryLocale', state.secondaryLocale)
   localStorage.setItem('socialLinks', JSON.stringify(state.socialLinks))
+  localStorage.setItem('includeYear', state.includeYear.toString())
 })
 
 useBackgroundStore.subscribe(state => {

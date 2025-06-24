@@ -166,7 +166,10 @@ const Content: React.FC<ContentProps> = ({
       )}
 
       <div className={styles.mainContent.container}>
-        <h1 className={styles.mainContent.title} style={{ scale: getScale(15, title) }}>
+        <h1
+          className={styles.mainContent.title}
+          style={{ transform: `scale(${getScale(15, title)})` }}
+        >
           {capitalize(title)}
         </h1>
 
@@ -174,7 +177,10 @@ const Content: React.FC<ContentProps> = ({
           {capitalize(subTitle || '.')}
         </h2>
 
-        <div className={styles.mainContent.chapter} style={{ scale: getScale(8, chapter) }}>
+        <div
+          className={styles.mainContent.chapter}
+          style={{ transform: `scale(${getScale(8, chapter)})` }}
+        >
           {inLines(capitalize(chapter))}
         </div>
 

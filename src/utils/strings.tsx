@@ -61,7 +61,12 @@ export const getScale = (breakpoint: number, str: string) => {
 // Format date based on language
 export const formatDate = (date: string, localeCode: string, includeYear = true) => {
   if (!date || !localeCode) return ''
-  const dateObj = new Date(date)
+
+  // Parse the date string as local time to avoid timezone issues
+  // date is in YYYY-MM-DD format from HTML date input
+  const [year, month, day] = date.split('-').map(Number)
+  const dateObj = new Date(year, month - 1, day) // month is 0-indexed in Date constructor
+
   const formatter = new Intl.DateTimeFormat(localeCode, {
     weekday: 'long',
     day: 'numeric',

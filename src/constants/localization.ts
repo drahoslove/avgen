@@ -54,6 +54,11 @@ export const LOCALIZATIONS: Array<{
     ['Cube of Truth']: 'Kubus Kebenaran',
   },
   {
+    name: 'Japanese',
+    code: 'ja-JP',
+    ['Cube of Truth']: '真実の立方体',
+  },
+  {
     name: 'French',
     code: 'fr-FR',
     ['Cube of Truth']: 'Cube de la Vérité',
@@ -62,11 +67,6 @@ export const LOCALIZATIONS: Array<{
     name: 'Canadian French',
     code: 'fr-CA',
     ['Cube of Truth']: 'Cube de la Vérité',
-  },
-  {
-    name: 'Japanese',
-    code: 'ja-JP',
-    ['Cube of Truth']: '真実の立方体',
   },
   {
     name: 'German',
@@ -79,6 +79,11 @@ export const LOCALIZATIONS: Array<{
     ['Cube of Truth']: 'Cubo della Verità',
   },
   {
+    name: 'Polish',
+    code: 'pl-PL',
+    ['Cube of Truth']: 'Sześcian Prawdy',
+  },
+  {
     name: 'Dutch',
     code: 'nl-NL',
     ['Cube of Truth']: 'Waarheidskubus',
@@ -89,9 +94,9 @@ export const LOCALIZATIONS: Array<{
   //   ['Cube of Truth']: 'Waarheidskubus',
   // },
   {
-    name: 'Polish',
-    code: 'pl-PL',
-    ['Cube of Truth']: 'Sześcian Prawdy',
+    name: 'Swedish',
+    code: 'sv-SE',
+    ['Cube of Truth']: 'Sanningens Kub',
   },
   {
     name: 'Czech',

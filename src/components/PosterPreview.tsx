@@ -6,7 +6,6 @@ import { processImage } from '../utils/imageProcessing'
 import { useBackgroundStore, useContentStore, useSliderStore } from '../hooks/useStore'
 import { safeUrl } from '../utils/safeFetch'
 import Content from './Content'
-import { useHashMode } from '../hooks/useHashMode'
 import { EM_ROWS } from '../constants/dimensions'
 
 interface PosterPreviewProps {
@@ -67,8 +66,6 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
         customGrayscaleValues: state.customGrayscaleValues,
       }))
     )
-
-    const mode = useHashMode()
 
     const [processedImage, setProcessedImage] = useState<string | null>(null)
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
@@ -196,7 +193,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
           >
             <div className="h-full w-full flex items-center justify-center relative">
               <Content
-                style={mode}
+                style={'default'}
                 title={TITLE}
                 subTitle={''}
                 chapter={chapter}
@@ -212,7 +209,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, PosterPreviewProps>(
             {secondaryLocale && (
               <div className="h-full w-full flex items-center justify-center relative">
                 <Content
-                  style={mode}
+                  style={'default'}
                   title={TITLE_SECONDARY}
                   subTitle={''}
                   chapter={chapter}

@@ -71,7 +71,7 @@ export function BackgroundTab({ isBackgroundImageEditable }: BackgroundTabProps)
   }
 
   // Render the grid selector when hash is not "#old"
-  if (mode !== 'old') {
+  if (mode !== 'pro') {
     return (
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {BACKGROUND_IMAGES.map((imgPath, index) => (

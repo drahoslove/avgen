@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
-import { ContentStyle } from '../components/Content'
-import { styleSchema } from '../constants/styles'
+import { modeSchema, Mode } from '../constants/modes'
 
-export const useHashMode = (defaultMode: ContentStyle = 'default'): ContentStyle => {
-  const [mode, setMode] = useState<ContentStyle>(() => {
+export const useHashMode = (defaultMode: Mode = 'default'): Mode => {
+  const [mode, setMode] = useState<Mode>(() => {
     // Get initial mode from hash or use default
     const hash = window.location.hash.slice(1)
-    return styleSchema.safeParse(hash).success ? (hash as ContentStyle) : defaultMode
+    return modeSchema.safeParse(hash).success ? (hash as Mode) : defaultMode
   })
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1)
-      setMode(styleSchema.safeParse(hash).success ? (hash as ContentStyle) : defaultMode)
+      setMode(modeSchema.safeParse(hash).success ? (hash as Mode) : defaultMode)
     }
 
     window.addEventListener('hashchange', handleHashChange)

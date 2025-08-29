@@ -6,6 +6,7 @@ import { PosterPreview } from '../components/PosterPreview'
 import ActionButtons from '../components/ActionButtons'
 import { useScrollDirection } from '../hooks/useScrollDirection'
 import { useContentStore } from '../hooks/useStore'
+import { useInAppBrowser } from '../hooks/useInAppBrowser'
 import { TARGET_WIDTH, TARGET_HEIGHT, EM_ROWS } from '../constants/dimensions'
 
 function Home() {
@@ -19,6 +20,9 @@ function Home() {
 
   // Background image state
   const scrollDirection = useScrollDirection()
+
+  // Detect if user is in an in-app browser
+  const { shouldShowWarning, handleIgnoreWarning } = useInAppBrowser()
 
   const { chapter, date, locale, secondaryLocale } = useContentStore(
     useShallow(state => ({
@@ -173,7 +177,7 @@ function Home() {
             'image/png': blobs[0],
           }),
         ])
-        alert('Primary locale image copied to clipboard!')
+        alert('Image(s) copied to clipboard!')
       }
     } catch (error) {
       console.error('Share error:', error instanceof Error ? error.message : 'Unknown error')
@@ -184,6 +188,30 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-zinc-900 p-0 sm:p-4 md:p-6">
+      {/* In-app browser warning */}
+      {shouldShowWarning && (
+        <div className="fixed top-0 left-0 right-0 z-50 bg-yellow-500 text-black px-4 py-3 text-center text-sm font-medium shadow-lg">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex-1 text-center">
+              For the best experience, open this page in your browser instead of the chat app.
+              <button
+                onClick={() => window.open(window.location.href, '_blank')}
+                className="ml-3 px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg shadow-md cursor-pointer"
+              >
+                Open in Browser
+              </button>
+            </div>
+            <button
+              onClick={handleIgnoreWarning}
+              className="ml-4 px-1.5 py-0.5 text-xs text-yellow-800 bg-yellow-400 hover:bg-yellow-500 rounded transition-colors opacity-70 hover:opacity-100"
+              title="Don't show this warning again"
+            >
+              Ignore
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col lg:flex-row gap-0 sm:gap-6 max-w-7xl mx-auto pb-20 lg:pb-0 h-full">
         <div className="w-full lg:w-1/3 bg-zinc-300 sm:rounded-lg shadow-lg p-4 md:p-6 flex flex-col h-full lg:min-h-[calc(100vh-3rem)]">
           <PosterForm

@@ -19,11 +19,6 @@ export const LOCALIZATIONS: Array<{
     ['Cube of Truth']: '真相立方体',
   },
   {
-    name: 'Hindi',
-    code: 'hi-IN',
-    ['Cube of Truth']: 'सच्चाई का घन',
-  },
-  {
     name: 'Spanish',
     code: 'es-ES',
     ['Cube of Truth']: 'Cubo de la Verdad',
@@ -34,9 +29,9 @@ export const LOCALIZATIONS: Array<{
     ['Cube of Truth']: 'Cubo de la Verdad',
   },
   {
-    name: 'Portuguese',
-    code: 'pt-PT',
-    ['Cube of Truth']: 'Cubo da Verdade',
+    name: 'Japanese',
+    code: 'ja-JP',
+    ['Cube of Truth']: '真実の立方体',
   },
   // {
   //   name: 'Portuguese (Brazil)', // same formats as Portuguese
@@ -44,19 +39,19 @@ export const LOCALIZATIONS: Array<{
   //   ['Cube of Truth']: 'Cubo da Verdade',
   // },
   {
+    name: 'German',
+    code: 'de-DE',
+    ['Cube of Truth']: 'Würfel der Wahrheit',
+  },
+  {
     name: 'Russian',
     code: 'ru-RU',
     ['Cube of Truth']: 'Куб Правды',
   },
   {
-    name: 'Indonesian',
-    code: 'id-ID',
-    ['Cube of Truth']: 'Kubus Kebenaran',
-  },
-  {
-    name: 'Japanese',
-    code: 'ja-JP',
-    ['Cube of Truth']: '真実の立方体',
+    name: 'Portuguese',
+    code: 'pt-PT',
+    ['Cube of Truth']: 'Cubo da Verdade',
   },
   {
     name: 'French',
@@ -69,15 +64,15 @@ export const LOCALIZATIONS: Array<{
     ['Cube of Truth']: 'Cube de la Vérité',
   },
   {
-    name: 'German',
-    code: 'de-DE',
-    ['Cube of Truth']: 'Würfel der Wahrheit',
-  },
-  {
     name: 'Italian',
     code: 'it-IT',
     ['Cube of Truth']: 'Cubo della Verità',
   },
+  // {
+  //   name: 'Hindi',
+  //   code: 'hi-IN',
+  //   ['Cube of Truth']: 'सच्चाई का घन',
+  // },
   {
     name: 'Polish',
     code: 'pl-PL',
@@ -93,6 +88,16 @@ export const LOCALIZATIONS: Array<{
   //   code: 'nl-BE', // same formats as Dutch
   //   ['Cube of Truth']: 'Waarheidskubus',
   // },
+  // {
+  //   name: 'Indonesian',
+  //   code: 'id-ID',
+  //   ['Cube of Truth']: 'Kubus Kebenaran',
+  // },
+  {
+    name: 'Norwegian',
+    code: 'no-NO',
+    ['Cube of Truth']: 'Sannhetens kube',
+  },
   {
     name: 'Swedish',
     code: 'sv-SE',

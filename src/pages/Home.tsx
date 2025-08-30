@@ -115,6 +115,7 @@ function Home() {
       const primaryLink = document.createElement('a')
       primaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${locale}.png`
       primaryLink.href = primaryDataUrl
+      primaryLink.target = '_system'
       primaryLink.click()
 
       // Generate secondary locale image if exists
@@ -125,6 +126,7 @@ function Home() {
         const secondaryLink = document.createElement('a')
         secondaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${secondaryLocale}.png`
         secondaryLink.href = secondaryDataUrl
+        secondaryLink.target = '_system'
         secondaryLink.click()
       }
     } catch (error) {
@@ -153,7 +155,10 @@ function Home() {
         if (secondaryBlob) blobs.push(secondaryBlob)
       }
 
-      if (blobs.length === 0) return
+      if (blobs.length === 0) {
+        alert('Image(s) not generated. Try another browser.')
+        return
+      }
 
       const files = blobs.map((blob, index) => {
         const localeCode = index === 0 ? locale : secondaryLocale
@@ -173,9 +178,8 @@ function Home() {
       } else {
         // If sharing multiple files isn't supported, just copy the primary locale image
         await navigator.clipboard.write([
-          new ClipboardItem({
-            'image/png': blobs[0],
-          }),
+          new ClipboardItem({ 'image/png': blobs[0] }),
+          ...(blobs.length > 1 ? [new ClipboardItem({ 'image/png': blobs[1] })] : []),
         ])
         alert('Image(s) copied to clipboard!')
       }

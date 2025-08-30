@@ -176,12 +176,15 @@ function Home() {
           text: `Join us at the Cube of Truth in ${chapter}!`,
         })
       } else {
+        const ok = confirm('This browser does not support sharing. Copy image(s) to clipboard?')
         // If sharing multiple files isn't supported, just copy the primary locale image
-        await navigator.clipboard.write([
-          new ClipboardItem({ 'image/png': blobs[0] }),
-          ...(blobs.length > 1 ? [new ClipboardItem({ 'image/png': blobs[1] })] : []),
-        ])
-        alert('Image(s) copied to clipboard!')
+        if (ok) {
+          await navigator.clipboard.write([
+            new ClipboardItem({ 'image/png': blobs[0] }),
+            ...(blobs.length > 1 ? [new ClipboardItem({ 'image/png': blobs[1] })] : []),
+          ])
+          alert('Image(s) copied to clipboard!')
+        }
       }
     } catch (error) {
       console.error('Share error:', error instanceof Error ? error.message : 'Unknown error')
@@ -193,13 +196,16 @@ function Home() {
   return (
     <div className="min-h-screen bg-zinc-900 p-0 sm:p-4 md:p-6">
       {/* In-app browser warning */}
-      {shouldShowWarning && (
+      {shouldShowWarning && window.name !== '_system' && (
         <div className="fixed top-0 left-0 right-0 z-50 bg-yellow-500 text-black px-4 py-3 text-center text-sm font-medium shadow-lg">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex-1 text-center">
               For the best experience, open this page in your browser instead of the chat app.
               <button
-                onClick={() => window.open(window.location.href, '_blank')}
+                onClick={() => {
+                  window.open(window.location.href, '_system')
+                  window.close()
+                }}
                 className="ml-3 px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg shadow-md cursor-pointer"
               >
                 Open in Browser

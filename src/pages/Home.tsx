@@ -115,7 +115,7 @@ function Home() {
       const primaryLink = document.createElement('a')
       primaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${locale}.png`
       primaryLink.href = primaryDataUrl
-      primaryLink.target = '_system'
+      primaryLink.target = '_blank'
       primaryLink.click()
 
       // Generate secondary locale image if exists
@@ -126,7 +126,7 @@ function Home() {
         const secondaryLink = document.createElement('a')
         secondaryLink.download = `cube-of-truth-${chapter.toLowerCase().replace(/\s+/g, '-')}-${date}-${secondaryLocale}.png`
         secondaryLink.href = secondaryDataUrl
-        secondaryLink.target = '_system'
+        secondaryLink.target = '_blank'
         secondaryLink.click()
       }
     } catch (error) {

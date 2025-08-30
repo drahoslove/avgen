@@ -201,15 +201,13 @@ function Home() {
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex-1 text-center">
               For the best experience, open this page in your browser instead of the chat app.
-              <button
-                onClick={() => {
-                  window.open(window.location.href, '_system')
-                  window.close()
-                }}
-                className="ml-3 px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg shadow-md cursor-pointer"
+              <a
+                href={window.location.href}
+                target="_system"
+                className="ml-3 px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg shadow-md cursor-pointer inline-block no-underline hover:bg-gray-600 transition-colors"
               >
                 Open in Browser
-              </button>
+              </a>
             </div>
             <button
               onClick={handleIgnoreWarning}

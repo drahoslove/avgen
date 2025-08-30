@@ -197,7 +197,7 @@ function Home() {
     <div className="min-h-screen bg-zinc-900 p-0 sm:p-4 md:p-6">
       {/* In-app browser warning */}
       {shouldShowWarning && window.name !== '_system' && (
-        <div className="fixed top-0 left-0 right-0 z-50 bg-yellow-500 text-black px-4 py-3 text-center text-sm font-medium shadow-lg">
+        <div className="w-full bg-yellow-500 text-black px-4 py-3 text-center text-sm font-medium shadow-lg">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex-1 text-center">
               For the best experience, open this page in your browser instead of the chat app.

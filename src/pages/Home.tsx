@@ -200,14 +200,8 @@ function Home() {
         <div className="w-full bg-yellow-500 text-black px-4 py-3 text-center text-sm font-medium shadow-lg">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex-1 text-center">
-              For the best experience, open this page in your browser instead of the chat app.
-              <a
-                href={window.location.href}
-                target="_system"
-                className="ml-3 px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg shadow-md cursor-pointer inline-block no-underline hover:bg-gray-600 transition-colors"
-              >
-                Open in Browser
-              </a>
+              For the best experience, open this page in your regular web browser instead of the
+              in-app browser.
             </div>
             <button
               onClick={handleIgnoreWarning}

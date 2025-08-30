@@ -176,14 +176,22 @@ function Home() {
           text: `Join us at the Cube of Truth in ${chapter}!`,
         })
       } else {
-        const ok = confirm('This browser does not support sharing. Copy image(s) to clipboard?')
+        const ok = confirm("This browser can't share this. Copy image(s) to clipboard?")
         // If sharing multiple files isn't supported, just copy the primary locale image
         if (ok) {
-          await navigator.clipboard.write([
-            new ClipboardItem({ 'image/png': blobs[0] }),
-            ...(blobs.length > 1 ? [new ClipboardItem({ 'image/png': blobs[1] })] : []),
-          ])
-          alert('Image(s) copied to clipboard!')
+          try {
+            // Try to write to clipboard
+            await navigator.clipboard.write([
+              new ClipboardItem({ 'image/png': blobs[0] }),
+              ...(blobs.length > 1 ? [new ClipboardItem({ 'image/png': blobs[1] })] : []),
+            ])
+            alert('Image(s) copied to clipboard!')
+          } catch {
+            // If clipboard write fails, show error message
+            alert(
+              'Failed to copy image(s) to clipboard. Try again in your regular web browser or use the download option.'
+            )
+          }
         }
       }
     } catch (error) {

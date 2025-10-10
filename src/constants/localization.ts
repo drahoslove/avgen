@@ -24,7 +24,7 @@ export const LOCALIZATIONS: Array<{
     ['Cube of Truth']: 'Cubo de la Verdad',
   },
   {
-    name: 'Mexican Spanish',
+    name: 'Spanish (Americas)',
     code: 'es-MX',
     ['Cube of Truth']: 'Cubo de la Verdad',
   },
@@ -59,7 +59,7 @@ export const LOCALIZATIONS: Array<{
     ['Cube of Truth']: 'Cube de la Vérité',
   },
   {
-    name: 'Canadian French',
+    name: 'French (Canada)',
     code: 'fr-CA',
     ['Cube of Truth']: 'Cube de la Vérité',
   },
@@ -94,9 +94,19 @@ export const LOCALIZATIONS: Array<{
   //   ['Cube of Truth']: 'Kubus Kebenaran',
   // },
   {
+    name: 'Greek',
+    code: 'el-GR',
+    ['Cube of Truth']: 'Κύβος της Αλήθειας',
+  },
+  {
     name: 'Norwegian',
     code: 'no-NO',
     ['Cube of Truth']: 'Sannhetens kube',
+  },
+  {
+    name: 'Serbian',
+    code: 'sr-RS',
+    ['Cube of Truth']: 'Коцка истине',
   },
   {
     name: 'Swedish',
@@ -107,5 +117,10 @@ export const LOCALIZATIONS: Array<{
     name: 'Czech',
     code: 'cs-CZ',
     ['Cube of Truth']: 'Kostka Pravdy',
+  },
+  {
+    name: 'Lithuanian',
+    code: 'lt-LT',
+    ['Cube of Truth']: 'Tiesos kubas',
   },
 ] as const

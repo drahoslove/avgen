@@ -1,6 +1,12 @@
-# AVGen - Poster Generator
+# AV Generator
 
-AVGen is a modern web application built with React and TypeScript for generating professional posters with customizable content and background images. The application features advanced image processing capabilities, including multiple grayscale conversion methods and responsive design.
+AV Generator is a tool for generating announcement posters for 'Cube of Truth' events. It is intended for organizers of chapters of Anonymous for the Voiceless around the world. Images can be downloaded or shared directly to social media.
+
+The content is customizable. Data can be filled in manually or imported from a Facebook event page or from the Animal Rights Calendar.
+
+Two images with different localizations can be generated at once; it's often useful to address both the English-speaking and local audience.
+
+It's possible to use a custom background and adjust it with basic image processing.
 
 ## Features
 
@@ -9,9 +15,9 @@ AVGen is a modern web application built with React and TypeScript for generating
   - Chapter name
   - Date and time selection
   - Location address
-  - Localization settings
+  - Localization of the date and time format
 
-- **Background Image Processing**
+- **Background Image Processing** (only in [#pro](https://generator.cubeoftruth.com/#pro) mode)
 
   - Image upload and preview
   - Multiple grayscale conversion methods
@@ -21,25 +27,25 @@ AVGen is a modern web application built with React and TypeScript for generating
 
 - **Responsive Design**
   - Fixed aspect ratio (3:4) for consistent poster dimensions
-  - Rem-based sizing for reliable scaling
-  - Responsive layout that maintains proportions
+  - Rem-based sizing for reliable scaling; output resolution is independent of preview size
+  - Responsive layout that maintains proportions; easy to use on phones
 
 ## Technologies Used
 
-- React 18
+- React 19
 - TypeScript
 - Vite
 - Tailwind CSS
 - Headless UI
 - html2canvas-pro
-- zustand
-- zod
+- Zustand
+- Zod
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js (v18 or higher)
 - npm or yarn
 
 ### Installation
@@ -75,9 +81,13 @@ AVGen is a modern web application built with React and TypeScript for generating
 src/
 ├── assets/         # Static assets (logos, images)
 ├── components/     # React components
-├── utils/          # Utility functions
+├── constants/      # App constants (assets, dimensions, localization, etc.)
 ├── hooks/          # React hooks
+├── pages/          # Route pages
+├── utils/          # Utility functions
 ├── App.tsx         # Main application component
+├── index.css       # Global styles
+├── main.tsx        # Entry point
 └── types.ts        # TypeScript type definitions
 ```
 

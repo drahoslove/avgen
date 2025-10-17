@@ -22,7 +22,7 @@ const About = () => {
             >
               Draho
             </a>{' '}
-            from AV Brno for all chapters of{' '}
+            for all chapters of{' '}
             <a
               href="https://anonymousforthevoiceless.org"
               className="text-white underline"

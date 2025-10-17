@@ -1,15 +1,20 @@
 /**
- * Welcome to Cloudflare Workers! This is your first worker.
+ * Fetcher Worker — CORS-friendly proxy for fetching third-party pages.
  *
- * - Run "npm run dev" in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run "npm run deploy" to publish your worker
+ * - Sends browser-like headers to receive full HTML from sites like Facebook
+ * - Handles redirects manually and rewrites them back through this worker
+ * - Removes potentially preloading "Link" headers from responses
+ * - Adds "Access-Control-Allow-Origin: *" so clients can read the response
  *
- * Learn more at https://developers.cloudflare.com/workers/
+ * Dev:    npm run dev    → http://localhost:8787/
+ * Deploy: npm run deploy
+ *
+ * Example:
+ *   curl -G 'https://fetcher.drahoslav.workers.dev' \
+ *     --data-urlencode "url=https://facebook.com/events/123456789"
+ *
+ * Docs: https://developers.cloudflare.com/workers/
  */
-
-// usage
-// curl -X GET 'https://fetcher.drahoslav.workers.dev/?url=https://facebook.com/events/123456789
 
 // Custom headers needed to force facebook to send the expected content
 const REQ_HEADERS = {

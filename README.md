@@ -16,6 +16,7 @@ It's possible to use a custom background and adjust it with basic image processi
   - Date and time selection
   - Location address
   - Localization of the date and time format
+  - Import from FB Event or ARC
 
 - **Background Image Processing** (only in [#pro](https://generator.cubeoftruth.com/#pro) mode)
 
@@ -40,6 +41,7 @@ It's possible to use a custom background and adjust it with basic image processi
 - html2canvas-pro
 - Zustand
 - Zod
+- Cloudflare worker (for import without CORS issues)
 
 ## Getting Started
 

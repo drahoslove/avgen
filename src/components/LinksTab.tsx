@@ -5,10 +5,12 @@ import { useShallow } from 'zustand/shallow'
 import { Listbox } from '@headlessui/react'
 import { useContentStore } from '../hooks/useStore'
 import { SocialLink, SocialLinkType } from '../types'
+import { useHashMode } from '../hooks/useHashMode'
 import {
   isValidInstagramHandle,
   isValidLinktreeHandle,
   SOCIAL_TYPES,
+  SOCIAL_TYPES_PRO,
   SOCIAL_LABELS,
   WEB_URL,
   placeholderByType,
@@ -33,6 +35,7 @@ const SocialIcons = {
 }
 
 export function LinksTab() {
+  const mode = useHashMode()
   const { socialLinks, setSocialLinks } = useContentStore(
     useShallow(state => ({
       socialLinks: state.socialLinks || [],
@@ -42,6 +45,8 @@ export function LinksTab() {
   const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set())
 
   const hasWebLink = socialLinks.some((link: SocialLink) => link.type === 'web')
+
+  const ALL_TYPES: SocialLinkType[] = mode === 'pro' ? SOCIAL_TYPES_PRO : SOCIAL_TYPES
 
   const getOrder = (type: SocialLinkType): number => {
     return getSocialTypeOrder(type)
@@ -53,7 +58,7 @@ export function LinksTab() {
 
   const getAvailableTypes = (currentType: SocialLinkType): SocialLinkType[] => {
     // If this is the current type of this link, always include it
-    const availableTypes = SOCIAL_TYPES.filter(type => {
+    const availableTypes = ALL_TYPES.filter(type => {
       if (type === currentType) return true
 
       // Check type-specific restrictions
